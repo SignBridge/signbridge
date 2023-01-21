@@ -33,6 +33,7 @@ class App extends Component {
     this.onbeforeunload = this.onbeforeunload.bind(this);
     //Bind Custom Function
     this.toggleFullscreen = this.toggleFullscreen.bind(this);
+    this.toggleMute = this.toggleMute.bind(this);
     this.camStatusChange = this.camStatusChange.bind(this);
   }
 
@@ -278,6 +279,14 @@ class App extends Component {
     }
   }
 
+  toggleMute() {
+    this.setState((curState) => {
+      return {
+        publishAudioState: !curState.publishAudioState,
+      };
+    }, () => this.state.publisher.publishAudio(this.state.publishAudioState));
+  }
+
   camStatusChange() {
     this.setState((curState) => {
       return {
@@ -290,6 +299,7 @@ class App extends Component {
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
     const publishVideoState = this.state.publishVideoState;
+    const publishAudioState = this.state.publishAudioState;
     return (
       <div className="container">
         {this.state.session === undefined ? (
@@ -375,6 +385,15 @@ class App extends Component {
                     publishVideoState
                       ? "내 화면 끄기"
                       : "내 화면 켜기"
+                  }
+                />
+                <input
+                  type="button"
+                  onClick={this.toggleMute}
+                  defaultValue={
+                    publishAudioState
+                      ? "음소거"
+                      : "음소거 해제"
                   }
                 />
               </div>
