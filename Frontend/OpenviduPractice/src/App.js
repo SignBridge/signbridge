@@ -19,6 +19,9 @@ class App extends Component {
       mainStreamManager: undefined, // Main video of the page. Will be the 'publisher' or one of the 'subscribers'
       publisher: undefined,
       subscribers: [],
+      //   custom State.
+      publishVideoState: false,
+      publishAudioState: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -28,6 +31,9 @@ class App extends Component {
     this.handleChangeUserName = this.handleChangeUserName.bind(this);
     this.handleMainVideoStream = this.handleMainVideoStream.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
+    //Bind Custom Function
+    this.toggleFullscreen = this.toggleFullscreen.bind(this);
+    this.camStatusChange = this.camStatusChange.bind(this);
   }
 
   componentDidMount() {
@@ -160,6 +166,9 @@ class App extends Component {
                 currentVideoDevice: currentVideoDevice,
                 mainStreamManager: publisher,
                 publisher: publisher,
+                //기본으로 비디오, 오디오
+                publishVideoState: true,
+                publishAudioState: true,
               });
             })
             .catch((error) => {
@@ -269,10 +278,18 @@ class App extends Component {
     }
   }
 
+  camStatusChange() {
+    this.setState((curState) => {
+      return {
+        publishVideoState: !curState.publishVideoState,
+      };
+    }, () => this.state.publisher.publishVideo(this.state.publishVideoState));
+  }
+
   render() {
     const mySessionId = this.state.mySessionId;
     const myUserName = this.state.myUserName;
-
+    const publishVideoState = this.state.publishVideoState;
     return (
       <div className="container">
         {this.state.session === undefined ? (
@@ -350,6 +367,15 @@ class App extends Component {
                   type="button"
                   onClick={this.toggleFullscreen}
                   value="전체화면"
+                />
+                <input
+                  type="button"
+                  onClick={this.camStatusChange}
+                  defaultValue={
+                    publishVideoState
+                      ? "내 화면 끄기"
+                      : "내 화면 켜기"
+                  }
                 />
               </div>
             ) : null}
