@@ -10,6 +10,7 @@ import OpenViduLayout from '../layout/openvidu-layout';
 import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
+//localUser 초기화
 var localUser = new UserModel();
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
 
@@ -19,10 +20,20 @@ class VideoRoomComponent extends Component {
         super(props);
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
+        //접속할 sessionName, userName를 컴포넌트에 props로 전달
         let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
         let userName = this.props.user ? this.props.user : 'OpenVidu_User' + Math.floor(Math.random() * 100);
         this.remotes = [];
         this.localUserAccessAllowed = false;
+        /**
+         * mySessionId : 현재 접속해 있는 세션 이름
+         * myUserName : 현재 접속한 유저의 식별이름
+         * session : 현재 접속한 세션 객체
+         * localUser : 현재 접속한 유저 객체
+         * subscribers : 접속한 유저들
+         * chatDisplay : 채팅 토글
+         * currentVideoDevice : 지금 사용 중인 기기
+         */
         this.state = {
             mySessionId: sessionName,
             myUserName: userName,
@@ -50,6 +61,7 @@ class VideoRoomComponent extends Component {
         this.checkSize = this.checkSize.bind(this);
     }
 
+    //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
         const openViduLayoutOptions = {
             maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -82,9 +94,11 @@ class VideoRoomComponent extends Component {
         this.leaveSession();
     }
 
+    //화상회의 세션 참가
     joinSession() {
         this.OV = new OpenVidu();
 
+        // session 초기화
         this.setState(
             {
                 session: this.OV.initSession(),
@@ -96,6 +110,7 @@ class VideoRoomComponent extends Component {
         );
     }
 
+    //세션 연결
     async connectToSession() {
         if (this.props.token !== undefined) {
             console.log('token received: ', this.props.token);
@@ -115,12 +130,14 @@ class VideoRoomComponent extends Component {
         }
     }
 
+    //토큰, myUserName 이용 세션 연결
     connect(token) {
         this.state.session
             .connect(
                 token,
                 { clientData: this.state.myUserName },
             )
+            // 세션 연결 이후 캠 연결
             .then(() => {
                 this.connectWebCam();
             })
@@ -133,11 +150,13 @@ class VideoRoomComponent extends Component {
             });
     }
 
+    //카메라 연결
     async connectWebCam() {
         await this.OV.getUserMedia({ audioSource: undefined, videoSource: undefined });
         var devices = await this.OV.getDevices();
         var videoDevices = devices.filter(device => device.kind === 'videoinput');
 
+        //로컬사용자 방송송출 관련 객체
         let publisher = this.OV.initPublisher(undefined, {
             audioSource: undefined,
             videoSource: videoDevices[0].deviceId,
@@ -176,6 +195,7 @@ class VideoRoomComponent extends Component {
         });
     }
 
+    //화상통화 참여자 갱신
     updateSubscribers() {
         var subscribers = this.remotes;
         this.setState(
@@ -183,6 +203,7 @@ class VideoRoomComponent extends Component {
                 subscribers: subscribers,
             },
             () => {
+                // localUser가 undefined or null이 아닌 경우
                 if (this.state.localUser) {
                     this.sendSignalUserChanged({
                         isAudioActive: this.state.localUser.isAudioActive(),
@@ -216,6 +237,8 @@ class VideoRoomComponent extends Component {
             this.props.leaveSession();
         }
     }
+
+    //카메라 상태 변화
     camStatusChanged() {
         localUser.setVideoActive(!localUser.isVideoActive());
         localUser.getStreamManager().publishVideo(localUser.isVideoActive());
@@ -223,6 +246,7 @@ class VideoRoomComponent extends Component {
         this.setState({ localUser: localUser });
     }
 
+    // 마이크 ON/OFF
     micStatusChanged() {
         localUser.setAudioActive(!localUser.isAudioActive());
         localUser.getStreamManager().publishAudio(localUser.isAudioActive());
@@ -249,6 +273,7 @@ class VideoRoomComponent extends Component {
         }
     }
 
+    
     subscribeToStreamCreated() {
         this.state.session.on('streamCreated', (event) => {
             const subscriber = this.state.session.subscribe(event.stream, undefined);
@@ -319,6 +344,7 @@ class VideoRoomComponent extends Component {
         }, 20);
     }
 
+    // 유저 변경 시 신호 전달 함수
     sendSignalUserChanged(data) {
         const signalOptions = {
             data: JSON.stringify(data),
@@ -327,6 +353,7 @@ class VideoRoomComponent extends Component {
         this.state.session.signal(signalOptions);
     }
 
+    // 전체화면 ON / OFF
     toggleFullscreen() {
         const document = window.document;
         const fs = document.getElementById('container');
@@ -393,6 +420,7 @@ class VideoRoomComponent extends Component {
         }
     }
 
+    //화면 공유
     screenShare() {
         const videoSource = navigator.userAgent.indexOf('Firefox') !== -1 ? 'window' : 'screen';
         const publisher = this.OV.initPublisher(
@@ -498,6 +526,7 @@ class VideoRoomComponent extends Component {
 
         return (
             <div className="container" id="container">
+                {/* 툴바 컴포넌트 */}
                 <ToolbarComponent
                     sessionId={mySessionId}
                     user={localUser}
@@ -514,17 +543,21 @@ class VideoRoomComponent extends Component {
 
                 <DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />
 
+                {/* 스트리밍 화면 */}
                 <div id="layout" className="bounds">
+                    {/* 자신 화면 컴포넌트 */}
                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" id="localUser">
                             <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
                         </div>
                     )}
+                    {/* 다른 이용자 화면 컴포넌트 */}
                     {this.state.subscribers.map((sub, i) => (
                         <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
                             <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
                         </div>
                     ))}
+                    {/* 채팅 컴포넌트 */}
                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" style={chatDisplay}>
                             <ChatComponent
