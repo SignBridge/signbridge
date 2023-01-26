@@ -888,3 +888,15 @@
   margin-top: 40px;
 }
   
+.notMyCam{
+  position : absolute;
+  display:inline-block;
+  left:0;
+}
+
+.myCam{
+  position : relative;
+  float : left;
+  width: 50% !important;
+  height: 50% !important;
+}

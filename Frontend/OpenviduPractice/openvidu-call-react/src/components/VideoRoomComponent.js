@@ -2,7 +2,6 @@ import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
 import React, { Component } from 'react';
 import ChatComponent from './chat/ChatComponent';
-import DialogExtensionComponent from './dialog-extension/DialogExtension';
 import StreamComponent from './stream/StreamComponent';
 import './VideoRoomComponent.css';
 
@@ -461,22 +460,23 @@ class VideoRoomComponent extends Component {
                     toggleChat={this.toggleChat}
                 />
 
-                <DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />
 
                 {/* 스트리밍 화면 */}
                 <div id="layout" className="bounds">
-                    {/* 자신 화면 컴포넌트 */}
-                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                        <div className="OT_root OT_publisher custom-class" id="localUser">
-                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
-                        </div>
-                    )}
+                    
                     {/* 다른 이용자 화면 컴포넌트 */}
                     {this.state.subscribers.map((sub, i) => (
-                        <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
+                        <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers">
                             <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
                         </div>
                     ))}
+                    {/* 자신 화면 컴포넌트 */}
+                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div className="OT_root OT_publisher custom-class myCam" id="localUser">
+                            {console.log(document.getElementById(localUser))}
+                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
+                        </div>
+                    )}
                     {/* 채팅 컴포넌트 */}
                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" style={chatDisplay}>
