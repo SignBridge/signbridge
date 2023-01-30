@@ -470,13 +470,24 @@ class VideoRoomComponent extends Component {
                             <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
                         </div>
                     ))}
+
+
                     {/* 자신 화면 컴포넌트 */}
-                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                    {this.state.subscribers.length===0?
+                    localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div className="OT_root OT_publisher custom-class" id="localUser">
+                            {console.log(document.getElementById(localUser))}
+                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
+                        </div>
+                    ) :
+                    localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class myCam" id="localUser">
                             {console.log(document.getElementById(localUser))}
                             <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
                         </div>
                     )}
+
+
                     {/* 채팅 컴포넌트 */}
                     {localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" style={chatDisplay}>
@@ -528,3 +539,4 @@ class VideoRoomComponent extends Component {
     }
 }
 export default VideoRoomComponent;
+
