@@ -472,7 +472,9 @@ class VideoRoomComponent extends Component {
                     ))}
 
 
-                    {/* 자신 화면 컴포넌트 */}
+                    {/* 자신 화면 컴포넌트 
+                        자기 화면만 있는 경우 : (자기 외에 사람 있지만 채팅창 안 켠 경우 : 자기 외에 사람 있고 채팅창 켠 경우)
+                    */}
                     {this.state.subscribers.length===0?
                     localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" id="localUser">
@@ -480,25 +482,30 @@ class VideoRoomComponent extends Component {
                             <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
                         </div>
                     ) :
+                    (chatDisplay.display==='none'?
+                    
+                    localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                        <div className="OT_root OT_publisher custom-class" id="localUser">
+                            {console.log(document.getElementById(localUser))}
+                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
+                        </div>
+                    )
+                    :
                     localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class myCam" id="localUser">
                             {console.log(document.getElementById(localUser))}
                             <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
-                        </div>
-                    )}
-
-
-                    {/* 채팅 컴포넌트 */}
-                    {localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                        <div className="OT_root OT_publisher custom-class" style={chatDisplay}>
-                            <ChatComponent
+                            {/* 채팅 컴포넌트 */}
+                            <ChatComponent 
                                 user={localUser}
                                 chatDisplay={this.state.chatDisplay}
                                 close={this.toggleChat}
                                 messageReceived={this.checkNotification}
                             />
                         </div>
-                    )}
+                    ))}
+
+
                 </div>
             </div>
         );
