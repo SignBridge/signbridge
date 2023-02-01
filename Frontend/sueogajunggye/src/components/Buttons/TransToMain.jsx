@@ -1,5 +1,6 @@
 import React from "react";
 import './Buttons.css';
+import { Link } from "react-router-dom";
 
 function MainToTransBtn(props) {
 
@@ -9,11 +10,13 @@ function MainToTransBtn(props) {
 
     return (
         <div className="trans-box">
-            <form onSubmit={handleSubmit}>
-                <button className="main-btn">
-                    Main
-                </button>
-            </form>
+            <Link to="/">
+                <form onSubmit={handleSubmit}>
+                    <button className="main-btn">
+                        Main
+                    </button>
+                </form>
+            </Link>
         </div>
     )
 }

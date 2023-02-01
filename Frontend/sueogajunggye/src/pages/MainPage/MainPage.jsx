@@ -1,6 +1,5 @@
 import React from "react";
 import Title from "./Title";
-import VideoBtn from "./VideoBtn";
 import MainToTrans from "../../components/Buttons/MainToTrans"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -29,8 +28,8 @@ function MainPage(props) {
                         <CardMedia 
                             sx={{ height: 55 }}/>
                         <CardContent>
-                        <Typography gutterBottom variant="h2" component="div">
-                            통역사매칭서비스
+                        <Typography className="matching-service-btn" gutterBottom variant="h2" component="div">
+                            <div>통역사매칭서비스</div>
                         </Typography>
                         </CardContent>
                     </CardActionArea>
@@ -47,8 +46,8 @@ function MainPage(props) {
                         <CardMedia 
                             sx={{ height: 55 }}/>
                         <CardContent>
-                        <Typography gutterBottom variant="h2" component="div">
-                            AI매칭서비스
+                        <Typography className="matching-service-btn" gutterBottom variant="h2" component="div">
+                            <div>AI매칭서비스</div>
                         </Typography>
                         </CardContent>
                     </CardActionArea>

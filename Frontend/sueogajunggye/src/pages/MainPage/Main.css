@@ -6,6 +6,7 @@
     height: 100%;
     
     background: linear-gradient(rgba(96, 174, 231, 1), white);
+    /* background-image: linear-gradient(79deg, rgba(96, 174, 231, 1), white); */
 
     /* background: #7F7FD5;
     background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
@@ -81,4 +82,9 @@
     margin-top: 30px;
     border: none;
     cursor: pointer;
+}
+
+.matching-service-btn {
+    display: flex;
+    justify-content: center;
 }
