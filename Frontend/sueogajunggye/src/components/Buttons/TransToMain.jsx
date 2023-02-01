@@ -11,7 +11,7 @@ function MainToTransBtn(props) {
         <div className="trans-box">
             <form onSubmit={handleSubmit}>
                 <button className="main-btn">
-                    통역사
+                    Main
                 </button>
             </form>
         </div>
