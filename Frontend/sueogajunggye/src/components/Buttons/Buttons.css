@@ -1,0 +1,41 @@
+button {
+    cursor: pointer;
+  }
+  
+.btn-form {
+  /* width: auto; */
+  display: flex;
+  padding-left: 1400px;
+}
+
+.trans-box {
+  display: flex;
+  flex-direction: row-reverse;
+  /* margin-left: 1300px; */
+}
+
+.trans-btn, .main-btn {
+  width: 170px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  border-radius: 2rem;
+  background-color: blue;
+  color: white;
+  font-size: x-large;
+  font-weight: 700;
+  border: none;
+  margin-top: 1em;
+  margin-right: 1em;
+  cursor: pointer;
+  }
+
+.back-btn {
+  width: 70px;
+  height: 50px;
+  border: none;
+  border-radius: 2em;
+  font-weight: 700;
+  background-color: rgba(115, 188, 255, 1);
+}
