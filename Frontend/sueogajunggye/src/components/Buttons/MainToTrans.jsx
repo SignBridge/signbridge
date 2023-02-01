@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import './Buttons.css';
 
 function MainToTransBtn(props) {
@@ -9,11 +10,13 @@ function MainToTransBtn(props) {
 
     return (
         <div className="trans-box">
-            <form onSubmit={handleSubmit}>
-                <button className="trans-btn">
-                    통역사
-                </button>
-            </form>
+            <Link to="/login">
+                <form onSubmit={handleSubmit}>
+                    <button className="trans-btn">
+                        통역사
+                    </button>
+                </form>
+            </Link>
         </div>
     )
 }

@@ -1,23 +1,24 @@
 // import './App.css';
-import React, { useState } from "react";
+import React, { Component } from "react";
+import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
 import LoginPage from "./pages/LoginPage/LoginPage";
-import FindIdPage from "./pages/IdPassPage/FindIdPage"
-import FindPassPage from './pages/IdPassPage/FindPassPage'
+import FindIdPage from "./pages/IdPassPage/FindIdPage";
+import FindPassPage from './pages/IdPassPage/FindPassPage';
+import MainPage from './pages/MainPage/MainPage'
 
 function App() {
-
-  const [currentForm, setCurrentForm] = useState('login');
+  const isLogin = false;
   
-  const toggleForm = (formName) => {
-    setCurrentForm(formName);
-  }
-  
-
   return (
     <div className="App">
-      {
-        currentForm === "login" ? <LoginPage onFormSwitch={toggleForm}/> : (currentForm === "id" ? <FindIdPage onFormSwitch={toggleForm} /> : <FindPassPage onFormSwitch={toggleForm} />)
-      }
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/findId" element={<FindIdPage />}></Route>
+          <Route path="/findPass" element={<FindPassPage />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }

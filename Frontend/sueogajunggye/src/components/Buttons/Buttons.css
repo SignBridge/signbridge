@@ -1,16 +1,12 @@
-button {
-  cursor: pointer;
-}
-
 .btn-form {
   /* width: auto; */
   display: flex;
-  padding-left: 1400px;
+  /* padding-left: 1400px; */
 }
 
 .trans-box {
   display: flex;
-  margin-left: 1300px;
+  /* margin-left: 1300px; */
 }
 
 .trans-btn, .main-btn {
@@ -20,11 +16,11 @@ button {
   justify-content: center;
   display: flex;
   border-radius: 2rem;
-  background-color: blue;
-  color: white;
+  background-color: white;
+  color: rgba(96, 174, 231, 1);
   font-size: x-large;
   font-weight: 700;
   border: none;
-  margin-top: 1em;
+  /* margin-top: 1em; */
   cursor: pointer;
   }

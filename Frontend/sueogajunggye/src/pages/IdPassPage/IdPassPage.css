@@ -1,11 +1,21 @@
 .bg {
-    background-image: linear-gradient(79deg, #fcfced, #ebf6ff);
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(96, 174, 231, 1), white);
+    /* background-image: linear-gradient(79deg, rgba(96, 174, 231, 1), white); */
+}
+
+.find-top-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 2em;
 }
 
 .id-bg, .pass-bg {
     text-align: center;
     display: flex;
-    min-height: 90vh;
+    min-height: 80vh;
     align-items: center;
     justify-content: center;
 }
@@ -14,12 +24,13 @@
     text-align: center;
     display: flex;
     flex-direction: column;
-    padding-left: 5rem;
-    padding-right: 5rem;
-    padding-top: 7.5rem;
-    padding-bottom: 7.5rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 6rem;
+    padding-bottom: 6rem;
     border: 10px solid black;
     border-radius: 10px;
+    width: 500px;
 }
 
 .id-form, .pass-form {
@@ -40,12 +51,12 @@ label {
     font-size: 1.2em;
 }
 
-input {
+.find-input {
     margin: 0.5rem 0;
     padding: 1rem;
     border: none;
     border-radius: 10px;
-    background-color: rgba(202, 227, 250, 1);
+    background-color: whitesmoke;
     
 }
 
@@ -72,20 +83,25 @@ input {
 
 .id-title, .pass-title{
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 3em;
+    font-size: 3.5em;
     font-weight: bolder;
+    margin-bottom: 0.6em;
 }
 
-.find-id-btn, .find-pass-btn {
-    border: none;
+.find-pass-btn, .find-id-btn {
+    margin-top: 20px;
     background: none;
-
-}
-
-.find-id-btn {
     color: black;
+    text-decoration: underline;
+    border: none;
 }
 
-.find-pass-btn {
-    color: blue;
+.select-id-pass {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.find-bottom-items {
+    display: flex;
+    justify-content: center;
 }
