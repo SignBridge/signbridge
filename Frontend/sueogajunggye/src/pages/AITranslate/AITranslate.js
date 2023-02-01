@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
-import './AITranslate.css';
+import "./AITranslate.css";
 
 const PORT_NUMBER = 5000;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
@@ -12,18 +12,19 @@ const CORRECT_LOCATION_MESSAGE =
 
 function AITranslate() {
   let timer;
-  let countWord = 0;
-  let str = '';
-  let prevStr = '';
 
   const jb = useRef();
+  const str = useRef();
   const flag = useRef(0);
   const video = useRef();
   const socket = useRef();
   const canvas = useRef();
   const context = useRef();
+  const prevStr = useRef();
+  const _count = useRef(0);
   const interval = useRef();
   const faceBoxes = useRef([]);
+  const countWord = useRef(0);
 
   const [count, setCount] = useState(0);
   const [notifyMessage, setNotifyMessage] = useState();
@@ -35,30 +36,33 @@ function AITranslate() {
   //최초 페이지 로딩 시 초기화
   useEffect(() => {
     socket.current = io.connect(
-      window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER
-    );
+      window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER,
+      {
+        cors: { origin: "*" },
+      });
     socket.current.on("connect", function () {
       console.log("Connected...!", socket.connected);
     });
     socket.current.on("response_back", function (data) {
-      countWord++;
+      countWord.current++;
       if (data === "failed") {
-        setNotifyMessage(str + "\n단어 인식에 실패하였습니다. 다시 동작해주세요.");
-        countWord--;
+        setNotifyMessage(
+          str.current + "\n단어 인식에 실패하였습니다. 다시 동작해주세요."
+        );
+        countWord.current--;
         translate();
       } else {
         jb.current.value =
           "<p style = 'margin-top : -100px; text-align:center;font-size:30px;color:#ffffff'> 다음 단어를 입력해주세요.</p>";
-        prevStr = str;
-        str += " " + data;
-        setNotifyMessage(str);
+        prevStr.current = str.current;
+        str.current += " " + data;
+        setNotifyMessage(str.current);
         translate();
       }
     });
     context.current = canvas.current.getContext("2d");
     video.current.width = 640;
     video.current.height = 480;
-    console.log(video.current);
   }, []);
 
   //시작하기 버튼
@@ -140,12 +144,13 @@ function AITranslate() {
   }
 
   function translate() {
-    setCount(0);
+    _count.current = 0;
+    setCount(_count.current);
     manageDetection();
   }
 
   const manageDetection = () => {
-    if (!timer && countWord === 5) {
+    if (!timer && countWord.current === 5) {
       clearTimeout(timer);
       return;
     } else {
@@ -155,7 +160,7 @@ function AITranslate() {
   };
 
   function send30() {
-    if (count === 30) {
+    if (_count.current >= 30) {
       clearTimeout(timer);
     } else {
       const width = video.current.width;
@@ -164,8 +169,15 @@ function AITranslate() {
       var data = canvas.current.toDataURL("image/jpeg", 0.5);
       context.current.clearRect(0, 0, width, height);
       socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
-      setCount((prevState) => prevState + 1);
+      _count.current++;
+      setCount(_count.current);
     }
+  }
+
+  function removeWord(event) {
+    event.preventDefault();
+    socket.current.emit("image", "delete");
+    clearTimeout(timer);
   }
 
   return (
@@ -186,7 +198,12 @@ function AITranslate() {
               className="startButton"
               value="시작하기"
             />
-            <input type="button" className="deleteButton" value="단어삭제" />
+            <input
+              type="button"
+              onClick={removeWord}
+              className="deleteButton"
+              value="단어삭제"
+            />
             <input
               type="button"
               onClick={startTranslate}
@@ -199,14 +216,13 @@ function AITranslate() {
           <div id="container">
             <video autoPlay="" playsInline="" id="videoElement" ref={video} />
             <canvas id="canvas" width={640} height={480} ref={canvas} />
-            <div id="jb-text" ref={jb}/>
+            <div id="jb-text" ref={jb} />
             <div id="count_box">
               <p
                 id="frame-count"
                 style={{ marginLeft: 80, fontSize: 23, color: "red" }}
               >
-                {" "}
-                {count}{" "}
+                {count}
               </p>
             </div>
             <div
