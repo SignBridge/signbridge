@@ -17,12 +17,12 @@ function VideoBtn(props) {
             <div className="video-box">
                 <div className="video">
                 <HoverVideoPlayer
-                        restartOnPaused
-                        videoSrc={[
-                            { src: '/VideoSrc/v1.webm', type: 'video/webm' },
-                            { src: 'video.mp4', type: 'video/mp4' },
-                        ]}>
-                    </HoverVideoPlayer>
+                    restartOnPaused
+                    videoSrc={[
+                        { src: '/VideoSrc/v1.webm', type: 'video/webm' },
+                        { src: 'video.mp4', type: 'video/mp4' },
+                    ]}>
+                </HoverVideoPlayer>
                     <form onSubmit={handleSubmit}>
                         <button className="matching-btn" type="submit">통역사매칭서비스</button>
                     </form>

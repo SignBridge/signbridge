@@ -1,14 +1,33 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
 
-.title-box {
+.main-box {
     width: 100%;
-    height: 550px;
-    /* background: linear-gradient(rgba(96, 174, 231, 1), white); */
+    height: 100%;
+    
+    background: linear-gradient(rgba(96, 174, 231, 1), white);
 
-    background: #7F7FD5;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: #7F7FD5;
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); */
+}
+
+.video-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 8em;
+}
+
+.card-item {
+    margin-right: 3em;
+}
+
+.top-items {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 2em;
 }
 
 .title-header {
@@ -16,9 +35,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 80px;
+    font-size: 30px;
     font-weight: 700;
-    padding-top: 100px;
+    /* padding-top: 100px; */
 
 }
 
