@@ -31,9 +31,9 @@ function LoadingPage(props) {
 
 
     return (
-        <div>
-            <div className="waiting-state">
-            <button className="waiting-btn" onClick={waiting}>{waitingState}</button>
+        <div className="loading-page">
+            <div className="loading-top-items">
+                <button className="waiting-btn" onClick={waiting}>{waitingState}</button>
             </div>
             <div className="loading-container">
                 <div className="loading-video">
