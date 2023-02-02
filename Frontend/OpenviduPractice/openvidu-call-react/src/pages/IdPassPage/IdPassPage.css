@@ -1,0 +1,91 @@
+.bg {
+    background-image: linear-gradient(79deg, #fcfced, #ebf6ff);
+}
+
+.id-bg, .pass-bg {
+    text-align: center;
+    display: flex;
+    min-height: 90vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.id-form-container, .pass-form-container {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 7.5rem;
+    padding-bottom: 7.5rem;
+    border: 10px solid black;
+    border-radius: 10px;
+}
+
+.id-form, .pass-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    /* padding-left: 80px; */
+    margin-left: 100px;
+
+}
+
+
+label {
+    text-align: left;
+    padding: 0.5rem 0;
+    margin-top: 3rem;
+    font-weight: 700;
+    font-size: 1.2em;
+}
+
+.find-input {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(202, 227, 250, 1);
+    
+}
+
+
+.check-btn {
+    border: none;
+    background-color: rgba(84, 122, 255, 1);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: large;
+    padding: 20px;
+    margin-top: 50px;
+    color: white;
+    font-weight: 700;
+}
+
+.movePage {
+    margin-top: 20px;
+    background: none;
+    color: black;
+    text-decoration: underline;
+    border: none;
+}
+
+.id-title, .pass-title{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 3em;
+    font-weight: bolder;
+}
+
+.find-id-btn, .find-pass-btn {
+    border: none;
+    background: none;
+
+}
+
+.find-id-btn {
+    color: black;
+}
+
+.find-pass-btn {
+    color: blue;
+}

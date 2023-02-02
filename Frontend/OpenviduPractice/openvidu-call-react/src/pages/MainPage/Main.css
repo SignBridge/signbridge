@@ -1,0 +1,65 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+
+.title-box {
+    width: 100%;
+    height: 550px;
+    /* background: linear-gradient(rgba(96, 174, 231, 1), white); */
+
+    background: #7F7FD5;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.title-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 80px;
+    font-weight: 700;
+    padding-top: 100px;
+
+}
+
+.wrapper {
+    width: 100%;
+    max-width: 1280px;
+    height: 10px;
+    position: relative;
+    gap: 5rem;
+    padding: 0 3rem;
+    margin: 0 auto;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    display: flex;
+}
+
+.video-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.video {
+    width: 450px;
+    margin: 2em;
+}
+
+.matching-btn {
+    background-color: skyblue;
+    color: black;
+    width: 100%;
+    height: 100px;
+    font-size: xx-large;
+    font-weight: 700;
+    border-radius: 2rem;
+    margin-top: 30px;
+    border: none;
+    cursor: pointer;
+}
