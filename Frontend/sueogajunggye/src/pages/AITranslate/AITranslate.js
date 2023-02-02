@@ -11,7 +11,7 @@ const CORRECT_LOCATION_MESSAGE =
   " 현재 위치에서 번역을 시작 해 주시길 바랍니다. ";
 
 function AITranslate() {
-  let timer;
+  let detectionInterval;
 
   const jb = useRef();
   const str = useRef();
@@ -45,10 +45,11 @@ function AITranslate() {
     });
     socket.current.on("response_back", function (data) {
       countWord.current++;
+      console.log('countWord', countWord);
       if (data === "failed") {
         setNotifyMessage(
           str.current + "\n단어 인식에 실패하였습니다. 다시 동작해주세요."
-        );
+          );
         countWord.current--;
         translate();
       } else {
@@ -59,6 +60,14 @@ function AITranslate() {
         setNotifyMessage(str.current);
         translate();
       }
+    });
+    socket.current.on("delete_back",  (data) => {
+      _count.current = 0;
+      countWord.current--;
+      str.current = prevStr.current;
+      var infoEl = document.getElementById("result");
+      infoEl.value = data + "\n" + str;
+      translate();
     });
     context.current = canvas.current.getContext("2d");
     video.current.width = 640;
@@ -139,7 +148,7 @@ function AITranslate() {
     faceBoxes.current.forEach((element) => {
       element.style = "border-color : red";
     });
-    clearInterval(interval);
+    clearInterval(interval.current);
     translate();
   }
 
@@ -150,44 +159,42 @@ function AITranslate() {
   }
 
   const manageDetection = () => {
-    if (!timer && countWord.current === 5) {
-      clearTimeout(timer);
-      return;
-    } else {
-      send30();
-      timer = setTimeout(manageDetection, 300);
+    if (!detectionInterval) {
+      console.log('detectionInterval');
+      detectionInterval = setInterval(manageDetection, 300);
     }
+    // if (countWord.current === 5) {
+    //   clearInterval(detectionInterval);
+    //   return;
+    // } else {
+      send30();
+    // }
   };
 
   function send30() {
-    if (_count.current >= 30) {
-      clearTimeout(timer);
-    } else {
       const width = video.current.width;
       const height = video.current.height;
       context.current.drawImage(video.current, 0, 0, width, height);
       var data = canvas.current.toDataURL("image/jpeg", 0.5);
       context.current.clearRect(0, 0, width, height);
-      socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
+      // if (_count.current > 15){
+        // _count.current = 0;
+        socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
+      // }
       _count.current++;
       setCount(_count.current);
-    }
   }
 
   function removeWord(event) {
     event.preventDefault();
     socket.current.emit("image", "delete");
-    clearTimeout(timer);
+    clearInterval(detectionInterval);
   }
 
   return (
     <React.Fragment>
       <meta charSet="UTF-8" />
       <title>Document</title>
-      <link
-        href="{{url_for('static', filename = 'style.css')}}"
-        rel="stylesheet"
-      />
       <div className="ex-layout">
         <div className="gnb">
           수어 번역기
