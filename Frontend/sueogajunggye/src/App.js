@@ -1,23 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
+// npm install react-router-dom 설치
+import { Link, Route, BrowserRouter as Router } from "react-router-dom";import { useRef, useEffect } from "react";
+import TransPossible from './pages/TransPossiblePage/TransPossiblePage'
+import signIn from './pages/TransPossiblePage/auth';
 
 function App() {
+  const [user, setUser] = useState(null);
+  const authenticated = user != null;
+
+  const login = ({ id, pass }) => setUser(signIn({ id, pass }));
+  const logout = () => setUser(null);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Router>
+        <Route path="/" component={LoginForm}></Route>
+        <Route path="/trans" component={TransPossible}></Route>
+      </Router>
     </div>
   );
 }
