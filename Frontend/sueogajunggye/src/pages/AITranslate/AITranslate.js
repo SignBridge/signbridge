@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
 import "./AITranslate.css";
+import SpeechRecognitor from "./SpeechRecognitor";
 
 const PORT_NUMBER = 5000;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
@@ -9,14 +10,17 @@ const START_MESSAGE = " 번역을 시작합니다. ";
 const RELOCATION_MESSAGE = " 사각형에 얼굴을 맞춰주세요. ";
 const CORRECT_LOCATION_MESSAGE =
   " 현재 위치에서 번역을 시작 해 주시길 바랍니다. ";
-
-function AITranslate() {
+let VIDEO_WIDTH = 640;
+// const VIDEO_HEIGHT = 480;
+let BASE_URL = "";
+const AITranslate = () => {
   let detectionInterval;
 
   const jb = useRef();
   const str = useRef();
   const flag = useRef(0);
   const video = useRef();
+  const animationVideo = useRef();
   const socket = useRef();
   const canvas = useRef();
   const context = useRef();
@@ -28,28 +32,64 @@ function AITranslate() {
 
   const [count, setCount] = useState(0);
   const [notifyMessage, setNotifyMessage] = useState();
+  const [uiSizeObject, setUiSizeObject] = useState();
+
+  const setUiSize = () => {
+    // const width = window.innerWidth * 0.95;
+    // const height = window.innerHeight * 0.7;
+    // if (window.innerWidth >= 1280) {
+    //   video.current.width = width / 2;
+    //   video.current.height = height;
+    //   faceBoxes.current[0].width = video.current.width * 0.2;
+    //   faceBoxes.current[0].height = video.current.height * 0.2;
+    //   faceBoxes.current[1].width = video.current.width * 0.15;
+    //   faceBoxes.current[1].height = video.current.height * 0.15;
+    //   animationVideo.current.width = width / 2;
+    //   animationVideo.current.height = height;
+    // } else {
+    //   video.current.width = width;
+    //   video.current.height = height / 2;
+    //   animationVideo.current.width = width;
+    //   animationVideo.current.height = height / 2;
+    // }
+    const videoOffsetWidth = video.current.offsetWidth;
+    const boxes = faceBoxes.current
+    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
+    height: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
+    left: ${parseInt(videoOffsetWidth / 2.0 - ((videoOffsetWidth * 0.08 > 65) ? 65 : videoOffsetWidth * 0.08)+ 0.5) }px;`
+    let outerBoxWidth = boxes[0].style.width;
+    let outerBoxLeft = boxes[0].style.left;
+    boxes[1].style =  `width: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;
+    height: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;
+    left: ${parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5}px;`;
+  };
+
+  const browserResizeHandler = () => {
+    setUiSize();
+  };
 
   const displaySize = () => {
-    return { width: video.current.width, height: video.current.height };
+    return { width: video.current.offsetWidth, height: video.current.offsetHeight };
   };
 
   //최초 페이지 로딩 시 초기화
   useEffect(() => {
-    socket.current = io.connect(
-      window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER,
-      {
-        cors: { origin: "*" },
-      });
+    BASE_URL =
+      window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
+
+    socket.current = io.connect(BASE_URL, {
+      cors: { origin: "*" },
+    });
     socket.current.on("connect", function () {
       console.log("Connected...!", socket.connected);
     });
     socket.current.on("response_back", function (data) {
       countWord.current++;
-      console.log('countWord', countWord);
+      console.log("countWord", countWord);
       if (data === "failed") {
         setNotifyMessage(
           str.current + "\n단어 인식에 실패하였습니다. 다시 동작해주세요."
-          );
+        );
         countWord.current--;
         translate();
       } else {
@@ -61,17 +101,22 @@ function AITranslate() {
         translate();
       }
     });
-    socket.current.on("delete_back",  (data) => {
+    socket.current.on("delete_back", (data) => {
       _count.current = 0;
       countWord.current--;
       str.current = prevStr.current;
       var infoEl = document.getElementById("result");
-      infoEl.value = data + "\n" + str;
+      infoEl.value = data + "\n" + str.current;
       translate();
     });
     context.current = canvas.current.getContext("2d");
-    video.current.width = 640;
-    video.current.height = 480;
+
+    setUiSize();
+
+    window.addEventListener("resize", browserResizeHandler);
+    return () => {
+      window.addEventListener("resize", browserResizeHandler);
+    };
   }, []);
 
   //시작하기 버튼
@@ -134,8 +179,13 @@ function AITranslate() {
       // box의 좌표 값과 너비, 길이를 콘솔창에 출력
       // console.log(box.x, box.y, box.width, box.height)
       // console.log(box.x, box.y);
-      if (box.x > 220 && box.x < 290) {
-        if (box.y > 65 && box.y < 90) {
+
+      const boxes = faceBoxes.current
+      let outerBoxWidth = parseInt(boxes[0].style.width.substring(0, boxes[0].style.width.length - 2));
+      let outerBoxLeft =  parseInt(boxes[0].style.left.substring(0, boxes[0].style.left.length - 2));
+      
+      if (box.x > outerBoxLeft && box.x < outerBoxLeft + outerBoxWidth) {
+        if (box.y > 30 && box.y < 30 + outerBoxWidth) {
           setNotifyMessage(CORRECT_LOCATION_MESSAGE);
           changeColor();
           return;
@@ -145,9 +195,16 @@ function AITranslate() {
   }
 
   function changeColor() {
-    faceBoxes.current.forEach((element) => {
-      element.style = "border-color : red";
-    });
+    const videoOffsetWidth = video.current.offsetWidth;
+    const boxes = faceBoxes.current
+    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
+    height: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
+    left: ${parseInt(videoOffsetWidth / 2.0 - ((videoOffsetWidth * 0.08 > 65) ? 65 : videoOffsetWidth * 0.08)+ 0.5) }px; border-color : red;`
+    let outerBoxWidth = boxes[0].style.width;
+    let outerBoxLeft = boxes[0].style.left;
+    boxes[1].style =  `width: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;border-color : red;
+    height: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;
+    left: ${parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5}px;`;
     clearInterval(interval.current);
     translate();
   }
@@ -160,29 +217,29 @@ function AITranslate() {
 
   const manageDetection = () => {
     if (!detectionInterval) {
-      console.log('detectionInterval');
+      console.log("detectionInterval");
       detectionInterval = setInterval(manageDetection, 300);
     }
     // if (countWord.current === 5) {
     //   clearInterval(detectionInterval);
     //   return;
     // } else {
-      send30();
+    send30();
     // }
   };
 
   function send30() {
-      const width = video.current.width;
-      const height = video.current.height;
-      context.current.drawImage(video.current, 0, 0, width, height);
-      var data = canvas.current.toDataURL("image/jpeg", 0.5);
-      context.current.clearRect(0, 0, width, height);
-      // if (_count.current > 15){
-        // _count.current = 0;
-        socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
-      // }
-      _count.current++;
-      setCount(_count.current);
+    const width = video.current.width;
+    const height = video.current.height;
+    context.current.drawImage(video.current, 0, 0, width, height);
+    var data = canvas.current.toDataURL("image/jpeg", 0.5);
+    context.current.clearRect(0, 0, width, height);
+    // if (_count.current > 15){
+    // _count.current = 0;
+    socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
+    // }
+    _count.current++;
+    setCount(_count.current);
   }
 
   function removeWord(event) {
@@ -190,6 +247,14 @@ function AITranslate() {
     socket.current.emit("image", "delete");
     clearInterval(detectionInterval);
   }
+
+  const startVoiceRecognize = (event) => {
+    event.preventDefault();
+  };
+
+  const stopVoiceRecognize = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <React.Fragment>
@@ -217,12 +282,21 @@ function AITranslate() {
               className="translateButton"
               value="변역하기"
             />
+            <SpeechRecognitor BASE_URL={BASE_URL} />
           </div>
         </div>
         <div className="main">
           <div id="container">
-            <video autoPlay="" playsInline="" id="videoElement" ref={video} />
-            <canvas id="canvas" width={640} height={480} ref={canvas} />
+            <video
+              autoPlay=""
+              playsInline=""
+              width={VIDEO_WIDTH}
+              preload
+              id="videoElement"
+              ref={video}
+            />
+            <video width={VIDEO_WIDTH} preload ref={animationVideo} />
+            <canvas id="canvas" width={VIDEO_WIDTH} ref={canvas} />
             <div id="jb-text" ref={jb} />
             <div id="count_box">
               <p
@@ -250,6 +324,6 @@ function AITranslate() {
       </div>
     </React.Fragment>
   );
-}
+};
 
 export default AITranslate;
