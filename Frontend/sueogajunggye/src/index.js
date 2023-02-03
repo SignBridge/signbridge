@@ -3,11 +3,18 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import store from './redux/store';
+import { Provider } from 'react-redux';
+import Profile from './pages/Profile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    {/* Provider : store가 리액트 앱 전체를 감싸주는 용도 */}
+    <Provider store={store}>
+      <App />
+      {/* <Profile></Profile> */}
+    </Provider>
   </React.StrictMode>
 );
 
