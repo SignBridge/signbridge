@@ -35,7 +35,8 @@ public class AuthenticationConfig {
         return httpSecurity
                 .httpBasic().disable()
                 .csrf().disable()
-                .cors().and()
+                .cors()
+                .and()
                 .authorizeRequests()
                 .antMatchers("/api/users/login","/api/users/join").permitAll() //이 두 요청은 언제나 가능
                 .antMatchers(HttpMethod.GET,"login").permitAll()
