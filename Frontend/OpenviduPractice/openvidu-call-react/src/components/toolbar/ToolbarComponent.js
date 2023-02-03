@@ -3,6 +3,8 @@ import './ToolbarComponent.css';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import ReactDOM from 'react-dom';
+import App from '../../App';
 
 import Mic from '@material-ui/icons/Mic';
 import MicOff from '@material-ui/icons/MicOff';
@@ -64,6 +66,10 @@ export default class ToolbarComponent extends Component {
 
     leaveSession() {
         this.props.leaveSession();
+        ReactDOM.render(
+            <App/>
+          , document.getElementById('root')
+        );
     }
 
     toggleChat() {
