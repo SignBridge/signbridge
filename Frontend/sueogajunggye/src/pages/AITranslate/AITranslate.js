@@ -10,8 +10,8 @@ const START_MESSAGE = " 번역을 시작합니다. ";
 const RELOCATION_MESSAGE = " 사각형에 얼굴을 맞춰주세요. ";
 const CORRECT_LOCATION_MESSAGE =
   " 현재 위치에서 번역을 시작 해 주시길 바랍니다. ";
-let VIDEO_WIDTH = 640;
-// const VIDEO_HEIGHT = 480;
+const VIDEO_WIDTH = 640;
+const VIDEO_HEIGHT = 480;
 let BASE_URL = "";
 const AITranslate = () => {
   let detectionInterval;
@@ -52,16 +52,31 @@ const AITranslate = () => {
     //   animationVideo.current.width = width;
     //   animationVideo.current.height = height / 2;
     // }
+
+    //   const width = window.innerWidth * 0.95;
+    //   const height = window.innerHeight * 0.7;
+    // animationVideo.current.style = `height: ${video.current.height}`;
+
     const videoOffsetWidth = video.current.offsetWidth;
-    const boxes = faceBoxes.current
-    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
-    height: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
-    left: ${parseInt(videoOffsetWidth / 2.0 - ((videoOffsetWidth * 0.08 > 65) ? 65 : videoOffsetWidth * 0.08)+ 0.5) }px;`
+    const boxes = faceBoxes.current;
+    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+    height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+    left: ${parseInt(
+      videoOffsetWidth / 2.0 -
+        (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
+        0.5
+    )}px;`;
     let outerBoxWidth = boxes[0].style.width;
     let outerBoxLeft = boxes[0].style.left;
-    boxes[1].style =  `width: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;
-    height: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;
-    left: ${parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5}px;`;
+    boxes[1].style = `width: ${
+      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+    }px;
+    height: ${
+      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+    }px;
+    left: ${
+      parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
+    }px;`;
   };
 
   const browserResizeHandler = () => {
@@ -69,7 +84,10 @@ const AITranslate = () => {
   };
 
   const displaySize = () => {
-    return { width: video.current.offsetWidth, height: video.current.offsetHeight };
+    return {
+      width: video.current.offsetWidth,
+      height: video.current.offsetHeight,
+    };
   };
 
   //최초 페이지 로딩 시 초기화
@@ -109,6 +127,16 @@ const AITranslate = () => {
       infoEl.value = data + "\n" + str.current;
       translate();
     });
+
+    socket.current.on("result", (data) => {
+      countWord.current++;
+      // clearTimeout(timer);
+      // str = "";
+      var infoEl = document.getElementById("result");
+      infoEl.value = data;
+      // count_word = 0;
+    });
+
     context.current = canvas.current.getContext("2d");
 
     setUiSize();
@@ -117,6 +145,8 @@ const AITranslate = () => {
     return () => {
       window.addEventListener("resize", browserResizeHandler);
     };
+
+    // startTranslate();
   }, []);
 
   //시작하기 버튼
@@ -127,7 +157,9 @@ const AITranslate = () => {
         .getUserMedia({ video: true })
         .then(function (stream) {
           video.current.srcObject = stream;
+          animationVideo.current.srcObject = stream; // TODO: 테스트
           video.current.play();
+          animationVideo.current.play();
           setNotifyMessage(RELOCATION_MESSAGE);
         })
         .catch(function (err0r) {});
@@ -137,7 +169,7 @@ const AITranslate = () => {
   let initedCanvas;
   //번역 시작하기
   function startTranslate(event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
     if (flag.current === 0) {
       flag.current = 1;
       Promise.all([
@@ -180,10 +212,14 @@ const AITranslate = () => {
       // console.log(box.x, box.y, box.width, box.height)
       // console.log(box.x, box.y);
 
-      const boxes = faceBoxes.current
-      let outerBoxWidth = parseInt(boxes[0].style.width.substring(0, boxes[0].style.width.length - 2));
-      let outerBoxLeft =  parseInt(boxes[0].style.left.substring(0, boxes[0].style.left.length - 2));
-      
+      const boxes = faceBoxes.current;
+      let outerBoxWidth = parseInt(
+        boxes[0].style.width.substring(0, boxes[0].style.width.length - 2)
+      );
+      let outerBoxLeft = parseInt(
+        boxes[0].style.left.substring(0, boxes[0].style.left.length - 2)
+      );
+
       if (box.x > outerBoxLeft && box.x < outerBoxLeft + outerBoxWidth) {
         if (box.y > 30 && box.y < 30 + outerBoxWidth) {
           setNotifyMessage(CORRECT_LOCATION_MESSAGE);
@@ -196,15 +232,25 @@ const AITranslate = () => {
 
   function changeColor() {
     const videoOffsetWidth = video.current.offsetWidth;
-    const boxes = faceBoxes.current
-    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
-    height: ${parseInt(videoOffsetWidth * 0.16+ 0.5)}px;
-    left: ${parseInt(videoOffsetWidth / 2.0 - ((videoOffsetWidth * 0.08 > 65) ? 65 : videoOffsetWidth * 0.08)+ 0.5) }px; border-color : red;`
+    const boxes = faceBoxes.current;
+    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+    height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+    left: ${parseInt(
+      videoOffsetWidth / 2.0 -
+        (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
+        0.5
+    )}px; border-color : red;`;
     let outerBoxWidth = boxes[0].style.width;
     let outerBoxLeft = boxes[0].style.left;
-    boxes[1].style =  `width: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;border-color : red;
-    height: ${parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10}px;
-    left: ${parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5}px;`;
+    boxes[1].style = `width: ${
+      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+    }px;border-color : red;
+    height: ${
+      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+    }px;
+    left: ${
+      parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
+    }px;`;
     clearInterval(interval.current);
     translate();
   }
@@ -231,12 +277,15 @@ const AITranslate = () => {
   function send30() {
     const width = video.current.width;
     const height = video.current.height;
-    context.current.drawImage(video.current, 0, 0, width, height);
-    var data = canvas.current.toDataURL("image/jpeg", 0.5);
+    const image = video.current
+    context.current.drawImage(image, 0, 0, width, height);
+    // var data = canvas.current.toDataURL("image/jpeg", 0.5);
+    const data = resizeImage(image);
     context.current.clearRect(0, 0, width, height);
-    // if (_count.current > 15){
-    // _count.current = 0;
-    socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
+    // if (_count.current > 15) {
+      // _count.current = 0;
+      socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
+      // console.log('socket go');
     // }
     _count.current++;
     setCount(_count.current);
@@ -254,6 +303,31 @@ const AITranslate = () => {
 
   const stopVoiceRecognize = (event) => {
     event.preventDefault();
+  };
+
+  const resizeImage = (image) => {
+    const resizeCanvas = document.createElement("canvas");
+    resizeCanvas.width = VIDEO_WIDTH;
+    resizeCanvas.height = VIDEO_HEIGHT;
+    resizeCanvas
+      .getContext("2d")
+      .drawImage(image, 0, 0, resizeCanvas.width, resizeCanvas.height);
+    //canvas의 dataurl를 blob(file)화 하는 과정
+    var dataURI = resizeCanvas.toDataURL("image/jpeg", 0.5); //png => jpg 등으로 변환 가능
+    return dataURI;
+    
+    // var byteString = atob(dataURI.split(",")[1]);
+    // var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
+    // var ab = new ArrayBuffer(byteString.length);
+    // var ia = new Uint8Array(ab);
+    // for (var i = 0; i < byteString.length; i++) {
+    //   ia[i] = byteString.charCodeAt(i);
+    // }
+
+    // //리사이징된 file 객체
+    // var tmpThumbFile = new Blob([ab], { type: mimeString });
+
+    // return tmpThumbFile.;
   };
 
   return (
@@ -282,7 +356,7 @@ const AITranslate = () => {
               className="translateButton"
               value="변역하기"
             />
-            <SpeechRecognitor BASE_URL={BASE_URL} />
+            {/* <SpeechRecognitor BASE_URL={BASE_URL} /> */}
           </div>
         </div>
         <div className="main">
@@ -295,8 +369,8 @@ const AITranslate = () => {
               id="videoElement"
               ref={video}
             />
-            <video width={VIDEO_WIDTH} preload ref={animationVideo} />
-            <canvas id="canvas" width={VIDEO_WIDTH} ref={canvas} />
+            <video width={VIDEO_WIDTH} preload="true" ref={animationVideo} />
+            <canvas id="canvas" width="0" ref={canvas} />
             <div id="jb-text" ref={jb} />
             <div id="count_box">
               <p

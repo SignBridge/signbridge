@@ -11,23 +11,12 @@ const SpeechRecognitor = () => {
     browserSupportsSpeechRecognition
   } = useSpeechRecognition();
 
-  axios.defaults.withCredentials=true;  
 
-  axios.create({
-    baseURL : window.location.protocol + "//" + document.domain + ":5000" + '/recording/analyze',
-    headers: {
-      "Content-Type": "application/json"
-    },
-    withCredentials: true,
-  })
-
-  
-
-  axios.get(window.location.protocol + "//" + document.domain + ":5000" + '/recording/analyze', {
+  axios.get(`http://52.78.101.29:5000/recording/analyze`, {
     "speech": transcript,
   })
     .then(response => {
-      console.log(response.data);
+      console.log(response.config.speech);
     })
     .catch(error => {
       console.log(error);
