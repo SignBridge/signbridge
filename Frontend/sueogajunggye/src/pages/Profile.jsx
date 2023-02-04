@@ -1,14 +1,30 @@
 import React from 'react';
 // 6. useSelector import를 해주기
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../redux/user';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
     // 7. user reducer에 있는 state에 접근
     const user = useSelector((state) => state.user.value);
-    console.log(user)
+    console.log(user);
+
+    // navigate 함수
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+
+    // 로그아웃
+    function userLogout() {
+        // 로그아웃 시 회원 정보 초기화
+        dispatch(logout())
+        // login 페이지로 이동
+        navigate("/login");
+    }
 
     return (
         <div>
+            <button onClick={userLogout}>로그아웃</button>
             <h1>Profile Page</h1>
             <p> id : {user.userId.id}</p>
             <p> pass : {user.userPass.pass}</p>

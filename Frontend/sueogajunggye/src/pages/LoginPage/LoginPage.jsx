@@ -55,7 +55,7 @@ function LoginPage(props) {
         } catch (err) {
           console.log(err)
             // 에러 나면 로그인 창 새로고침 돼야함..
-            navigate("/")
+            navigate("/login")
         }
       };    
 
