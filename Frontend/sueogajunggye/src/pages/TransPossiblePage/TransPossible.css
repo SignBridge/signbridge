@@ -1,0 +1,18 @@
+.trans-items {
+    display: flex;
+    /* align-items: center; */
+
+}
+
+.trans-left-items {
+    display: inline-flex;
+    align-content: center;
+    flex-direction: column;
+    border: solid salmon;
+}
+
+
+.user-name-btn {
+    border: none;
+    border-radius: 2em;
+}

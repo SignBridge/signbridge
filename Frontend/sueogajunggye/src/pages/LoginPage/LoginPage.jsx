@@ -39,13 +39,18 @@ function LoginPage(props) {
             }
           );
             console.log(response)
-            // 10. value 값을 넣어 함수호출
-            dispatch(login({userId: {id}, userPass: {pass}}));
 
-            response.data.name
+            // response 응답으로 받은 유저 정보
+            const username = response.data.name
+            const useremail = response.data.email
+            const userisactive = response.data.is_active
+
+            // 10. value 값을 넣어 함수호출
+            dispatch(login({userId: {id}, userPass: {pass}, userName: {username}, userEmail: {useremail}, userIsActive: {userisactive}}));
+
 
             // 로그인 성공 후 profile로 이동
-            navigate("/profile");
+            navigate("/trans");
         } catch (err) {
           console.log(err)
             // 에러 나면 로그인 창 새로고침 돼야함..
