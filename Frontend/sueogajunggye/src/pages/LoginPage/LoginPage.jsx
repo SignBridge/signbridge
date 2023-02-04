@@ -40,8 +40,15 @@ function LoginPage(props) {
             }
           );
             console.log(response)
+            // reponse 응답으로 받은 유저의 정보 저장
+            const username = response.data.name
+            const useremail = response.data.email
+            const userisactive = response.data.is_active
+            console.log(username)
+
             // 10. value 값을 넣어 함수호출
-            dispatch(login({userId: {id}, userPass: {pass}}));
+            dispatch(login({userId: {id}, userPass: {pass}, userName: {username}, userEmail: {useremail}, userIsActive: {userisactive}}));
+
 
             // 로그인 성공 후 profile로 이동
             navigate("/profile");

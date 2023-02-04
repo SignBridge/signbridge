@@ -12,6 +12,9 @@ function Profile() {
             <h1>Profile Page</h1>
             <p> id : {user.userId.id}</p>
             <p> pass : {user.userPass.pass}</p>
+            <p> name : {user.userName.username} </p>
+            <p> email : {user.userEmail.useremail} </p>
+            <p> isActive : {user.userIsActive.userisactive} </p>
         </div>
     );
 }
