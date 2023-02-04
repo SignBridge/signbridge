@@ -1,6 +1,7 @@
 from flask import Flask, render_template, Response, request
+import flask
 from flask_socketio import SocketIO, emit
-import time, io, os, time, sys, natsort, random, math
+import time, io, os, time, sys, random, math
 from PIL import Image
 import base64,cv2
 import numpy as np
@@ -15,12 +16,11 @@ from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.callbacks import TensorBoard
 from sklearn.preprocessing import LabelEncoder
 from konlpy.tag import Okt
-from flask_cors import CORS
 
 app = Flask(__name__)
 # SocketIO는 ‘app’에 적용되고 있으며 나중에 애플리케이션을 실행할 때 앱 대신 socketio를 사용할 수 있도록 socketio 변수에 저장된다.
 socketio = SocketIO(app,cors_allowed_origins='*' )
-CORS(app)
+
 
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
@@ -105,13 +105,18 @@ blue_color = (255,0,0)
 def index():
     return render_template('index.html')
 
+
+# Okt Class의 생성자를 이용하여 분석기를 생성 
+okt = Okt()
 @app.route('/recording/analyze', methods=['GET'])
 def analyze():
     
-    okt = Okt()
-    results = okt.pos(request.args.get('speech'))
-    print(results)
-    return request.args.get('speech')
+    speech = request.args.get('speech')
+    speech = okt.nouns(speech)
+    print(speech, type(speech))
+    res = flask.Response(speech)
+    res.headers["Access-Control-Allow-Origin"] = "*"
+    return res
 
 
 def readb64(base64_string):
@@ -216,4 +221,4 @@ def image(data_image):
 
 if __name__ == '__main__':
     socketio.run(app ,debug=True)
-    app.run()
+    app.run(host='0.0.0.0')
