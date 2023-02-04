@@ -5,8 +5,9 @@ import Moment from 'react-moment';
 import 'moment/locale/ko';
 // npm install moment react-moment use-interval 설치
 import useInterval from 'react-useinterval';
+import { useSelector } from 'react-redux';
 
-function TransPossible({ user }) {
+function TransPossible(props) {
 
     const [nowTime, setNowTime] = useState(Date.now());
 
@@ -14,7 +15,7 @@ function TransPossible({ user }) {
         setNowTime(Date.now());
     }, 1000);
 
-    const transName = user.name;
+    const transName 
 
     return (
         <div className="trans-items">

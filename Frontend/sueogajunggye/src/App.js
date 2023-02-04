@@ -1,23 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
-// npm install react-router-dom 설치
-import { Link, Route, BrowserRouter as Router } from "react-router-dom";import { useRef, useEffect } from "react";
-import TransPossible from './pages/TransPossiblePage/TransPossiblePage'
-import signIn from './pages/TransPossiblePage/auth';
+// import './App.css';
+import React, { Component } from "react";
+import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
+import LoginPage from "./pages/LoginPage/LoginPage";
+import FindIdPage from "./pages/IdPassPage/FindIdPage";
+import FindPassPage from './pages/IdPassPage/FindPassPage';
+import MainPage from './pages/MainPage/MainPage'
+import TransPossible from "./pages/TransPossiblePage/TransPossiblePage";
 
 function App() {
-  const [user, setUser] = useState(null);
-  const authenticated = user != null;
-
-  const login = ({ id, pass }) => setUser(signIn({ id, pass }));
-  const logout = () => setUser(null);
-
+  const isLogin = false;
+  
   return (
     <div className="App">
-      <Router>
-        <Route path="/" component={LoginForm}></Route>
-        <Route path="/trans" component={TransPossible}></Route>
-      </Router>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />}></Route>
+          <Route path="/trans" element={<TransPossible />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/findId" element={<FindIdPage />}></Route>
+          <Route path="/findPass" element={<FindPassPage />}></Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
