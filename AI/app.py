@@ -1,7 +1,7 @@
-from flask import Flask, render_template, Response, request
+from flask import Flask, render_template, request
 import flask
 from flask_socketio import SocketIO, emit
-import time, io, os, time, sys, random, math
+import io, os
 from PIL import Image
 import base64,cv2
 import numpy as np
@@ -10,7 +10,7 @@ import joblib
 import pandas as pd
 import mediapipe as mp
 from glob import glob
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image
 from tensorflow.keras.models import Sequential   
 from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.callbacks import TensorBoard
@@ -97,8 +97,6 @@ data_y = data['sentence']
 le = LabelEncoder()
 le.fit(data['sentence'])
 
-font = ImageFont.truetype("fonts/HMFMMUEX.TTC", 10)
-font2 = ImageFont.truetype("fonts/HMFMMUEX.TTC", 20)
 blue_color = (255,0,0)
 
 @app.route('/', methods=['POST', 'GET'])
