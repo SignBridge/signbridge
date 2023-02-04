@@ -10,8 +10,6 @@ RUN apt-get install -y software-properties-common
 RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get update
 
-# install python
-
 # RUN add-apt-repository ppa:deadsnakes/ppa
 RUN apt-get install -y python3-pip python3.7-dev
 RUN cd /usr/local/bin && \
@@ -25,11 +23,10 @@ RUN apt-get install -y openjdk-8-jdk
 ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
 
 # pip library install
-RUN pip3 install --no-cache-dir tensorflow-cpu==2.11.0
 RUN pip3 install -r req.txt
 
 
 
 EXPOSE 5000
 
-CMD python3 ./app1.py
+CMD python3 ./app.py
