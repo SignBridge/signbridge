@@ -1,11 +1,13 @@
 import React from "react";
 import Title from "./Title";
 import MainToTrans from "../../components/Buttons/MainToTrans"
+// npm install @mui/material @emotion/react @emotion/styled
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+// npm install react-hover-video-player
 import HoverVideoPlayer from 'react-hover-video-player';
 
 function MainPage(props) {
