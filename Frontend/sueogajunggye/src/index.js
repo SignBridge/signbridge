@@ -12,7 +12,9 @@ root.render(
   <React.StrictMode>
     {/* Provider : store가 리액트 앱 전체를 감싸주는 용도 */}
     <Provider store={store}>
-      <App />
+      {/* loading : store를 불러오는 과정 중에 보여줄 컴포넌트 */}
+      {/* persistor : 로컬스토리지에 저장할 스토어 */}
+        <App />
       {/* <Profile></Profile> */}
     </Provider>
   </React.StrictMode>
