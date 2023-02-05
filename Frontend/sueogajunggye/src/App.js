@@ -11,7 +11,7 @@ import FindIdPage from "./pages/IdPassPage/FindIdPage";
 import FindPassPage from './pages/IdPassPage/FindPassPage';
 // import MyPage from './pages/MyPage/MyPage';
 import MainPage from './pages/MainPage/MainPage'
-import VideoPage from './components/VideoRoomComponent'
+import VideoRoomComponent from './components/VideoRoomComponent'
 
 function App() {
 //   const isLogin = false;
@@ -24,7 +24,7 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findId" element={<FindIdPage />}></Route>
           <Route path="/findPass" element={<FindPassPage />}></Route>
-          <Route path="/cam" element ={<VideoPage/>}></Route>
+          <Route path="/cam" element ={<VideoRoomComponent/>}></Route>
         </Routes>
       </BrowserRouter>
 

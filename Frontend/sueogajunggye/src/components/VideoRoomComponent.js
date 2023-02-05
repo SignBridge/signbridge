@@ -12,15 +12,18 @@ import ToolbarComponent from './toolbar/ToolbarComponent';
 //localUser 초기화
 var localUser = new UserModel();
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
-
+console.log('0');
 
 class VideoRoomComponent extends Component {
     constructor(props) {
         super(props);
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
+        console.log('1');
+        console.log(this.layout);
         //접속할 sessionName, userName를 컴포넌트에 props로 전달
         let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
+        //다른 openvidu코드 보면 세션 이름 정해서 들어오는 코드 있는데 그거 참고해서 세션이름 정해서 하기
         let userName = this.props.user ? this.props.user : 'OpenVidu_User' + Math.floor(Math.random() * 100);
         this.remotes = [];
         this.localUserAccessAllowed = false;
@@ -60,6 +63,7 @@ class VideoRoomComponent extends Component {
 
     //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
+        console.log('3');
         const openViduLayoutOptions = {
             maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
             minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
@@ -152,7 +156,7 @@ class VideoRoomComponent extends Component {
         await this.OV.getUserMedia({ audioSource: undefined, videoSource: undefined });
         var devices = await this.OV.getDevices();
         var videoDevices = devices.filter(device => device.kind === 'videoinput');
-
+        console.log('카메라 연결');
         //로컬사용자 방송송출 관련 객체
         let publisher = this.OV.initPublisher(undefined, {
             audioSource: undefined,
@@ -442,12 +446,14 @@ class VideoRoomComponent extends Component {
 
     render() {
         const mySessionId = this.state.mySessionId;
+        console.log('2');
+        console.log(mySessionId);
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-
         return (
             <div className="container" id="container">
                 {/* 툴바 컴포넌트 */}
+                {console.log('툴바 컴포넌트')}
                 <ToolbarComponent
                     sessionId={mySessionId}
                     user={localUser}
@@ -462,9 +468,11 @@ class VideoRoomComponent extends Component {
 
 
                 {/* 스트리밍 화면 */}
+                {console.log('스트리밍 화면')}
                 <div id="layout" className="bounds">
                     
                     {/* 다른 이용자 화면 컴포넌트 */}
+                    {console.log('다른 이용자 화면')}
                     {this.state.subscribers.map((sub, i) => (
                         <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers">
                             <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
@@ -475,6 +483,7 @@ class VideoRoomComponent extends Component {
                     {/* 자신 화면 컴포넌트 
                         자기 화면만 있는 경우 : (자기 외에 사람 있지만 채팅창 안 켠 경우 : 자기 외에 사람 있고 채팅창 켠 경우)
                     */}
+                    {console.log('자기 화면')}
                     {this.state.subscribers.length===0?
                     localUser !== undefined && localUser.getStreamManager() !== undefined && (
                         <div className="OT_root OT_publisher custom-class" id="localUser">
@@ -527,11 +536,13 @@ class VideoRoomComponent extends Component {
      * more about the integration of OpenVidu in your application server.
      */
     async getToken() {
+        console.log('getToken');
         const sessionId = await this.createSession(this.state.mySessionId);
         return await this.createToken(sessionId);
     }
 
     async createSession(sessionId) {
+        console.log('createSession');
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
@@ -539,6 +550,7 @@ class VideoRoomComponent extends Component {
     }
 
     async createToken(sessionId) {
+        console.log('createToken'); 
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
