@@ -92,8 +92,12 @@ const AITranslate = () => {
 
   //최초 페이지 로딩 시 초기화
   useEffect(() => {
+    //로컬호스트 통신
     BASE_URL =
       window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
+
+    //서버 통신
+    // BASE_URL = `http://3.35.127.122:5000`;
 
     socket.current = io.connect(BASE_URL, {
       cors: { origin: "*" },
@@ -372,14 +376,14 @@ const AITranslate = () => {
             <video width={VIDEO_WIDTH} preload="true" ref={animationVideo} />
             <canvas id="canvas" width="0" ref={canvas} />
             <div id="jb-text" ref={jb} />
-            <div id="count_box">
+            {/* <div id="count_box">
               <p
                 id="frame-count"
                 style={{ marginLeft: 80, fontSize: 23, color: "red" }}
               >
                 {count}
               </p>
-            </div>
+            </div> */}
             <div
               className="outline"
               id="boxes"
