@@ -12,6 +12,7 @@ import FindPassPage from './pages/IdPassPage/FindPassPage';
 // import MyPage from './pages/MyPage/MyPage';
 import MainPage from './pages/MainPage/MainPage'
 import VideoRoomComponent from './components/VideoRoomComponent'
+import AITranslate from './pages/AITranslate/AITranslate';
 
 function App() {
 //   const isLogin = false;
@@ -25,6 +26,7 @@ function App() {
           <Route path="/findId" element={<FindIdPage />}></Route>
           <Route path="/findPass" element={<FindPassPage />}></Route>
           <Route path="/cam" element ={<VideoRoomComponent/>}></Route>
+          <Route path="/aiTranslate" element ={<AITranslate/>}></Route>
         </Routes>
       </BrowserRouter>
 
