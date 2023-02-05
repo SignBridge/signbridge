@@ -3,6 +3,8 @@ import './ToolbarComponent.css';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import ReactDOM from 'react-dom';
+import App from '../../App';
 
 import Mic from '@material-ui/icons/Mic';
 import MicOff from '@material-ui/icons/MicOff';
@@ -21,10 +23,14 @@ import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 import IconButton from '@material-ui/core/IconButton';
 
 // const logo = require('../../assets/images/openvidu_logo.png');
+console.log('툴바 컴포넌트 내부');
 
 export default class ToolbarComponent extends Component {
     constructor(props) {
+        console.log('툴바 컴포넌트 내부 생성자');
         super(props);
+        console.log(super(props));
+        console.log(props);
         this.state = { fullscreen: false };
         this.camStatusChanged = this.camStatusChanged.bind(this);
         this.micStatusChanged = this.micStatusChanged.bind(this);
@@ -64,21 +70,28 @@ export default class ToolbarComponent extends Component {
 
     leaveSession() {
         this.props.leaveSession();
+        ReactDOM.render(
+            <App/>
+          , document.getElementById('root')
+        );
     }
 
     toggleChat() {
+        console.log('토글챗. ')
         this.props.toggleChat();
     }
 
     render() {
         const mySessionId = this.props.sessionId;
         const localUser = this.props.user;
+        console.log('여기도 생성자 뒤 맨 처음?');
         return (
             <AppBar className="toolbar" id="header">
                 <Toolbar className="toolbar">
                     <div id="navSessionInfo">
+                        {console.log('툴바 요소안에 div')}
                         {/* <img
-                            id="header_img"
+                            id="header_img" 
                             alt="OpenVidu Logo"
                             src={logo}
                         /> */}
