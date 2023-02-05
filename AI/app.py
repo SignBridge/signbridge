@@ -218,5 +218,6 @@ def image(data_image):
             
 
 if __name__ == '__main__':
-    socketio.run(app ,debug=True)
     app.run(host='0.0.0.0')
+    socketio.run(app ,debug=True)
+    
