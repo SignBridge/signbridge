@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
 import "./AITranslate.css";
+import { Link } from 'react-router-dom';
 import SpeechRecognitor from "./SpeechRecognitor";
 
 const PORT_NUMBER = 5000;

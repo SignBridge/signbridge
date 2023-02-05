@@ -26,6 +26,7 @@ function App() {
           <Route path="/findId" element={<FindIdPage />}></Route>
           <Route path="/findPass" element={<FindPassPage />}></Route>
           <Route path="/cam" element ={<VideoRoomComponent/>}></Route>
+          <Route path="/aiTranslate" element ={<AITranslate/>}></Route>
         </Routes>
       </BrowserRouter>
 
