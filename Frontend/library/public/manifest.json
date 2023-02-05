@@ -1,6 +1,6 @@
 {
-  "short_name": "openvidu-call-react",
-  "name": "openvidu-call-react",
+  "short_name": "openvidu-react",
+  "name": "openvidu-react",
   "icons": [
     {
       "src": "favicon.ico",
