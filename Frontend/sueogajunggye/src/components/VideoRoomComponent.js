@@ -8,6 +8,9 @@ import './VideoRoomComponent.css';
 import OpenViduLayout from '../layout/openvidu-layout';
 import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
+import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
+import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
+
 
 //localUser 초기화
 var localUser = new UserModel();
@@ -450,74 +453,86 @@ class VideoRoomComponent extends Component {
         console.log(mySessionId);
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
-        return (
-            <div className="container" id="container">
-                {/* 툴바 컴포넌트 */}
-                {console.log('툴바 컴포넌트')}
-                <ToolbarComponent
-                    sessionId={mySessionId}
-                    user={localUser}
-                    showNotification={this.state.messageReceived}
-                    camStatusChanged={this.camStatusChanged}
-                    micStatusChanged={this.micStatusChanged}
-                    toggleFullscreen={this.toggleFullscreen}
-                    switchCamera={this.switchCamera}
-                    leaveSession={this.leaveSession}
-                    toggleChat={this.toggleChat}
-                />
-
-
-                {/* 스트리밍 화면 */}
-                {console.log('스트리밍 화면')}
-                <div id="layout" className="bounds">
-                    
-                    {/* 다른 이용자 화면 컴포넌트 */}
-                    {console.log('다른 이용자 화면')}
-                    {this.state.subscribers.map((sub, i) => (
-                        <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers">
-                            <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
-                        </div>
-                    ))}
-
-
-                    {/* 자신 화면 컴포넌트 
-                        자기 화면만 있는 경우 : (자기 외에 사람 있지만 채팅창 안 켠 경우 : 자기 외에 사람 있고 채팅창 켠 경우)
-                    */}
-                    {console.log('자기 화면')}
-                    {this.state.subscribers.length===0?
-                    localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                        <div className="OT_root OT_publisher custom-class" id="localUser">
-                            {console.log(document.getElementById(localUser))}
-                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
-                        </div>
-                    ) :
-                    (chatDisplay.display==='none'?
-                    
-                    localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                        <div className="OT_root OT_publisher custom-class" id="localUser">
-                            {console.log(document.getElementById(localUser))}
-                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
-                        </div>
-                    )
-                    :
-                    localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                        <div className="OT_root OT_publisher custom-class myCam" id="localUser">
-                            {console.log(document.getElementById(localUser))}
-                            <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
-                            {/* 채팅 컴포넌트 */}
-                            <ChatComponent 
-                                user={localUser}
-                                chatDisplay={this.state.chatDisplay}
-                                close={this.toggleChat}
-                                messageReceived={this.checkNotification}
-                            />
-                        </div>
-                    ))}
-
-
+        const now = this.state.subscribers;
+        if(now.length===0){
+            return(
+                <WaitTemporary/>
+            )
+        }else if(now.length===1){
+            return (
+                <div className="container" id="container">
+                    {/* 툴바 컴포넌트 */}
+                    {console.log('툴바 컴포넌트')}
+                    <ToolbarComponent
+                        sessionId={mySessionId}
+                        user={localUser}
+                        showNotification={this.state.messageReceived}
+                        camStatusChanged={this.camStatusChanged}
+                        micStatusChanged={this.micStatusChanged}
+                        toggleFullscreen={this.toggleFullscreen}
+                        switchCamera={this.switchCamera}
+                        leaveSession={this.leaveSession}
+                        toggleChat={this.toggleChat}
+                    />
+    
+    
+                    {/* 스트리밍 화면 */}
+                    {console.log('스트리밍 화면')}
+                    <div id="layout" className="bounds">
+                        
+                        {/* 다른 이용자 화면 컴포넌트 */}
+                        {console.log('다른 이용자 화면')}
+                        {this.state.subscribers.map((sub, i) => (
+                            <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers">
+                                <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
+                            </div>
+                        ))}
+    
+    
+                        {/* 자신 화면 컴포넌트 
+                            자기 화면만 있는 경우 : (자기 외에 사람 있지만 채팅창 안 켠 경우 : 자기 외에 사람 있고 채팅창 켠 경우)
+                        */}
+                        {console.log('자기 화면')}
+                        {this.state.subscribers.length===0?
+                        localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                            <div className="OT_root OT_publisher custom-class" id="localUser">
+                                {console.log(document.getElementById(localUser))}
+                                <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
+                            </div>
+                        ) :
+                        (chatDisplay.display==='none'?
+                        
+                        localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                            <div className="OT_root OT_publisher custom-class" id="localUser">
+                                {console.log(document.getElementById(localUser))}
+                                <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
+                            </div>
+                        )
+                        :
+                        localUser !== undefined && localUser.getStreamManager() !== undefined && (
+                            <div className="OT_root OT_publisher custom-class myCam" id="localUser">
+                                {console.log(document.getElementById(localUser))}
+                                <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
+                                {/* 채팅 컴포넌트 */}
+                                <ChatComponent 
+                                    user={localUser}
+                                    chatDisplay={this.state.chatDisplay}
+                                    close={this.toggleChat}
+                                    messageReceived={this.checkNotification}
+                                />
+                            </div>
+                        ))}
+    
+    
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }else{
+            return(
+                <OvercrowdingPage/>
+            )
+        }
+        
     }
 
     /**
