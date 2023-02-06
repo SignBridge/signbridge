@@ -256,7 +256,7 @@ class OpenViduLayout {
   }
 
   updateLayout() {
-    if (this.layoutContainer.style.display === 'none') {
+    if (this.layoutContainer===null || this.layoutContainer.style.display === 'none') {
       return;
     }
     let id = this.layoutContainer.id;
