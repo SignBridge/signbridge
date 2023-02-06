@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import './LoadingPage.css'
+import './LoadingPage.css';
 
 // node 8 이상 && npm install --save moment react-moment 설치
 import Moment from 'react-moment';
@@ -16,19 +16,20 @@ function LoadingPage(props) {
     const waitingNums = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    function waiting() {
-        const nums = waitingNums(0, 50)
-        console.log(nums)
+    function waiting(e) {
+        e.preventDefault();
+
+        const nums = waitingNums(0, 50);
+        console.log(nums);
 
         if (nums >= 21) {
-            setWaitingState('혼잡')
+            setWaitingState('혼잡');
         } else if (nums < 10) {
-            setWaitingState('원활')
+            setWaitingState('원활');
         } else {
-            setWaitingState('보통')
+            setWaitingState('보통');
         }
     }
-
 
     return (
         <div className="loading-page">
@@ -36,17 +37,21 @@ function LoadingPage(props) {
                 <button className="waiting-btn" onClick={waiting}>{waitingState}</button>
             </div>
             <div className="loading-container">
-                <div className="loading-video">
-                    <video muted autoPlay loop width={800}>
-                        <source src="/VideoSrc/v1.webm" type="video/webm"/>
-                    </video>
-                    <br />
-                    <div className="waiting-txt">통역 요청 승인 대기중입니다.</div>
-                </div>
                 <div className="loading-items">
-                    <button className="waitingTime-btn"><Moment date={startTime} format="mm:ss" durationFromNow interval={1000}/></button>
-                    <button className="ai-btn">AI 상담 요청</button>
-                    <button className="cancel-btn">취소</button>
+                    <div className="loading-video">
+                        <div className="video-box">
+                            <video className="video-item" muted autoPlay loop>
+                                <source src="/VideoSrc/v1.webm" type="video/webm"/>
+                            </video>
+                            <br />
+                            <div className="waiting-txt">통역 요청 승인 대기중입니다.</div>
+                        </div>
+                    </div>
+                    <div className="loading-btns">
+                        <button className="waitingTime-btn"><Moment date={startTime} format="mm:ss" durationFromNow interval={1000}/></button>
+                        <button className="ai-btn">AI 상담 요청</button>
+                        <button className="cancel-btn">취소</button>
+                    </div>
                 </div>
             </div>
         </div>
