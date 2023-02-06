@@ -2,8 +2,8 @@ import React, { Fragment, useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
 import styles from "./AITranslate.module.css";
-import { Link } from "react-router-dom";
 import SpeechRecognitor from "./SpeechRecognitor";
+import ReactPlayer from "react-player/lazy";
 
 const PORT_NUMBER = 5000;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
@@ -33,7 +33,10 @@ const AITranslate = () => {
 
   const [count, setCount] = useState(0);
   const [notifyMessage, setNotifyMessage] = useState();
-  const [uiSizeObject, setUiSizeObject] = useState();
+  const [vidoeSrc, setVideoSrc] = useState(
+    "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/가다.mp4"
+  );
+  const urls = [];
 
   const setUiSize = () => {
     // const width = window.innerWidth * 0.95;
@@ -86,8 +89,8 @@ const AITranslate = () => {
 
   const displaySize = () => {
     return {
-      width: video.current.offsetWidth,
-      height: video.current.offsetHeight,
+      width: video.current.offsetWidth ? video.current.offsetWidth : '0px',
+      height: video.current.offsetHeight ? video.current.offsetHeight : '0px',
     };
   };
 
@@ -96,8 +99,7 @@ const AITranslate = () => {
     //로컬호스트 통신
     // BASE_URL =
     //   window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
-    BASE_URL = "http://127.0.0.1:5000";
-    console.log("BASE_URL", BASE_URL);
+    BASE_URL = "https://i8d204.p.ssafy.io";
     //서버 통신
     // BASE_URL = `http://3.35.127.122:5000`;
 
@@ -150,7 +152,10 @@ const AITranslate = () => {
     startTranslate();
     window.addEventListener("resize", browserResizeHandler);
     return () => {
-      window.addEventListener("resize", browserResizeHandler);
+      window.removeEventListener("resize", browserResizeHandler);
+      socket.current.disconnect();
+      clearInterval(interval);
+      clearInterval(detectionInterval);
     };
   }, []);
 
@@ -161,12 +166,10 @@ const AITranslate = () => {
       .getUserMedia({ video: true })
       .then(function (stream) {
         video.current.srcObject = stream;
-        animationVideo.current.srcObject = stream; // TODO: 테스트
         video.current.play();
-        animationVideo.current.play();
         setNotifyMessage(RELOCATION_MESSAGE);
       })
-      .catch(function (err0r) {});
+      .catch(function (error) {});
   }
 
   let initedCanvas;
@@ -225,40 +228,43 @@ const AITranslate = () => {
         boxes[0].style.left.substring(0, boxes[0].style.left.length - 2)
       );
 
-      if (box.x > outerBoxLeft && box.x < outerBoxLeft + outerBoxWidth) {
-        if (box.y > 30 && box.y < 30 + outerBoxWidth) {
-          setNotifyMessage(CORRECT_LOCATION_MESSAGE);
-          changeColor();
-          return;
-        }
-      }
+      // if (box.x > outerBoxLeft && box.x < outerBoxLeft + outerBoxWidth) {
+      //   if (box.y > 30 && box.y < 30 + outerBoxWidth) {
+      //     setNotifyMessage(CORRECT_LOCATION_MESSAGE);
+      //     changeColor();
+      //     return;
+      //   }
+      // }
+
+      clearInterval(interval.current);
+      translate();
     });
   }
 
-  function changeColor() {
-    const videoOffsetWidth = video.current.offsetWidth;
-    const boxes = faceBoxes.current;
-    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-    height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-    left: ${parseInt(
-      videoOffsetWidth / 2.0 -
-        (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
-        0.5
-    )}px; border-color : red;`;
-    let outerBoxWidth = boxes[0].style.width;
-    let outerBoxLeft = boxes[0].style.left;
-    boxes[1].style = `width: ${
-      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-    }px;border-color : red;
-    height: ${
-      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-    }px;
-    left: ${
-      parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
-    }px;`;
-    clearInterval(interval.current);
-    translate();
-  }
+  // function changeColor() {
+  //   const videoOffsetWidth = video.current.offsetWidth;
+  //   const boxes = faceBoxes.current;
+  //   boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+  //   height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+  //   left: ${parseInt(
+  //     videoOffsetWidth / 2.0 -
+  //       (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
+  //       0.5
+  //   )}px; border-color : red;`;
+  //   let outerBoxWidth = boxes[0].style.width;
+  //   let outerBoxLeft = boxes[0].style.left;
+  //   boxes[1].style = `width: ${
+  //     parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+  //   }px;border-color : red;
+  //   height: ${
+  //     parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+  //   }px;
+  //   left: ${
+  //     parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
+  //   }px;`;
+  //   clearInterval(interval.current);
+  //   translate();
+  // }
 
   function translate() {
     _count.current = 0;
@@ -275,11 +281,11 @@ const AITranslate = () => {
     //   clearInterval(detectionInterval);
     //   return;
     // } else {
-    send30();
+    sendWebCamImage();
     // }
   };
 
-  function send30() {
+  function sendWebCamImage() {
     const width = video.current.width;
     const height = video.current.height;
     const image = video.current;
@@ -301,14 +307,6 @@ const AITranslate = () => {
     clearInterval(detectionInterval);
   }
 
-  const startVoiceRecognize = (event) => {
-    event.preventDefault();
-  };
-
-  const stopVoiceRecognize = (event) => {
-    event.preventDefault();
-  };
-
   const resizeImage = (image) => {
     const resizeCanvas = document.createElement("canvas");
     resizeCanvas.width = VIDEO_WIDTH;
@@ -319,19 +317,19 @@ const AITranslate = () => {
     //canvas의 dataurl를 blob(file)화 하는 과정
     var dataURI = resizeCanvas.toDataURL("image/jpeg", 0.5); //png => jpg 등으로 변환 가능
     return dataURI;
+  };
 
-    // var byteString = atob(dataURI.split(",")[1]);
-    // var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
-    // var ab = new ArrayBuffer(byteString.length);
-    // var ia = new Uint8Array(ab);
-    // for (var i = 0; i < byteString.length; i++) {
-    //   ia[i] = byteString.charCodeAt(i);
-    // }
+  const onSpeechRecognitotionHandler = (words) => {
+    console.log('words', words);
+    urls.push(words);
+    console.log('urls', urls);
+    if (urls.length > 0) setVideoSrc(urls.shift());
+  };
 
-    // //리사이징된 file 객체
-    // var tmpThumbFile = new Blob([ab], { type: mimeString });
-
-    // return tmpThumbFile.;
+  const onVideoEndedHandler = (event) => {
+    if (event) event.preventDefault();
+    console.log("videoEnded");
+    if (urls.length > 0) setVideoSrc(urls.shift());
   };
 
   return (
@@ -360,23 +358,28 @@ const AITranslate = () => {
               className="translateButton"
               value="변역하기"
             />
-            {/* <SpeechRecognitor BASE_URL={BASE_URL} /> */}
+            <SpeechRecognitor
+              onSpeech={onSpeechRecognitotionHandler}
+              BASE_URL={BASE_URL}
+            />
           </div>
         </div>
         <div className="main">
           <div id={styles.container}>
             <video
               className={styles.video}
-              autoPlay=""
               playsInline=""
               width={VIDEO_WIDTH}
               id="videoElement"
               ref={video}
             />
-            <video
+            <ReactPlayer
               className={styles.video}
-              width={VIDEO_WIDTH}
-              preload="true"
+              playing={true} // 자동 재생 on
+              muted={true} // 자동 재생 on
+              controls={false} // 플레이어 컨트롤 노출 여부
+              onEnded={() => onVideoEndedHandler()}
+              url={vidoeSrc}
               ref={animationVideo}
             />
             <canvas id="canvas" width="0" ref={canvas} />
