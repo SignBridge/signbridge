@@ -13,6 +13,7 @@ import FindPassPage from './pages/IdPassPage/FindPassPage';
 import MainPage from './pages/MainPage/MainPage'
 import VideoRoomComponent from './components/VideoRoomComponent'
 import AITranslate from './pages/AITranslate/AITranslate';
+import WaitTemporary from './pages/WaitTemporary/WaitTemporary'
 
 function App() {
 //   const isLogin = false;
@@ -25,7 +26,8 @@ function App() {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findId" element={<FindIdPage />}></Route>
           <Route path="/findPass" element={<FindPassPage />}></Route>
-          <Route path="/cam" element ={<VideoRoomComponent/>}></Route>
+          <Route path="/cam" exact element ={<VideoRoomComponent/>}></Route>
+          <Route path="/temporary" exact element={<WaitTemporary/>}></Route>
           <Route path="/aiTranslate" element ={<AITranslate/>}></Route>
         </Routes>
       </BrowserRouter>

@@ -21,6 +21,7 @@ import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 
 import IconButton from '@material-ui/core/IconButton';
+import MainPage from '../../pages/MainPage/MainPage';
 
 // const logo = require('../../assets/images/openvidu_logo.png');
 console.log('툴바 컴포넌트 내부');
@@ -69,11 +70,11 @@ export default class ToolbarComponent extends Component {
     }
 
     leaveSession() {
-        this.props.leaveSession();
-        ReactDOM.render(
-            <App/>
-          , document.getElementById('root')
-        );
+        const leaveSession = this.props.leaveSession();
+        return(
+            {leaveSession},
+            <MainPage/>
+        )
     }
 
     toggleChat() {
