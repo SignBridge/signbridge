@@ -1,8 +1,8 @@
 import React, { Fragment, useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
-import "./AITranslate.css";
-import { Link } from 'react-router-dom';
+import styles from "./AITranslate.module.css";
+import { Link } from "react-router-dom";
 import SpeechRecognitor from "./SpeechRecognitor";
 
 const PORT_NUMBER = 5000;
@@ -94,9 +94,10 @@ const AITranslate = () => {
   //최초 페이지 로딩 시 초기화
   useEffect(() => {
     //로컬호스트 통신
-    BASE_URL =
-      window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
-
+    // BASE_URL =
+    //   window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
+    BASE_URL = "http://127.0.0.1:5000";
+    console.log("BASE_URL", BASE_URL);
     //서버 통신
     // BASE_URL = `http://3.35.127.122:5000`;
 
@@ -146,29 +147,26 @@ const AITranslate = () => {
 
     setUiSize();
 
+    startTranslate();
     window.addEventListener("resize", browserResizeHandler);
     return () => {
       window.addEventListener("resize", browserResizeHandler);
     };
-
-    // startTranslate();
   }, []);
 
   //시작하기 버튼
   function startVideo(event) {
-    event.preventDefault();
-    if (navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then(function (stream) {
-          video.current.srcObject = stream;
-          animationVideo.current.srcObject = stream; // TODO: 테스트
-          video.current.play();
-          animationVideo.current.play();
-          setNotifyMessage(RELOCATION_MESSAGE);
-        })
-        .catch(function (err0r) {});
-    }
+    if (event) event.preventDefault();
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then(function (stream) {
+        video.current.srcObject = stream;
+        animationVideo.current.srcObject = stream; // TODO: 테스트
+        video.current.play();
+        animationVideo.current.play();
+        setNotifyMessage(RELOCATION_MESSAGE);
+      })
+      .catch(function (err0r) {});
   }
 
   let initedCanvas;
@@ -183,7 +181,9 @@ const AITranslate = () => {
         faceapi.nets.faceRecognitionNet.loadFromUri(FACE_API_MODEL_LOCATION),
         faceapi.nets.faceExpressionNet.loadFromUri(FACE_API_MODEL_LOCATION),
         faceapi.nets.ssdMobilenetv1.loadFromUri(FACE_API_MODEL_LOCATION),
-      ]).then(startVideo(event));
+      ]).then(() => {
+        startVideo(event);
+      });
 
       video.current.addEventListener("play", () => {
         // canvas를 초기화 함
@@ -282,15 +282,14 @@ const AITranslate = () => {
   function send30() {
     const width = video.current.width;
     const height = video.current.height;
-    const image = video.current
+    const image = video.current;
     context.current.drawImage(image, 0, 0, width, height);
     // var data = canvas.current.toDataURL("image/jpeg", 0.5);
     const data = resizeImage(image);
     context.current.clearRect(0, 0, width, height);
-    // if (_count.current > 15) {
-      // _count.current = 0;
-      socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
-      // console.log('socket go');
+    // if (_count.current > 30) {
+    // _count.current = 0;
+    socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
     // }
     _count.current++;
     setCount(_count.current);
@@ -320,7 +319,7 @@ const AITranslate = () => {
     //canvas의 dataurl를 blob(file)화 하는 과정
     var dataURI = resizeCanvas.toDataURL("image/jpeg", 0.5); //png => jpg 등으로 변환 가능
     return dataURI;
-    
+
     // var byteString = atob(dataURI.split(",")[1]);
     // var mimeString = dataURI.split(",")[0].split(":")[1].split(";")[0];
     // var ab = new ArrayBuffer(byteString.length);
@@ -339,7 +338,7 @@ const AITranslate = () => {
     <React.Fragment>
       <meta charSet="UTF-8" />
       <title>Document</title>
-      <div className="ex-layout">
+      <div className={styles.ex_layout}>
         <div className="gnb">
           수어 번역기
           <div className="item last">
@@ -365,33 +364,38 @@ const AITranslate = () => {
           </div>
         </div>
         <div className="main">
-          <div id="container">
+          <div id={styles.container}>
             <video
+              className={styles.video}
               autoPlay=""
               playsInline=""
               width={VIDEO_WIDTH}
-              preload
               id="videoElement"
               ref={video}
             />
-            <video width={VIDEO_WIDTH} preload="true" ref={animationVideo} />
+            <video
+              className={styles.video}
+              width={VIDEO_WIDTH}
+              preload="true"
+              ref={animationVideo}
+            />
             <canvas id="canvas" width="0" ref={canvas} />
             <div id="jb-text" ref={jb} />
-            {/* <div id="count_box">
+            <div id={styles.count_box}>
               <p
                 id="frame-count"
                 style={{ marginLeft: 80, fontSize: 23, color: "red" }}
               >
                 {count}
               </p>
-            </div> */}
+            </div>
             <div
-              className="outline"
+              className={styles.outline}
               id="boxes"
               ref={(el) => (faceBoxes.current[0] = el)}
             />
             <div
-              className="inner"
+              className={styles.inner}
               id="boxes"
               ref={(el) => (faceBoxes.current[1] = el)}
             />

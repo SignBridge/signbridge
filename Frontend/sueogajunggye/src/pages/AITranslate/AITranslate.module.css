@@ -9,12 +9,13 @@ body {
   align-items: center;
 }
 
-.ex-layout {
+.ex_layout {
+  background-color: aquamarine;
   float: left;
   width: 100%;
 }
 
-.ex-layout .main #container {
+.ex_layout .main #container {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -44,7 +45,7 @@ canvas {
   position: absolute;
 }
 
-video {
+.video {
   height: 50%;
   width:100%;
 }
@@ -70,57 +71,21 @@ textarea{
 
 /* 브라우저 가로 640 이상일 때 적용 */
 @media (min-width: 640px) {
-  .ex-layout {
+  .ex_layout {
     background-color: blueviolet;
   }
 }
 
 /* 브라우저 가로 1280 이상일 때 적용 */
 @media (min-width: 1280px) {
-  .ex-layout {
+  .ex_layout {
     background-color: black;
   }
-  .ex-layout .main #container {
+  .ex_layout .main #container {
     flex-direction: row;
   }
-  video {
+  .video {
     width: 48%;
     height: 80%;
   }
 }
-
-/* .ex-layout .gnb{ 
-	padding: 15px;
-	background-color: #7FFFD4;
-	font-weight: bold;
-}
-.ex-layout .main{
-	background-color: white;
-}
-.ex-layout .main:after{ clear: both; display: block; content: '' }
-
-
-.ex-layout .footer{
-	width : 610px;
-	height: 100px;
-	padding: 15px;
-	background-color: #7FFFD4
-}
-
-.ex-layout .item.last {
-	float: right;
-	border-right: none;
-} */
-
-/* input[type="button"] {
-	color: rgba(30, 22, 54, 0.6);
-	box-shadow: rgba(30, 22, 54, 0.4) 0 0px 0px 2px inset;
-}
-
-input[type="button"]:hover {
-	color: rgba(255, 255, 255, 0.85);
-	box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
-} */
-
-/* 
-  */
