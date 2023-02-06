@@ -438,6 +438,7 @@ class VideoRoomComponent extends Component {
         });
     }
     checkSize() {
+        if(document.getElementById('layout')===null) return;
         if (document.getElementById('layout').offsetWidth <= 700 && !this.hasBeenUpdated) {
             this.toggleChat('none');
             this.hasBeenUpdated = true;
