@@ -1,0 +1,91 @@
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.ex_layout {
+  background-color: aquamarine;
+  float: left;
+  width: 100%;
+}
+
+.ex_layout .main #container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.outline {
+  position: absolute;
+  left: 240px;
+  top: 30px;
+  max-width: 130px;
+  max-height: 130px;
+  padding: 20px;
+  border: 2px dashed white;
+}
+.inner {
+  position: absolute;
+  left: 255px;
+  top: 35px;
+  max-width: 120px;
+  max-height: 120px;
+  padding: 20px;
+  border: 2px dashed white;
+}
+
+canvas {
+  position: absolute;
+}
+
+.video {
+  height: 50%;
+  width:100%;
+}
+
+textarea{
+	font-weight:bold;
+	font-size: 16px;
+	text-align:center;
+	width: 100%;
+	height: 95px;
+	border: solid 2px white;
+}
+
+
+#count_box{
+	position : absolute;
+	left: 400px; top:5px;
+	text-align:right;
+	font-weight: bold ;
+ }
+
+
+
+/* 브라우저 가로 640 이상일 때 적용 */
+@media (min-width: 640px) {
+  .ex_layout {
+    background-color: blueviolet;
+  }
+}
+
+/* 브라우저 가로 1280 이상일 때 적용 */
+@media (min-width: 1280px) {
+  .ex_layout {
+    background-color: black;
+  }
+  .ex_layout .main #container {
+    flex-direction: row;
+  }
+  .video {
+    width: 48%;
+    height: 80%;
+  }
+}

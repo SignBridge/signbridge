@@ -12,6 +12,7 @@ import FindPassPage from './pages/IdPassPage/FindPassPage';
 // import MyPage from './pages/MyPage/MyPage';
 import MainPage from './pages/MainPage/MainPage'
 import VideoRoomComponent from './components/VideoRoomComponent'
+import AITranslate from './pages/AITranslate/AITranslate';
 import WaitTemporary from './pages/WaitTemporary/WaitTemporary'
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
           <Route path="/findPass" element={<FindPassPage />}></Route>
           <Route path="/cam" exact element ={<VideoRoomComponent/>}></Route>
           <Route path="/temporary" exact element={<WaitTemporary/>}></Route>
+          <Route path="/aiTranslate" element ={<AITranslate/>}></Route>
         </Routes>
       </BrowserRouter>
 
