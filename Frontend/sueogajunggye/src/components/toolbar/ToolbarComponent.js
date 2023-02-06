@@ -3,8 +3,6 @@ import './ToolbarComponent.css';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import ReactDOM from 'react-dom';
-import App from '../../App';
 
 import Mic from '@material-ui/icons/Mic';
 import MicOff from '@material-ui/icons/MicOff';
@@ -21,8 +19,7 @@ import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 
 import IconButton from '@material-ui/core/IconButton';
-import MainPage from '../../pages/MainPage/MainPage';
-
+import { Link } from "react-router-dom";
 // const logo = require('../../assets/images/openvidu_logo.png');
 console.log('툴바 컴포넌트 내부');
 
@@ -71,10 +68,9 @@ export default class ToolbarComponent extends Component {
 
     leaveSession() {
         const leaveSession = this.props.leaveSession();
-        return(
-            {leaveSession},
-            <MainPage/>
-        )
+        // return(
+        //     <Link to="/">{leaveSession}</Link>
+        // )
     }
 
     toggleChat() {
@@ -132,9 +128,11 @@ export default class ToolbarComponent extends Component {
                         <IconButton color="inherit" className="navButton" onClick={this.toggleFullscreen}>
                             {localUser !== undefined && this.state.fullscreen ? <FullscreenExit /> : <Fullscreen />}
                         </IconButton>
-                        <IconButton color="secondary" className="navButton" onClick={this.leaveSession} id="navLeaveButton">
-                            <PowerSettingsNew />
-                        </IconButton>
+                        <Link to="/">
+                            <IconButton color="secondary" className="navButton" onClick={this.leaveSession} id="navLeaveButton">
+                                <PowerSettingsNew />
+                            </IconButton>
+                        </Link>
                          <IconButton color="inherit" onClick={this.toggleChat} id="navChatButton">
                             {this.props.showNotification && <div id="point" className="" />}
                             <Tooltip title="Chat">
