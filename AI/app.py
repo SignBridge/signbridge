@@ -113,27 +113,19 @@ def index():
 
 # Okt Class의 생성자를 이용하여 분석기를 생성 
 okt = Okt()
+word_list = ['가다', '감사합니다', '괜찮다', '기차역', '나', '너', '당신', '맞다(참)', '밥', '배(선박)', '배(신체)', '배고프다', '비빔밥', '싶다', '아니다', '아빠', '아프다', '안녕하세요', '엄마', '우리', '집', '학교']
 @app.route('/recording/analyze', methods=['GET','OPTIONS'])
 def analyze():
-    print("===========================================================")
-    print(request)
-    print(request.args.to_dict())
-    print(request.args.get('speech'))
     speech_raw = request.args.get('speech')
-    print(speech_raw, type(speech_raw))
     speech_pos = []
     if speech_raw: speech_pos = okt.pos(speech_raw)
     speech = ""
     for word, pos in speech_pos:
-        if pos != 'Josa':
+        if pos != 'Josa' and word in word_list:
             speech += word + ' '
-    print(speech, type(speech))
-    data = {
-        1: speech
-    }
+    
     response = flask.Response()
     response.data = speech
-    # return res
     return response
 
 
