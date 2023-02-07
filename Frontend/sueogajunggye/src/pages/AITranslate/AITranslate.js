@@ -111,7 +111,7 @@ const AITranslate = () => {
     });
     socket.current.on("response_back", function (data) {
       countWord.current++;
-      console.log("countWord", countWord);
+      console.log("data", data);
       if (data === "failed") {
         setNotifyMessage(
           str.current + "\n단어 인식에 실패하였습니다. 다시 동작해주세요."
@@ -139,10 +139,9 @@ const AITranslate = () => {
     socket.current.on("result", (data) => {
       countWord.current++;
       // clearTimeout(timer);
-      // str = "";
-      var infoEl = document.getElementById("result");
-      infoEl.value = data;
-      // count_word = 0;
+      str.current = "";
+      setNotifyMessage(data)
+      countWord.current = 0;
     });
 
     context.current = canvas.current.getContext("2d");
