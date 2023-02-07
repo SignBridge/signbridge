@@ -14,21 +14,18 @@ const SpeechRecognitor = (props) => {
 
   useEffect(() => {
     async function speechToSignLang() {
-      if (transcript==='') return;
+      if (listening) return;
       await axios
-        .get(`${props.BASE_URL}/recording/analyze`, {
-          speech: transcript,
-        })
+        .get(`${props.BASE_URL}/recording/analyze?speech=${transcript}`)
         .then((response) => {
-          console.log(response.config.speech);
-          props.onSpeech(response.config.speech);
+          props.onSpeech(response.data.trimEnd().split(' '));
         })
         .catch((error) => {
           console.log(error);
         });
     }
     speechToSignLang();
-  }, [transcript]);
+  }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
     return alert("Browser doesn't support speech recognition.");

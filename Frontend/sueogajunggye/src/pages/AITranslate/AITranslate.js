@@ -14,6 +14,8 @@ const CORRECT_LOCATION_MESSAGE =
 const VIDEO_WIDTH = 640;
 const VIDEO_HEIGHT = 480;
 let BASE_URL = "";
+const BASE_VIDEO_URL =
+  "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/";
 const AITranslate = () => {
   let detectionInterval;
 
@@ -30,13 +32,11 @@ const AITranslate = () => {
   const interval = useRef();
   const faceBoxes = useRef([]);
   const countWord = useRef(0);
+  const urls = useRef([]);
 
   const [count, setCount] = useState(0);
   const [notifyMessage, setNotifyMessage] = useState();
-  const [vidoeSrc, setVideoSrc] = useState(
-    "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/가다.mp4"
-  );
-  const urls = [];
+  const [vidoeSrc, setVideoSrc] = useState(`${BASE_VIDEO_URL}가다.mp4`);
 
   const setUiSize = () => {
     // const width = window.innerWidth * 0.95;
@@ -89,8 +89,8 @@ const AITranslate = () => {
 
   const displaySize = () => {
     return {
-      width: video.current.offsetWidth ? video.current.offsetWidth : '0px',
-      height: video.current.offsetHeight ? video.current.offsetHeight : '0px',
+      width: video.current.offsetWidth ? video.current.offsetWidth : "0px",
+      height: video.current.offsetHeight ? video.current.offsetHeight : "0px",
     };
   };
 
@@ -320,16 +320,22 @@ const AITranslate = () => {
   };
 
   const onSpeechRecognitotionHandler = (words) => {
-    console.log('words', words);
-    urls.push(words);
-    console.log('urls', urls);
-    if (urls.length > 0) setVideoSrc(urls.shift());
+    urls.current.push(...words);
+    console.log(urls.current);
+    if (urls.current.length > 0) {
+      setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
+      // setVideoSrc(`${BASE_VIDEO_URL}너.mp4`);
+      animationVideo.current.playing = true;
+    }
   };
 
   const onVideoEndedHandler = (event) => {
     if (event) event.preventDefault();
-    console.log("videoEnded");
-    if (urls.length > 0) setVideoSrc(urls.shift());
+    console.log(`videoEnded, next Play ${urls.current}`);
+    if (urls.current.length > 0) {
+      setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
+      animationVideo.current.playing = true;
+    }
   };
 
   return (
@@ -340,24 +346,24 @@ const AITranslate = () => {
         <div className="gnb">
           수어 번역기
           <div className="item last">
-            <input
+            {/* <input
               type="button"
               onClick={startVideo}
               className="startButton"
               value="시작하기"
-            />
+            /> */}
             <input
               type="button"
               onClick={removeWord}
               className="deleteButton"
               value="단어삭제"
             />
-            <input
+            {/* <input
               type="button"
               onClick={startTranslate}
               className="translateButton"
               value="변역하기"
-            />
+            /> */}
             <SpeechRecognitor
               onSpeech={onSpeechRecognitotionHandler}
               BASE_URL={BASE_URL}
@@ -384,14 +390,14 @@ const AITranslate = () => {
             />
             <canvas id="canvas" width="0" ref={canvas} />
             <div id="jb-text" ref={jb} />
-            <div id={styles.count_box}>
+            {/* <div id={styles.count_box}>
               <p
                 id="frame-count"
                 style={{ marginLeft: 80, fontSize: 23, color: "red" }}
               >
                 {count}
               </p>
-            </div>
+            </div> */}
             <div
               className={styles.outline}
               id="boxes"
