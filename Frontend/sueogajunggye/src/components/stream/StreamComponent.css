@@ -33,9 +33,20 @@
     top: 40px;
 }
 
-.streamComponent {
+/* .streamComponent {
+    width: 25%;
+    position: fixed;
+    left: 75%;
+} */
+
+/* .notMyCam.streamComponent {
     height: 100%;
-}
+    width: 75%;
+    left: 0% !important;
+    position: fixed;
+}  */
+
+
 
 video {
     -o-object-fit: cover;

@@ -1,9 +1,9 @@
 #chatContainer {
-    position: fixed;
-    width: 52%;
-    height: 51%;
-    top:50.9%; 
-    left:49%;
+    position: relative;
+    width: 40%;
+    height: 100%;
+    top:0%; 
+    left:60%;
   }
   
   #chatToolbar {
@@ -186,6 +186,7 @@
   }
   
   ::-webkit-scrollbar {
+    display: none;
     width: 8px;
   }
   
