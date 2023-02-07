@@ -117,7 +117,7 @@ okt = Okt()
 def analyze():
     speech_raw = request.args.get('speech')
     speech_pos = []
-    if speech_raw: speech_pos = okt.pos(speech)
+    if speech_raw: speech_pos = okt.pos(speech_raw)
     speech = ""
     for word, pos in speech_pos:
         if pos != 'Josa':
