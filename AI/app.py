@@ -115,14 +115,15 @@ def index():
 okt = Okt()
 @app.route('/recording/analyze', methods=['GET','OPTIONS'])
 def analyze():
-    speech = request.args.get('speech')
-    if speech: speech = okt.pos(speech)
-    filtered_speech = ""
-    for word, pos in speech:
+    speech_raw = request.args.get('speech')
+    speech_pos = []
+    if speech_raw: speech_pos = okt.pos(speech)
+    speech = ""
+    for word, pos in speech_pos:
         if pos != 'Josa':
-            filtered_speech += word + ' '
-    print(filtered_speech)
-    res = flask.Response(filtered_speech)
+            speech += word + ' '
+    print(speech)
+    res = flask.Response(speech)
     print(res.headers, res)
     return res
 
