@@ -3,17 +3,9 @@ import './Main.css';
 // Hovering 라이브러리 필요
 // npm install react-hover-video-player
 import HoverVideoPlayer from 'react-hover-video-player';
-import registerServiceWorker from '../../registerServiceWorker';
-import ReactDOM from 'react-dom';
 import { Link } from "react-router-dom";
 
 function VideoBtn(props) {
-
-    function handleSubmit(event) {
-        event.preventDefault();
-        console.log('video clicked');
-    }
- 
     return (
         <div className="wrapper">
             <div className="video-box">
