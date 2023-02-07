@@ -1,26 +1,31 @@
-import React, {Fragment, useEffect} from "react";
-import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+import React, { Fragment, useEffect } from "react";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 import axios from "axios";
 
-
-const SpeechRecognitor = () => {
+const SpeechRecognitor = (props) => {
   const {
     transcript,
     listening,
     resetTranscript,
-    browserSupportsSpeechRecognition
+    browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-
-  axios.get(`http://52.78.101.29:5000/recording/analyze`, {
-    "speech": transcript,
-  })
-    .then(response => {
-      console.log(response.config.speech);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  useEffect(() => {
+    async function speechToSignLang() {
+      if (listening) return;
+      await axios
+        .get(`${props.BASE_URL}/recording/analyze?speech=${transcript}`)
+        .then((response) => {
+          props.onSpeech(response.data.trimEnd().split(' '));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    speechToSignLang();
+  }, [listening]);
 
   if (!browserSupportsSpeechRecognition) {
     return alert("Browser doesn't support speech recognition.");
@@ -28,7 +33,7 @@ const SpeechRecognitor = () => {
 
   return (
     <div>
-      <p>Microphone: {listening ? 'on' : 'off'}</p>
+      <p>Microphone: {listening ? "on" : "off"}</p>
       <button onClick={SpeechRecognition.startListening}>Start</button>
       <button onClick={SpeechRecognition.stopListening}>Stop</button>
       <button onClick={resetTranscript}>Reset</button>

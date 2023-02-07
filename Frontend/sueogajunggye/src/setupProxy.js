@@ -3,7 +3,8 @@ module.exports = function(app) {
   app.use(
     '/recording/analyze',
     createProxyMiddleware({
-      target: 'http://localhost:5000',
+      target: 'https://i8d204.p.ssafy.io',
       changeOrigin: true,
     })
- );};
+ );
+};
