@@ -15,6 +15,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -46,6 +48,7 @@ public class UserController {
         System.out.println("In login"+ SecurityContextHolder.getContext());
         Map<String,Object> response;
         response = userService.login(dto.getUserName(), dto.getPassword());
+
 
         return ResponseEntity.ok(response);
     }
