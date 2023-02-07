@@ -17,7 +17,7 @@ from tensorflow.keras.layers import LSTM, Dense
 from tensorflow.keras.callbacks import TensorBoard
 from sklearn.preprocessing import LabelEncoder
 from konlpy.tag import Okt
-from json import dump
+
 
 app = Flask(__name__)
 cors = CORS(app, resources={
@@ -116,15 +116,16 @@ okt = Okt()
 @app.route('/recording/analyze', methods=['GET','OPTIONS'])
 def analyze():
     speech = request.args.get('speech')
-    if speech: speech = okt.nouns(speech)
-    print(speech, type(speech))
-    res = flask.Response(jsonify(speech))
-    #res.headers["Access-Control-Allow-Origin"] =  "*"
-    #res.headers["Access-Control-Allow-Methods"] = "*"
-    #res.headers["Access-Control-Allow-Headers"] = "*"
+    if speech: speech = okt.pos(speech)
+    filtered_speech = ""
+    for word, pos in speech:
+        if pos != 'Josa':
+            filtered_speech += word + ' '
+    print(filtered_speech)
+    res = flask.Response(filtered_speech)
     print(res.headers, res)
     return res
-    #return flask.Response(dumps({'content': 'Hello world'}), mimetype='application/json')
+
 
 
 def readb64(base64_string):
