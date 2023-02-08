@@ -99,6 +99,10 @@ video {
     overflow: hidden;
 }
 
+/* .myCamSize{
+    width:18%;
+} */
+
 #input,
 #label {
     color: white;
