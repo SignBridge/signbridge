@@ -526,14 +526,15 @@ class VideoRoomComponent extends Component {
                                 {console.log(document.getElementById(localUser))}
                                 <StreamComponent user={localUser} handleNickname={this.nicknameChanged} camWidth={'18%'} />
                                 {/* 채팅 컴포넌트 */}
-                                <ChatComponent 
+                            </div>
+                        )}
+                        <ChatComponent 
                                     user={localUser}
                                     chatDisplay={this.state.chatDisplay}
+                                    chatVisible={this.state.chatVisible}
                                     close={this.toggleChat}
                                     messageReceived={this.checkNotification}
                                 />
-                            </div>
-                        )}
     
     
                     </div>

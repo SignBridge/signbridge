@@ -52,9 +52,8 @@ export default class StreamComponent extends Component {
     }
 
     render() {
-        const width = {width:this.props.camWidth};
         return (
-            <div className="OT_widget-container" style={width}>
+            <div className="OT_widget-container" >
                 <div className="pointer nickname">
                     {this.state.showForm ? (
                         <FormControl id="nicknameForm">
