@@ -18,4 +18,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .exposedHeaders("header1")
                 .allowCredentials(false).maxAge(3600);
     }
+
+
 }

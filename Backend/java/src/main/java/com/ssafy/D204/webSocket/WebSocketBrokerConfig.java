@@ -21,6 +21,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer{
     public void registerStompEndpoints(StompEndpointRegistry registry){
         registry.addEndpoint("/ws")
                         .setAllowedOriginPatterns("*")
+                        .setHandshakeHandler(new CustomHandshakeHandler())
                         .withSockJS();
     }
 

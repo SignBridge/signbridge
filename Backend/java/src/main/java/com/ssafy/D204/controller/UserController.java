@@ -27,7 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
-
+    Authentication authentication;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -56,11 +56,11 @@ public class UserController {
     //유저정보 CRUD
     @ApiOperation(value = "내정보보기", notes = "토큰을 'Bearer Token' 형식으로 header의 Authorization에 넣어 전달한다, 유저정보반환")
     @GetMapping("/me")
-    public ResponseEntity<UserSerializer> getUserInfo (Authentication authentication){
+    public ResponseEntity<UserSerializer> getUserInfo (){
 
         String userName = authentication.getName();
         UserSerializer responseUser = userService.getUserInfo(userName);
-
+        System.out.println(authentication.getName());
         return ResponseEntity.ok()
                 .body(responseUser);
     }
