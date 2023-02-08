@@ -1,46 +1,49 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
+.main-box {
+    width: 100%;
+    height: 100%;
+    align-content: space-between;
+}
+
 .main-bg-img {
+    display: flex;
     width: 100%;
     height: 100%;
     text-align: center;
     position: relative;
+    justify-content: space-evenly;
 }
-.main-bg-img ::after {
+.main-bg-img::after {
+    display: flex;
     width: 100%;
     height: 100%;
     background: url(../../assets/images/mainBgImg.jpg);
     background-size : cover;
-    background-position : center;
-    opacity: 0.5;
+    /* background-position : center; */
     z-index: -1;
+    top: 0;
+    left: 0;
     content: "";
     position: absolute;
+    opacity: 0.5;
 }
 
 
-
-
-/* .title-box {
-    width: 100%;
-    height: 550px;
-    background: linear-gradient(rgba(96, 174, 231, 1), white);
-
-    background: #7F7FD5; 
-    background: -webkit-linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5);  
-    background: linear-gradient(to right, #91EAE4, #86A8E7, #7F7FD5); 
-} */
-
-/* .title-header {
-    text-align: center;
+.title-box {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    font-size: 80px;
-    font-weight: 700;
-    padding-top: 100px;
+    justify-content: space-between;
+    height: 80px;
+}
 
-} */
+.title-header {
+    font-size: xx-large;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
 
 /* .wrapper {
     width: 100%;
@@ -63,12 +66,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 2em;
+    /* margin-top: 2em; */
+    /* padding-top: 100px; */
+    font-family: 'esamaru-bord';
+    font-size:xx-large;
+    font-weight: 700;
 }
 
-.video {
-    width: 450px;
-    margin: 2em;
+.video-left-item, .video-right-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 50px;
+    margin-top: 80px;
+    /* width: 100%;
+    height: 100%; */
+}
+
+.video-item {
+    width: 550px;
+    height: 400px;
+    margin: 40px;
+    /* margin-top: 70px;
+    margin-bottom: 70px; */
+    border-radius: 3em;
 }
 
 .matching-btn {
@@ -82,4 +102,9 @@
     margin-top: 30px;
     border: none;
     cursor: pointer;
+}
+
+@font-face {
+    font-family: 'esamaru-bord';
+    src: url('../../assets/fonts/esamanru\ Bold.ttf');
 }

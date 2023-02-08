@@ -5,10 +5,9 @@ import mainBgImg from '../../assets/images/mainBgImg.jpg'
 
 function MainPage(props) {
     return (
-        <div>
+        <div className="main-box">
             <Title></Title>
             <div className="main-bg-img">
-                {/* <img className="main-bg-img" src={mainBgImg} /> */}
                 <VideoBtn></VideoBtn>
             </div>
         </div>

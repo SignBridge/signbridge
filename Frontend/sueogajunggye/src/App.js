@@ -33,7 +33,6 @@ function App() {
           <Route path="/aiTranslate" element ={<AITranslate/>}></Route>
         </Routes>
       </BrowserRouter>
-
     </div>
   );
 }
