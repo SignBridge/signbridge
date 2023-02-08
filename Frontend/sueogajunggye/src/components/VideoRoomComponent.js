@@ -24,8 +24,25 @@ class VideoRoomComponent extends Component {
         this.layout = new OpenViduLayout();
         console.log('1');
         console.log(this.layout);
+
         //접속할 sessionName, userName를 컴포넌트에 props로 전달
         let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
+        
+        // 랜덤한 문자열 생성
+        const generateRandomString = (num) => {
+            const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+            let result = '';
+            const charactersLength = characters.length;
+            for (let i = 0; i < num; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+          
+            return result;
+          }
+        // 임의의 sessionName을 지정
+        // let sessionName = generateRandomString(5);
+        console.log(`sessionName : ${sessionName}`);
+
         //다른 openvidu코드 보면 세션 이름 정해서 들어오는 코드 있는데 그거 참고해서 세션이름 정해서 하기
         let userName = this.props.user ? this.props.user : 'OpenVidu_User' + Math.floor(Math.random() * 100);
         this.remotes = [];
@@ -117,6 +134,7 @@ class VideoRoomComponent extends Component {
 
     //세션 연결
     async connectToSession() {
+        console.log(`this.props.token : ${this.props.token}`);
         if (this.props.token !== undefined) {
             console.log('token received: ', this.props.token);
             this.connect(this.props.token);
@@ -174,7 +192,7 @@ class VideoRoomComponent extends Component {
 
         if (this.state.session.capabilities.publish) {
             publisher.on('accessAllowed' , () => {
-                this.state.session.publish(publisher).then(() => {
+                this.state.session.publish(publisher).then(() => { 
                     this.updateSubscribers();
                     this.localUserAccessAllowed = true;
                     if (this.props.joinSession) {
@@ -548,6 +566,7 @@ class VideoRoomComponent extends Component {
     async getToken() {
         console.log('getToken');
         const sessionId = await this.createSession(this.state.mySessionId);
+        console.log(`sessionId : ${sessionId}`);
         return await this.createToken(sessionId);
     }
 
@@ -556,6 +575,7 @@ class VideoRoomComponent extends Component {
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
+        console.log(`createSession response : ${response.data}`);
         return response.data; // The sessionId
     }
 
@@ -564,7 +584,9 @@ class VideoRoomComponent extends Component {
         const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
+        console.log(`createToken response : ${response.data}`)
         return response.data; // The token
+
     }
 }
 export default VideoRoomComponent;

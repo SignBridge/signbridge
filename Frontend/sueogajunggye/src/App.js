@@ -14,6 +14,7 @@ import MainPage from './pages/MainPage/MainPage'
 import VideoRoomComponent from './components/VideoRoomComponent'
 import AITranslate from './pages/AITranslate/AITranslate';
 import WaitTemporary from './pages/WaitTemporary/WaitTemporary'
+import Profile from './pages/Profile'
 
 function App() {
 //   const isLogin = false;
@@ -24,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
           <Route path="/findId" element={<FindIdPage />}></Route>
           <Route path="/findPass" element={<FindPassPage />}></Route>
           <Route path="/cam" exact element ={<VideoRoomComponent/>}></Route>
