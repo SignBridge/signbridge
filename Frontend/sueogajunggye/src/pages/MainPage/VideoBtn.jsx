@@ -1,9 +1,13 @@
 import React from "react";
 import './Main.css';
-
 // Hovering 라이브러리 필요
 // npm install react-hover-video-player
 import HoverVideoPlayer from 'react-hover-video-player';
+import registerServiceWorker from '../../registerServiceWorker';
+import ReactDOM from 'react-dom';
+import { Link } from "react-router-dom";
+import VideoRoomComponent from '../../components/VideoRoomComponent';
+
 
 function VideoBtn(props) {
 
@@ -12,6 +16,14 @@ function VideoBtn(props) {
         console.log('video clicked');
     }
 
+    function videoSubmit(event){
+        event.preventDefault();
+        ReactDOM.render(
+            <VideoRoomComponent />, document.getElementById('root')
+          );
+          registerServiceWorker();
+         
+    }
     return (
         <div className="wrapper">
             <div className="video-box">
@@ -36,9 +48,10 @@ function VideoBtn(props) {
                             { src: 'video.mp4', type: 'video/mp4' },
                         ]}>
                     </HoverVideoPlayer>
-                    <form onSubmit={handleSubmit}>
-                        <button className="matching-btn" type="submit">AI통역서비스</button>
-                    </form>
+                    <Link to="/aiTranslate">
+                    <button className="matching-btn" type="submit">AI통역서비스</button>
+                    </Link>
+
                 </div>
 
             </div>
