@@ -9,9 +9,14 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import com.ssafy.D204.domain.User;
-import java.util.List;
+
+import java.util.*;
+
 @Controller
 public class MessageController {
+
+    static Map<String, String> translatorMap = new HashMap();
+    static Queue userMap = new LinkedList();
 
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
@@ -26,19 +31,40 @@ public class MessageController {
     @MessageMapping("/application")
     @SendTo("/all/messages")
     public Message send(final Message message) throws Exception {
+
+        if(message.getUsername()==null){
+            userMap.add(message.getFrom());
+        }else{
+            translatorMap.put(message.getUsername(),message.getFrom());
+        }
+
+        System.out.println("translatorMap : "+translatorMap);
         return message;
     }
 
     // Mapped as /app/private
+
+
+    // Mapped as /app/private
     @MessageMapping("/private")
     public void sendToSpecificUser(@Payload Message message) {
-        List users = userRepository.findByIsActiveTrue();
+
+        List<User> users = userRepository.findByIsActiveTrue();
         System.out.println(users);
-        for (Object u: users){
-            System.out.println(u);
+
+        System.out.println("message : "+message);
+        System.out.println("translatorMaptranslatorMaptranslatorMap: "+translatorMap);
+        for (User u : users){
+            if (translatorMap.get(u.getUserName()) != null){
+                System.out.println(translatorMap.get(u.getUserName()));
+                System.out.println(11111+translatorMap.get(u.getUserName()));
+                simpMessagingTemplate.convertAndSendToUser(translatorMap.get(u.getUserName()), "/specific", message);
+            } else{
+                System.out.println("no");
+            }
+
         }
-        simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/specific", message);
-        simpMessagingTemplate.convertAndSendToUser(message.getFrom(), "/specific", message);
+
     }
 
 //    @MessageMapping("/private")

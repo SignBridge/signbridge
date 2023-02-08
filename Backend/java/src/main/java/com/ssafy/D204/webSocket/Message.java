@@ -14,17 +14,17 @@ public class Message {
     private String from;
     private String text;
 
-    private String to;
+    private String username;
 
     public String getText() {
         return text;
     }
 
     public String getTo() {
-        return to;
+        return username;
     }
 
     public void setTo(String to) {
-        this.to = to;
+        this.username = username;
     }
 }
