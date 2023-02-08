@@ -1,9 +1,8 @@
 #chatContainer {
     position: relative;
-    width: 40.5%;
+    width: 107%;
     height: 98%;
     top:0%; 
-    left:61.5%;
   }
   
   #chatToolbar {
@@ -71,6 +70,8 @@
     font-size: 0.8em;
     color: #000000;
     font-style: italic;
+    position: static;
+    left: 0%;
   }
   
   .msg-content {
