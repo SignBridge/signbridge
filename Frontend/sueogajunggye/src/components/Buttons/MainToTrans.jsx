@@ -1,6 +1,8 @@
 import React from "react";
 import './Buttons.css';
 import { Link } from 'react-router-dom';
+// npm install @mui/icons-material 설치
+import LoginIcon from '@mui/icons-material/Login';
 
 function MainToTransBtn(props) {
 
@@ -10,12 +12,11 @@ function MainToTransBtn(props) {
 
     return (
         <div className="trans-box">
-            <Link to="/login">
-                <form onSubmit={handleSubmit}>
-                    <button className="trans-btn">
-                        통역사
-                    </button>
-                </form>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+                <button className="trans-btn">
+                <LoginIcon></LoginIcon>
+                    통역사
+                </button>
             </Link>
         </div>
     )

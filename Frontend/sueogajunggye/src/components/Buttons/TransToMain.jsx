@@ -10,7 +10,7 @@ function MainToTransBtn(props) {
 
     return (
         <div className="trans-box">
-            <Link to="/">
+            <Link to="/" style={{ textDecoration: "none" }}>
                 <form onSubmit={handleSubmit}>
                     <button className="main-btn">
                         Main
