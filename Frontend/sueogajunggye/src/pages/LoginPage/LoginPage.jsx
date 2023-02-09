@@ -39,6 +39,7 @@ function LoginPage(props) {
               withCredentials: false
             }
           );
+
             console.log(response)
             // reponse 응답으로 받은 유저의 정보 저장
             const username = response.data.name

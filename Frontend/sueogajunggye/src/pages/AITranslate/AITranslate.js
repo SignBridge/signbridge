@@ -61,26 +61,26 @@ const AITranslate = () => {
     //   const height = window.innerHeight * 0.7;
     // animationVideo.current.style = `height: ${video.current.height}`;
 
-    const videoOffsetWidth = video.current.offsetWidth;
-    const boxes = faceBoxes.current;
-    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-    height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-    left: ${parseInt(
-      videoOffsetWidth / 2.0 -
-        (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
-        0.5
-    )}px;`;
-    let outerBoxWidth = boxes[0].style.width;
-    let outerBoxLeft = boxes[0].style.left;
-    boxes[1].style = `width: ${
-      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-    }px;
-    height: ${
-      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-    }px;
-    left: ${
-      parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
-    }px;`;
+    // const videoOffsetWidth = video.current.offsetWidth;
+    // const boxes = faceBoxes.current;
+    // boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+    // height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
+    // left: ${parseInt(
+    //   videoOffsetWidth / 2.0 -
+    //     (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
+    //     0.5
+    // )}px;`;
+    // let outerBoxWidth = boxes[0].style.width;
+    // let outerBoxLeft = boxes[0].style.left;
+    // boxes[1].style = `width: ${
+    //   parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+    // }px;
+    // height: ${
+    //   parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
+    // }px;
+    // left: ${
+    //   parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
+    // }px;`;
   };
 
   const browserResizeHandler = () => {
@@ -97,11 +97,11 @@ const AITranslate = () => {
   //최초 페이지 로딩 시 초기화
   useEffect(() => {
     //로컬호스트 통신
-    // BASE_URL =
-    //   window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
-    BASE_URL = "https://i8d204.p.ssafy.io";
+    BASE_URL =
+      window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
+    // BASE_URL = "https://sueo.shop/ai";
     //서버 통신
-    // BASE_URL = `http://3.35.127.122:5000`;
+    // BASE_URL = `https://13.125.38.154:5000`;
 
     socket.current = io.connect(BASE_URL, {
       cors: { origin: "*" },

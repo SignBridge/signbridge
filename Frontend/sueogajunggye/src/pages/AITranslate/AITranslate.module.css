@@ -76,7 +76,7 @@ textarea{
 }
 
 /* 브라우저 가로 1280 이상일 때 적용 */
-@media (min-width: 1280px) {
+/* @media (min-width: 1280px) {
   .ex_layout {
     background-color: black;
   }
@@ -86,5 +86,5 @@ textarea{
   .video {
     width: 48%;
     display: inline-flex;
-  }
-}
+  } 
+}*/

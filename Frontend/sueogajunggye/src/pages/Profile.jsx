@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../redux/user';
 import { useNavigate } from 'react-router-dom';
+import TranslatorChatRoom from '../components/TranslatorChatRoom';
 
 function Profile() {
     // 7. user reducer에 있는 state에 접근
@@ -31,6 +32,7 @@ function Profile() {
             <p> name : {user.userName.username} </p>
             <p> email : {user.userEmail.useremail} </p>
             <p> isActive : {user.userIsActive.userisactive} </p>
+            <TranslatorChatRoom/>
         </div>
     );
 }
