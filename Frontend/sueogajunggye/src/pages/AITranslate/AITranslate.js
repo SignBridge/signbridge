@@ -8,110 +8,85 @@ import ReactPlayer from "react-player/lazy";
 const PORT_NUMBER = 5000;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
 const START_MESSAGE = " 번역을 시작합니다. ";
-const RELOCATION_MESSAGE = " 사각형에 얼굴을 맞춰주세요. ";
-const CORRECT_LOCATION_MESSAGE =
-  " 현재 위치에서 번역을 시작 해 주시길 바랍니다. ";
 const VIDEO_WIDTH = 640;
 const VIDEO_HEIGHT = 480;
 let BASE_URL = "";
 const BASE_VIDEO_URL =
   "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/";
 const AITranslate = () => {
-  let detectionInterval;
-
   const jb = useRef();
   const str = useRef();
   const flag = useRef(0);
-  const video = useRef();
-  const animationVideo = useRef();
+  // const video = useRef();
+  // const animationVideo = useRef();
   const socket = useRef();
   const canvas = useRef();
   const context = useRef();
   const prevStr = useRef();
   const _count = useRef(0);
   const interval = useRef();
-  const faceBoxes = useRef([]);
+  // const faceBoxes = useRef([]);
   const countWord = useRef(0);
   const urls = useRef([]);
+  const detectionInterval = useRef();
 
-  const [count, setCount] = useState(0);
+  const [isSpeeching, setIsSpeeching] = useState();
   const [notifyMessage, setNotifyMessage] = useState();
-  const [vidoeSrc, setVideoSrc] = useState(`${BASE_VIDEO_URL}가다.mp4`);
+  const [vidoeSrc, setVideoSrc] = useState();
 
-  const setUiSize = () => {
-    // const width = window.innerWidth * 0.95;
-    // const height = window.innerHeight * 0.7;
-    // if (window.innerWidth >= 1280) {
-    //   video.current.width = width / 2;
-    //   video.current.height = height;
-    //   faceBoxes.current[0].width = video.current.width * 0.2;
-    //   faceBoxes.current[0].height = video.current.height * 0.2;
-    //   faceBoxes.current[1].width = video.current.width * 0.15;
-    //   faceBoxes.current[1].height = video.current.height * 0.15;
-    //   animationVideo.current.width = width / 2;
-    //   animationVideo.current.height = height;
-    // } else {
-    //   video.current.width = width;
-    //   video.current.height = height / 2;
-    //   animationVideo.current.width = width;
-    //   animationVideo.current.height = height / 2;
-    // }
-
-    //   const width = window.innerWidth * 0.95;
-    //   const height = window.innerHeight * 0.7;
-    // animationVideo.current.style = `height: ${video.current.height}`;
-
-    const videoOffsetWidth = video.current.offsetWidth;
-    const boxes = faceBoxes.current;
-    boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-    height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-    left: ${parseInt(
-      videoOffsetWidth / 2.0 -
-        (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
-        0.5
-    )}px;`;
-    let outerBoxWidth = boxes[0].style.width;
-    let outerBoxLeft = boxes[0].style.left;
-    boxes[1].style = `width: ${
-      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-    }px;
-    height: ${
-      parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-    }px;
-    left: ${
-      parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
-    }px;`;
-  };
-
-  const browserResizeHandler = () => {
-    setUiSize();
+  const cleanInterval = () => {
+    // console.log(interval.current);
+    if (interval.current !== undefined) {
+      console.log("clear");
+      clearInterval(interval.current);
+      interval.current = undefined;
+    }
+    if (detectionInterval.current !== undefined) {
+      clearInterval(detectionInterval.current);
+      detectionInterval.current = undefined;
+    }
+    flag.current = 0;
   };
 
   const displaySize = () => {
+    const video = document.getElementsByClassName(styles.video);
     return {
-      width: video.current.offsetWidth ? video.current.offsetWidth : "0px",
-      height: video.current.offsetHeight ? video.current.offsetHeight : "0px",
+      width: video[0].offsetWidth ? video[0].offsetWidth : 100,
+      height: video[0].offsetHeight ? video[0].offsetHeight : 100,
     };
   };
+
+  useEffect(
+    (prevState) => {
+      cleanInterval();
+      const video = document.getElementsByClassName(styles.video);
+      if (video[0].tagName === "DIV") return;
+      if (!isSpeeching) {
+        console.log('restart');
+        startTranslate();
+      }
+    },
+    [isSpeeching]
+  );
 
   //최초 페이지 로딩 시 초기화
   useEffect(() => {
     //로컬호스트 통신
     // BASE_URL =
-    //   window.location.protocol + "//" + document.domain + ":" + PORT_NUMBER;
-    BASE_URL = "https://i8d204.p.ssafy.io";
+    //   window.location.protocol + "//" + document.domain;
+    // BASE_URL = "https://i8d204.p.ssafy.io";
     //서버 통신
-    // BASE_URL = `http://3.35.127.122:5000`;
+    BASE_URL = `http://13.125.38.154`;
 
-    socket.current = io.connect(BASE_URL, {
+    socket.current = io.connect(`${BASE_URL}:${PORT_NUMBER}`, {
       cors: { origin: "*" },
     });
     socket.current.on("connect", function () {
       console.log("Connected...!", socket.connected);
     });
     socket.current.on("response_back", function (data) {
+      console.log("response : ", data);
       countWord.current++;
-      console.log("data", data);
       if (data === "failed") {
         setNotifyMessage(
           str.current + "\n단어 인식에 실패하였습니다. 다시 동작해주세요."
@@ -140,33 +115,29 @@ const AITranslate = () => {
       countWord.current++;
       // clearTimeout(timer);
       str.current = "";
-      setNotifyMessage(data)
+      setNotifyMessage(data);
       countWord.current = 0;
     });
 
     context.current = canvas.current.getContext("2d");
-
-    setUiSize();
-
     startTranslate();
-    window.addEventListener("resize", browserResizeHandler);
+
     return () => {
-      window.removeEventListener("resize", browserResizeHandler);
       socket.current.disconnect();
-      clearInterval(interval);
-      clearInterval(detectionInterval);
+      cleanInterval();
     };
   }, []);
 
   //시작하기 버튼
   function startVideo(event) {
     if (event) event.preventDefault();
+    const video = document.getElementsByClassName(styles.video);
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then(function (stream) {
-        video.current.srcObject = stream;
-        video.current.play();
-        setNotifyMessage(RELOCATION_MESSAGE);
+        video[0].srcObject = stream;
+        video[0].play();
+        setNotifyMessage(START_MESSAGE);
       })
       .catch(function (error) {});
   }
@@ -174,6 +145,7 @@ const AITranslate = () => {
   let initedCanvas;
   //번역 시작하기
   function startTranslate(event) {
+    const video = document.getElementsByClassName(styles.video);
     if (event) event.preventDefault();
     if (flag.current === 0) {
       flag.current = 1;
@@ -186,13 +158,16 @@ const AITranslate = () => {
       ]).then(() => {
         startVideo(event);
       });
-
-      video.current.addEventListener("play", () => {
+      video[0].addEventListener("play", () => {
+        console.log("addEventListener");
         // canvas를 초기화 함
-        initedCanvas = faceapi.createCanvas(video.current);
+        initedCanvas = faceapi.createCanvas(video[0]);
         faceapi.matchDimensions(initedCanvas, displaySize());
         // 100ms 마다 화면에 video frame이 표시 됨
-        interval.current = setInterval(startDetect, 1000 / 30);
+        if (!interval.current) {
+          console.log("setInterval");
+          interval.current = setInterval(startDetect, 1000 / 30);
+        }
       });
     } else {
       setNotifyMessage(START_MESSAGE);
@@ -202,8 +177,9 @@ const AITranslate = () => {
 
   // video에서 얼굴을 식별
   async function startDetect() {
+    const video = document.getElementsByClassName(styles.video);
     const detections = await faceapi
-      .detectAllFaces(video.current)
+      .detectAllFaces(video[0])
       .withFaceLandmarks()
       .withFaceDescriptors();
     const resizedDetections = faceapi.resizeResults(detections, displaySize());
@@ -219,13 +195,13 @@ const AITranslate = () => {
       // console.log(box.x, box.y, box.width, box.height)
       // console.log(box.x, box.y);
 
-      const boxes = faceBoxes.current;
-      let outerBoxWidth = parseInt(
-        boxes[0].style.width.substring(0, boxes[0].style.width.length - 2)
-      );
-      let outerBoxLeft = parseInt(
-        boxes[0].style.left.substring(0, boxes[0].style.left.length - 2)
-      );
+      // const boxes = faceBoxes.current;
+      // let outerBoxWidth = parseInt(
+      //   boxes[0].style.width.substring(0, boxes[0].style.width.length - 2)
+      // );
+      // let outerBoxLeft = parseInt(
+      //   boxes[0].style.left.substring(0, boxes[0].style.left.length - 2)
+      // );
 
       // if (box.x > outerBoxLeft && box.x < outerBoxLeft + outerBoxWidth) {
       //   if (box.y > 30 && box.y < 30 + outerBoxWidth) {
@@ -234,50 +210,24 @@ const AITranslate = () => {
       //     return;
       //   }
       // }
-
+      //todo Delete
       clearInterval(interval.current);
       translate();
     });
   }
 
-  // function changeColor() {
-  //   const videoOffsetWidth = video.current.offsetWidth;
-  //   const boxes = faceBoxes.current;
-  //   boxes[0].style = `width: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-  //   height: ${parseInt(videoOffsetWidth * 0.16 + 0.5)}px;
-  //   left: ${parseInt(
-  //     videoOffsetWidth / 2.0 -
-  //       (videoOffsetWidth * 0.08 > 65 ? 65 : videoOffsetWidth * 0.08) +
-  //       0.5
-  //   )}px; border-color : red;`;
-  //   let outerBoxWidth = boxes[0].style.width;
-  //   let outerBoxLeft = boxes[0].style.left;
-  //   boxes[1].style = `width: ${
-  //     parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-  //   }px;border-color : red;
-  //   height: ${
-  //     parseInt(outerBoxWidth.substring(0, outerBoxWidth.length - 2)) - 10
-  //   }px;
-  //   left: ${
-  //     parseInt(outerBoxLeft.substring(0, outerBoxLeft.length - 2)) + 5
-  //   }px;`;
-  //   clearInterval(interval.current);
-  //   translate();
-  // }
-
   function translate() {
     _count.current = 0;
-    setCount(_count.current);
     manageDetection();
   }
 
   const manageDetection = () => {
-    if (!detectionInterval) {
-      console.log("detectionInterval");
-      detectionInterval = setInterval(manageDetection, 300);
+    if (!detectionInterval.current) {
+      console.log("setDetectionInterval");
+      detectionInterval.current = setInterval(manageDetection, 300);
     }
     // if (countWord.current === 5) {
-    //   clearInterval(detectionInterval);
+    //   clearInterval(detectionInterval.current);
     //   return;
     // } else {
     sendWebCamImage();
@@ -285,25 +235,31 @@ const AITranslate = () => {
   };
 
   function sendWebCamImage() {
-    const width = video.current.width;
-    const height = video.current.height;
-    const image = video.current;
+    const video = document.getElementsByClassName(styles.video);
+    const width = video[0].width;
+    const height = video[0].height;
+    const image = video[0];
+    // if (video[0].tagName === "DIV") return;
+    // console.log('sendWebCam');
     context.current.drawImage(image, 0, 0, width, height);
     // var data = canvas.current.toDataURL("image/jpeg", 0.5);
     const data = resizeImage(image);
     context.current.clearRect(0, 0, width, height);
     // if (_count.current > 30) {
     // _count.current = 0;
+    // console.log(data);
     socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
     // }
     _count.current++;
-    setCount(_count.current);
   }
 
   function removeWord(event) {
     event.preventDefault();
-    socket.current.emit("image", "delete");
-    clearInterval(detectionInterval);
+    if (!isSpeeching) {
+      socket.current.emit("image", "delete");
+      cleanInterval();
+      startTranslate();
+    }
   }
 
   const resizeImage = (image) => {
@@ -318,23 +274,72 @@ const AITranslate = () => {
     return dataURI;
   };
 
-  const onSpeechRecognitotionHandler = (words) => {
+  const onSpeechRecognitionHandler = (words) => {
+    const video = document.getElementsByClassName(styles.video);
+    if (
+      urls.current.length > 0 &&
+      urls.current[urls.current.length - 1] === ""
+    ) {
+      urls.current.pop();
+    }
     urls.current.push(...words);
     console.log(urls.current);
     if (urls.current.length > 0) {
+      if (urls.current[0] === "") {
+        urls.current.shift();
+        setIsSpeeching(false);
+        return;
+      }
       setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
       // setVideoSrc(`${BASE_VIDEO_URL}너.mp4`);
-      animationVideo.current.playing = true;
+      video[0].playing = true;
     }
   };
 
+  const onSpeechHandler = (props) => {
+    if (props) setIsSpeeching(props);
+  };
+
   const onVideoEndedHandler = (event) => {
+    const video = document
+      .getElementsByClassName(styles.video)[0]
+      .getElementsByTagName("video")[0];
     if (event) event.preventDefault();
-    console.log(`videoEnded, next Play ${urls.current}`);
     if (urls.current.length > 0) {
+      console.log('next', urls.current[0]);
       setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
-      animationVideo.current.playing = true;
+      let playPromise = video.play();
+      playPromise
+        ?.then((_) => {})
+        .catch((error) => {
+          console.log(error);
+        });
     }
+    if (urls.current.length === 0) {
+      console.log("end");
+      setIsSpeeching(false);
+      setVideoSrc("");
+    }
+  };
+
+  const renderVideo = () => {
+    return !isSpeeching ? (
+      <video
+        className={styles.video}
+        playsInline=""
+        width={VIDEO_WIDTH}
+        id="videoElement"
+      />
+    ) : (
+      <ReactPlayer
+        className={styles.video}
+        playing={true} // 자동 재생 on
+        muted={true} // 자동 재생 on
+        controls={false} // 플레이어 컨트롤 노출 여부
+        onEnded={() => onVideoEndedHandler()}
+        url={vidoeSrc}
+      />
+    );
   };
 
   return (
@@ -364,53 +369,22 @@ const AITranslate = () => {
               value="변역하기"
             /> */}
             <SpeechRecognitor
-              onSpeech={onSpeechRecognitotionHandler}
+              onSpeechRecognition={onSpeechRecognitionHandler}
+              onSpeech={onSpeechHandler}
+              onClean={cleanInterval}
               BASE_URL={BASE_URL}
             />
           </div>
         </div>
-        <div className="main">
+        <div className={styles.main}>
           <div id={styles.container}>
-            <video
-              className={styles.video}
-              playsInline=""
-              width={VIDEO_WIDTH}
-              id="videoElement"
-              ref={video}
-            />
-            <ReactPlayer
-              className={styles.video}
-              playing={true} // 자동 재생 on
-              muted={true} // 자동 재생 on
-              controls={false} // 플레이어 컨트롤 노출 여부
-              onEnded={() => onVideoEndedHandler()}
-              url={vidoeSrc}
-              ref={animationVideo}
-            />
+            {renderVideo()}
             <canvas id="canvas" width="0" ref={canvas} />
             <div id="jb-text" ref={jb} />
-            {/* <div id={styles.count_box}>
-              <p
-                id="frame-count"
-                style={{ marginLeft: 80, fontSize: 23, color: "red" }}
-              >
-                {count}
-              </p>
-            </div> */}
-            <div
-              className={styles.outline}
-              id="boxes"
-              ref={(el) => (faceBoxes.current[0] = el)}
-            />
-            <div
-              className={styles.inner}
-              id="boxes"
-              ref={(el) => (faceBoxes.current[1] = el)}
-            />
           </div>
-        </div>
-        <div className="footer">
-          <textarea id="result" defaultValue={notifyMessage} />
+          <div className="footer">
+            <textarea id="result" defaultValue={notifyMessage} />
+          </div>
         </div>
       </div>
     </React.Fragment>

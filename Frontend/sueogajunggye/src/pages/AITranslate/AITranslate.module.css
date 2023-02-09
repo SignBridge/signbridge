@@ -16,13 +16,16 @@ body {
 }
 
 .ex_layout .main #container {
+  height: 80%;
+  width: 100%;
+  background-color: gray;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.outline {
+/* .outline {
   position: absolute;
   left: 240px;
   top: 30px;
@@ -39,7 +42,7 @@ body {
   max-height: 120px;
   padding: 20px;
   border: 2px dashed white;
-}
+} */
 
 canvas {
   position: absolute;
@@ -47,7 +50,6 @@ canvas {
 
 .video {
   height: 50% !important;
-  display: initial;
 }
 
 textarea{
@@ -66,25 +68,9 @@ textarea{
 	font-weight: bold ;
  }
 
-
-
 /* 브라우저 가로 640 이상일 때 적용 */
 @media (min-width: 640px) {
   .ex_layout {
     background-color: blueviolet;
-  }
-}
-
-/* 브라우저 가로 1280 이상일 때 적용 */
-@media (min-width: 1280px) {
-  .ex_layout {
-    background-color: black;
-  }
-  .ex_layout .main #container {
-    flex-direction: row;
-  }
-  .video {
-    width: 48%;
-    display: inline-flex;
   }
 }
