@@ -3,16 +3,17 @@
 .main-box {
     width: 100%;
     height: 100%;
-    align-content: space-between;
+    /* display: flex;s
+    align-content: space-between; */
 }
 
 .main-bg-img {
     display: flex;
-    width: 100%;
-    height: 100%;
+    /* width: 100%;
+    height: 100%; */
     text-align: center;
     position: relative;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
 }
 .main-bg-img::after {
     display: flex;
@@ -20,7 +21,7 @@
     height: 100%;
     background: url(../../assets/images/mainBgImg.jpg);
     background-size : cover;
-    /* background-position : center; */
+    background-position : center;
     z-index: -1;
     top: 0;
     left: 0;
@@ -32,7 +33,7 @@
 
 .title-box {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
     align-items: center;
     justify-content: space-between;
     height: 80px;
@@ -64,6 +65,7 @@
 
 .video-box {
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
     /* margin-top: 2em; */
@@ -76,16 +78,17 @@
 .video-left-item, .video-right-item {
     display: flex;
     flex-direction: column;
-    margin-bottom: 50px;
-    margin-top: 80px;
+    /* margin-bottom: 50px;
+    margin-top: 80px; */
     /* width: 100%;
     height: 100%; */
 }
 
 .video-item {
-    width: 550px;
-    height: 400px;
-    margin: 40px;
+    display: flex;
+    /* flex-direction: row; */
+    /* width: 500px; */
+    /* margin: 40px; */
     /* margin-top: 70px;
     margin-bottom: 70px; */
     border-radius: 3em;
