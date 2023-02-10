@@ -21,15 +21,16 @@ def analyze():
 
     # 문장 일치 확인
     if speech_raw in sentence_list:
-        speech += speech_raw + ' '
+        speech += speech_raw.replace(' ','') + ' '
 
     # 형태소분석 + 단어 일치 확인
     if speech_raw: speech_pos = okt.pos(speech_raw)   
-    print(speech_pos) 
+    #print(speech_pos) 
     for word, pos in speech_pos:
         if pos != 'Josa' and word in word_list:
             speech += word + ' '
-    
+
+    #print('result : ',speech)
     response = Response()
     response.data = speech
     return response
