@@ -82,10 +82,11 @@ export default class ChatComponent extends Component {
     }
 
     render() {
-        const styleChat = { display: this.props.chatDisplay };
+        const styleChat = { display: this.props.chatDisplay,
+        'grid-area':'1/6/6/9' };
         return (
-            <div id="chatContainer">
-                <div id="chatComponent" style={styleChat}>
+            <div id="chatContainer"  style={styleChat}>
+                <div id="chatComponent">
                     <div id="chatToolbar">
                         <span>{this.props.user.getStreamManager().stream.session.sessionId} - CHAT</span>
                         <IconButton id="closeButton" onClick={this.close}>
