@@ -29,7 +29,7 @@ function LoginPage(props) {
         console.log('axios 요청보내기')
         e.preventDefault();
         try {
-          const response = await axios.post("http://localhost:8090/api/v1/users/login",
+          const response = await axios.post("http://localhost:8080/api/v1/users/login",
             JSON.stringify({'userName': userid.current.value, 'password': userpassword.current.value}),
             {
               headers: {
@@ -44,10 +44,18 @@ function LoginPage(props) {
             const username = response.data.name
             const useremail = response.data.email
             const userisactive = response.data.is_active
+            const usertoken = response.data.token
             console.log(username)
 
             // 10. value 값을 넣어 함수호출
-            dispatch(login({userId: {id}, userPass: {pass}, userName: {username}, userEmail: {useremail}, userIsActive: {userisactive}}));
+            dispatch(login({
+              userId: {id},
+              userPass: {pass},
+              userName: {username},
+              userEmail: {useremail},
+              userIsActive: {userisactive},
+              usertoken:{usertoken}
+                }));
 
 
             // 로그인 성공 후 profile로 이동
