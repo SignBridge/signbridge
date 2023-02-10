@@ -22,8 +22,6 @@ RUN cd /usr/local/bin && \
 # pip library install
 RUN pip3 install -r requirements.txt
 
-
-
 EXPOSE 5000
 
 CMD python3 ./ai_detect.py
