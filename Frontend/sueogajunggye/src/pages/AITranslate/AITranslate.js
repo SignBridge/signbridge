@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef } from "react";
+import React, { Fragment, useLayoutEffect, useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
 import styles from "./AITranslate.module.css";
@@ -14,7 +14,6 @@ let BASE_URL = "";
 const BASE_VIDEO_URL =
   "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/";
 const AITranslate = () => {
-  const jb = useRef();
   const str = useRef();
   const flag = useRef(0);
   // const video = useRef();
@@ -56,7 +55,7 @@ const AITranslate = () => {
     };
   };
 
-  useEffect(
+  useLayoutEffect(
     (prevState) => {
       cleanInterval();
       const video = document.getElementsByClassName(styles.video);
@@ -94,8 +93,6 @@ const AITranslate = () => {
         countWord.current--;
         translate();
       } else {
-        jb.current.value =
-          "<p style = 'margin-top : -100px; text-align:center;font-size:30px;color:#ffffff'> 다음 단어를 입력해주세요.</p>";
         prevStr.current = str.current;
         str.current += " " + data;
         setNotifyMessage(str.current);
@@ -345,9 +342,8 @@ const AITranslate = () => {
   return (
     <React.Fragment>
       <meta charSet="UTF-8" />
-      <title>Document</title>
       <div className={styles.ex_layout}>
-        <div className="gnb">
+        <div className={styles.gnb}>
           수어 번역기
           <div className="item last">
             {/* <input
@@ -380,9 +376,8 @@ const AITranslate = () => {
           <div id={styles.container}>
             {renderVideo()}
             <canvas id="canvas" width="0" ref={canvas} />
-            <div id="jb-text" ref={jb} />
           </div>
-          <div className="footer">
+          <div className={styles.footer}>
             <textarea id="result" defaultValue={notifyMessage} />
           </div>
         </div>
