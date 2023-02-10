@@ -1,9 +1,13 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useLayoutEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import axios from "axios";
+import IconButton from "@mui/material/IconButton";
+import MicIcon from "@mui/icons-material/Mic";
+import MicNoneIcon from "@mui/icons-material/MicNone";
 
+const VOICE_PORT_NUMBER = 5001;
 const SpeechRecognitor = (props) => {
   const {
     transcript,
@@ -12,13 +16,17 @@ const SpeechRecognitor = (props) => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     async function speechToSignLang() {
-      if (listening) return;
+      if (listening) {
+        props.onSpeech(listening)
+        return
+      };
       await axios
-        .get(`${props.BASE_URL}/recording/analyze?speech=${transcript}`)
+        .get(`${props.BASE_URL}:${VOICE_PORT_NUMBER}/ai/recording/analyze?speech=${transcript}`)
         .then((response) => {
-          props.onSpeech(response.data.trimEnd().split(' '));
+          props.onSpeech(listening)
+          props.onSpeechRecognition(response.data.split(" "));
         })
         .catch((error) => {
           console.log(error);
@@ -31,12 +39,21 @@ const SpeechRecognitor = (props) => {
     return alert("Browser doesn't support speech recognition.");
   }
 
+  const onClickListener = () => {
+    props.onClean();
+    SpeechRecognition.startListening();
+  }
+
   return (
     <div>
-      <p>Microphone: {listening ? "on" : "off"}</p>
-      <button onClick={SpeechRecognition.startListening}>Start</button>
-      <button onClick={SpeechRecognition.stopListening}>Stop</button>
-      <button onClick={resetTranscript}>Reset</button>
+      {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
+      <IconButton
+        color="primary"
+        onClick={onClickListener}
+        aria-label="voiceTranslate"
+      >
+        {listening ? <MicIcon /> : <MicNoneIcon />}
+      </IconButton>
       <p>{transcript}</p>
     </div>
   );

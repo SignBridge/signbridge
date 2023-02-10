@@ -10,12 +10,18 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
-import VideoRoomComponentFunction from './VideoRoomComponentFunction/VideoRoomComponentFunction';
+import STT from '../pages/AITranslate/STT'
 
 //localUser 초기화
 var localUser = new UserModel();
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
 console.log('0');
+
+var openVar = true;
+var positionVar = 'absolute';
+var zVar = '9000';
+var displayVar = 'none';
+var backColorVar = '#000';
 
 class VideoRoomComponent extends Component {
     constructor(props) {
@@ -66,6 +72,14 @@ class VideoRoomComponent extends Component {
             currentVideoDevice: undefined,
             relode:0,
         };
+
+        this.modalState = {
+            modalOpen : openVar,
+            modalPosition : positionVar,
+            modalZ : zVar,
+            modalDisplay : displayVar,
+            modalBackColor : backColorVar,
+        }
 
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
@@ -474,6 +488,21 @@ class VideoRoomComponent extends Component {
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
         const now = this.state.subscribers;
+        const parent = {display : 'grid' ,
+        'grid-template-columns': 'repeat(8, 1fr)',
+        'grid-template-rows':'repeat(5, 1fr)',
+        'grid-column-gap':'0px',
+        'grid-row-gap':'0px'};
+        const div1={ 'grid-area': '1 / 1 / 6 / 6',
+        transform:'rotateY(180deg)'};
+        const div2={ 'grid-area': '1 / 6 / 4 / 9' };
+        const div3={ 'grid-area': '4 / 6 / 6 / 9' };
+        // const div4={display:'none'};
+        const div5 = {'grid-area':'1 / 6 / 6 / 9'};
+        // const column = {};
+        // const row = {};
+        // const columnGap = {};
+        // const rowGap ={};
         if(now.length===0){
             return(
                 <WaitTemporary/>
@@ -498,12 +527,12 @@ class VideoRoomComponent extends Component {
     
                     {/* 스트리밍 화면 */}
                     {console.log('스트리밍 화면')}
-                    <div id="layout" className="bounds">
+                    <div id="layout" className="bounds" style={parent}>
                         
                         {/* 다른 이용자 화면 컴포넌트 */}
                         {console.log('다른 이용자 화면')}
                         {this.state.subscribers.map((sub, i) => (
-                            <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers">
+                            <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers" style={div1}>
                                 <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
                             </div>
                         ))}
@@ -515,7 +544,7 @@ class VideoRoomComponent extends Component {
                         {console.log('자기 화면')}
                         {chatDisplay.display==='none'?
                         localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                            <div className="OT_root OT_publisher custom-class" id="localUser">
+                            <div className="OT_root OT_publisher custom-class" id="localUser" style={div2}>
                                 {console.log(document.getElementById(localUser))}
                                 <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
                             </div>
@@ -534,9 +563,14 @@ class VideoRoomComponent extends Component {
                                     chatVisible={this.state.chatVisible}
                                     close={this.toggleChat}
                                     messageReceived={this.checkNotification}
+                                    grid = {div5}
                                 />
-    
-    
+                                
+                         {chatDisplay.display==='none'?        
+                        (<STT div3={div3}>
+                        </STT>):
+                        (console.log('채팅끔'))}
+
                     </div>
                 </div>
             );
