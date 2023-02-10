@@ -25,12 +25,14 @@ function Profile() {
         navigate("/login");
     }
 
-
     //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
     const [privateStompClient, setPrivateStompClient] = useState(null);
     const [sessionIdentity, setSessionIdentity] = useState(null);
-    const socketSubscibeURL = '/user/specific'
+
+    const socketSubscripeURL = '/user/specific'
     const sendSocketRequestURL = '/app/private'
+
+    const deleteRequestMessageSubscriptURL = '/user/delete'
     let _sessionIdentity = useRef();
     useEffect(() => {
         SocketConnet();
@@ -53,21 +55,34 @@ function Profile() {
         console.log('연결됨');
         const socket = new SockJS('http://localhost:8080/ws');
         const client = Stomp.over(socket);
+        
         client.connect({}, (frame) => {
         _sessionIdentity.current = frame.headers['user-name'];
         setSessionIdentity(_sessionIdentity.current);
-        client.subscribe(socketSubscibeURL, (result) => {
+        //통역신청이 올때의 메세지를 받는 소켓구독
+        client.subscribe(socketSubscripeURL, (result) => {
             show(result.body,client)
         });
+        //다른 통역사가 메세지를 수락했을때 받는 소켓 구독
+        client.subscribe(deleteRequestMessageSubscriptURL, (result) => {
+            //메세지 삭제로직
+            const buttonId = result.body
+            const btn = document.getElementById(buttonId)
+            const pTag = btn.parentNode;
+            console.log(pTag)
+            pTag.parentNode.removeChild(pTag);
+        });
+
         });
         setPrivateStompClient(client);
-        
     };
-
     const sendRequestToTranslators = () => {
         const text = "통역요청을 수락하시겠습니까?"
         privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
         };
+    //한 통역사가 매칭을 수락했을때 다른 통역사들에게는 메세지가 삭제되도록 하는 소켓
+
+
 
     const show = (requestUserSessionIdentity, client) => {
         const requestMessage = document.getElementById('requestMessage');
@@ -77,10 +92,10 @@ function Profile() {
         const acceptRequestBtn = document.createElement('button')
         acceptRequestBtn.innerText = "수락"
         acceptRequestBtn.setAttribute('id',requestUserSessionIdentity)
+        //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
         acceptRequestBtn.addEventListener('click',function(e){
-        client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
+            client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
         })
-    
         p.appendChild(acceptRequestBtn)
         requestMessage.appendChild(p);
     }
@@ -88,7 +103,7 @@ function Profile() {
     
 
     return (
-        <div>
+        <div id="aaa">
             <button onClick={userLogout}>로그아웃</button>
             <h1>Profile Page</h1>
             <p> id : {user.userId.id}</p>

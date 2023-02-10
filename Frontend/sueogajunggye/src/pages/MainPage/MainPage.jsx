@@ -13,6 +13,7 @@ function MainPage(props) {
     let _sessionIdentity = useRef();
     const socketSubscibeURL = '/user/specific'
     const sendSocketRequestURL = '/app/private'
+
     useEffect(() => {
         SocketConnet()
     }, []);
@@ -30,6 +31,10 @@ function MainPage(props) {
         });
         setPrivateStompClient(client);
       };
+
+
+
+
       //통역사들에게 통역요청메세지를 전달하는 부분
       const sendRequestToTranslators = () => {
         const text = "통역요청을 수락하시겠습니까?"
@@ -38,14 +43,14 @@ function MainPage(props) {
     
     const show = (acceptMessage) => {
       const acceptMessageDiv = document.getElementById('acceptMessage');
-
       const p = document.createElement('p');
       p.innerHTML = "통역사가 요청을 수락했습니다. 지금 접속하시겠습니까?";
-
       const acceptMessageBtn = document.createElement('button')
-      acceptMessageBtn.innerText = "수락"
+      acceptMessageBtn.innerText = "접속"
       acceptMessageBtn.addEventListener('click',function(e){
-        console.log("이곳에 수락이후 openvidu를 연결하는 코드를 작성하시오")
+        
+        console.log("이곳에 접속이후 openvidu를 연결하는 코드를 작성하시오")
+        
       })
       
       p.appendChild(acceptMessageBtn)
