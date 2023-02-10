@@ -1,10 +1,16 @@
-import React, { Fragment, useLayoutEffect, useState, useEffect, useRef } from "react";
+import React, {
+  Fragment,
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
 import { io } from "socket.io-client";
 import * as faceapi from "face-api.js";
 import styles from "./AITranslate.module.css";
 import SpeechRecognitor from "./SpeechRecognitor";
 import ReactPlayer from "react-player/lazy";
-
+import { MoonLoader } from "react-spinners";
 const PORT_NUMBER = 5000;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
 const START_MESSAGE = " 번역을 시작합니다. ";
@@ -29,6 +35,7 @@ const AITranslate = () => {
   const urls = useRef([]);
   const detectionInterval = useRef();
 
+  const [isAiLoading, setIsAiLoading] = useState();
   const [isSpeeching, setIsSpeeching] = useState();
   const [notifyMessage, setNotifyMessage] = useState();
   const [vidoeSrc, setVideoSrc] = useState();
@@ -61,7 +68,7 @@ const AITranslate = () => {
       const video = document.getElementsByClassName(styles.video);
       if (video[0].tagName === "DIV") return;
       if (!isSpeeching) {
-        console.log('restart');
+        console.log("restart");
         startTranslate();
       }
     },
@@ -134,6 +141,7 @@ const AITranslate = () => {
       .then(function (stream) {
         video[0].srcObject = stream;
         video[0].play();
+        setIsAiLoading(false);
         setNotifyMessage(START_MESSAGE);
       })
       .catch(function (error) {});
@@ -142,6 +150,7 @@ const AITranslate = () => {
   let initedCanvas;
   //번역 시작하기
   function startTranslate(event) {
+    setIsAiLoading(true);
     const video = document.getElementsByClassName(styles.video);
     if (event) event.preventDefault();
     if (flag.current === 0) {
@@ -303,7 +312,7 @@ const AITranslate = () => {
       .getElementsByTagName("video")[0];
     if (event) event.preventDefault();
     if (urls.current.length > 0) {
-      console.log('next', urls.current[0]);
+      console.log("next", urls.current[0]);
       setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
       let playPromise = video.play();
       playPromise
@@ -374,11 +383,32 @@ const AITranslate = () => {
         </div>
         <div className={styles.main}>
           <div id={styles.container}>
+            <div className={styles.splash}>
+              {isAiLoading ? (
+                <MoonLoader
+                  color="#FFFFFF"
+                  loading={isAiLoading}
+                  size={100}
+                  cssOverride={{
+                    position: "absolute",
+                    display: "flex",
+                    margin: "0 auto",
+                    textAlign: "center",
+                    screenLeft: "50%",
+                  }}
+                />
+              ) : (
+                <React.Fragment />
+              )}
+            </div>
             {renderVideo()}
             <canvas id="canvas" width="0" ref={canvas} />
           </div>
           <div className={styles.footer}>
-            <textarea id="result" defaultValue={notifyMessage} />
+            <textarea
+              className={styles.result_area}
+              defaultValue={notifyMessage}
+            />
           </div>
         </div>
       </div>

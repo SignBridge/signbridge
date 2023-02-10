@@ -18,14 +18,13 @@ const SpeechRecognitor = (props) => {
 
   useLayoutEffect(() => {
     async function speechToSignLang() {
-      if (listening) {
         props.onSpeech(listening)
+      if (listening) {
         return
       };
       await axios
         .get(`${props.BASE_URL}:${VOICE_PORT_NUMBER}/ai/recording/analyze?speech=${transcript}`)
         .then((response) => {
-          props.onSpeech(listening)
           props.onSpeechRecognition(response.data.split(" "));
         })
         .catch((error) => {
@@ -51,8 +50,10 @@ const SpeechRecognitor = (props) => {
         color="primary"
         onClick={onClickListener}
         aria-label="voiceTranslate"
+        size="large"
+        style={{backgroundColor:'white'}}
       >
-        {listening ? <MicIcon /> : <MicNoneIcon />}
+        {listening ? <MicIcon size='large'/> : <MicNoneIcon size='large' />}
       </IconButton>
       <p>{transcript}</p>
     </div>
