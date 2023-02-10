@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import TransToMainBtn from '../../components/Buttons/TransToMain'
 import './LoginPage.css'
+import Logo from '../../assets/images/logo.png'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 // 8. useDispatch 훅 사용
@@ -60,10 +61,14 @@ function LoginPage(props) {
       };    
 
     return (
+      <div className="bg-container">
         <div className='bg'>
-            <div className='login-top-items'>
-                <TransToMainBtn></TransToMainBtn>
-            </div>
+        </div>
+        <div className="title-box">
+            <div className="title-header"><img src={Logo} />수어가중계</div>
+            <TransToMainBtn></TransToMainBtn>
+        </div>
+          <div className='login-top-items'>
             <div className='login-bg'>
                 <div className='login-form-container'>
                 <div className="login-title">수어가중계</div>
@@ -82,6 +87,7 @@ function LoginPage(props) {
                 </div>
             </div>
         </div>
+      </div>
         
 
       );

@@ -1,8 +1,10 @@
 import React from "react";
 import './Buttons.css';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
+// npm install @mui/icons-material 설치
+import LoginIcon from '@mui/icons-material/Login';
 
-function MainToTransBtn(props) {
+function TransToMain(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -11,14 +13,13 @@ function MainToTransBtn(props) {
     return (
         <div className="trans-box">
             <Link to="/" style={{ textDecoration: "none" }}>
-                <form onSubmit={handleSubmit}>
-                    <button className="main-btn">
-                        Main
-                    </button>
-                </form>
+                <button className="trans-btn">
+                <LoginIcon></LoginIcon>
+                    Main
+                </button>
             </Link>
         </div>
     )
 }
 
-export default MainToTransBtn;
+export default TransToMain;
