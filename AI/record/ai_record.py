@@ -11,13 +11,21 @@ cors = CORS(app, resources={
 
 # Okt Class의 생성자를 이용하여 분석기를 생성 
 okt = Okt()
-word_list = ['가다','가능','가져가다', '감사합니다', '괜찮다', '기차역', '나', '너', '당신', '뜨겁다', '마실거는뭘로드시겠어요', '맛있게드세요', '맞다(참)', '매진', '먹다', '무엇' ,'밥', '배(선박)', '배(신체)', '배고프다', '비빔밥', '수어', '싶다', '아니다', '아빠', '아프다', '안녕하세요', '어때먹을만해', '엄마', '여기', '우리', '주문하시겠어요', '집', '차갑다', '포장', '학교']
+sentence_list = ['마실 거는 뭘로 드시겠어요', '주문하시겠어요', '맛있게 드세요', '어때 먹을 만해']
+word_list = ['가다','가능','가져가다', '감사합니다', '괜찮다', '기차역', '나', '너', '당신', '뜨겁다', '맞다', '매진', '먹다', '무엇' , '밥', '선박', '배', '배고프다', '비빔밥', '수어', '싶다', '아니다', '아빠', '아프다', '안녕하세요' , '엄마', '여기', '우리',  '집', '차갑다', '포장', '학교']
 @app.route('/ai/recording/analyze', methods=['GET','OPTIONS'])
 def analyze():
     speech_raw = request.args.get('speech')
-    speech_pos = []
-    if speech_raw: speech_pos = okt.pos(speech_raw)
     speech = ""
+    speech_pos = []
+
+    # 문장 일치 확인
+    if speech_raw in sentence_list:
+        speech += speech_raw + ' '
+
+    # 형태소분석 + 단어 일치 확인
+    if speech_raw: speech_pos = okt.pos(speech_raw)   
+    print(speech_pos) 
     for word, pos in speech_pos:
         if pos != 'Josa' and word in word_list:
             speech += word + ' '
