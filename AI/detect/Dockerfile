@@ -1,4 +1,4 @@
-FROM quoinedev/python3.7-pandas-alpine
+FROM python:3.7
 
 ENV LANG=C.UTF-8
 ENV DEBIAN_FRONTEND=noninteractive
