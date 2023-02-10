@@ -135,7 +135,7 @@ count = 0
 @socketio.on('image')
 def image(data_image):
     global sequence, sentence, predictions, count
-    threshold = 0.5
+    threshold = 0.75
     if(data_image == "delete"):
         if(len(sentence) != 0):
             sequence = [] 
@@ -171,13 +171,10 @@ def image(data_image):
                 """
                 
                 if res[np.argmax(res)] > threshold: 
-                    if len(sentence) > 0: 
-                        if actions[np.argmax(res)] == 'None':
-                                sentence.append(actions[np.argmax(res)])
-                        else:
-                            if(actions[np.argmax(res)] != sentence[-1]):
-                                sentence.append(actions[np.argmax(res)])
+                    if actions[np.argmax(res)] == 'None':
+                            sentence.append('failed')
                     else:
+                        # if(actions[np.argmax(res)] != sentence[-1]):
                         sentence.append(actions[np.argmax(res)])
                 
 
