@@ -44,10 +44,6 @@ public class AuthenticationConfig {
                 .antMatchers("/api/users/login","/api/users/join").permitAll() //이 두 요청은 언제나 가능
                 .antMatchers(HttpMethod.GET,"login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/reviews").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.GET, "/board/write").permitAll() //메소드와 url을 정의하여 허가/인증필요 설정가능
-                .antMatchers(HttpMethod.POST, "/board/writepro").authenticated()
-
-
                 //websocket
                 .mvcMatchers("/","/ws/**").permitAll()
 

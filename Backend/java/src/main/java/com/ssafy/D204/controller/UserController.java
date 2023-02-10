@@ -7,6 +7,7 @@ import com.ssafy.D204.domain.dto.UserJoinRequest;
 import com.ssafy.D204.domain.dto.UserLoginRequest;
 import com.ssafy.D204.domain.dto.UserUpdateRequest;
 import com.ssafy.D204.service.UserService;
+import com.ssafy.D204.webSocket.MessageController;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
@@ -15,19 +16,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
+
 
 @RestController
 @RequestMapping("api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    Authentication authentication;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -56,7 +54,7 @@ public class UserController {
     //유저정보 CRUD
     @ApiOperation(value = "내정보보기", notes = "토큰을 'Bearer Token' 형식으로 header의 Authorization에 넣어 전달한다, 유저정보반환")
     @GetMapping("/me")
-    public ResponseEntity<UserSerializer> getUserInfo (){
+    public ResponseEntity<UserSerializer> getUserInfo (Authentication authentication){
 
         String userName = authentication.getName();
         UserSerializer responseUser = userService.getUserInfo(userName);
@@ -101,7 +99,7 @@ public class UserController {
     public ResponseEntity<Map<String, String >> deleteUser (Authentication authentication){
 
         String userName = authentication.getName();
-        String  deletedUserName = userService.deleteUser(userName);
+        String deletedUserName = userService.deleteUser(userName);
 
         Map<String, String > response = new HashMap<>();
         response.put("message",deletedUserName+"이 삭제되었습니다");
@@ -109,6 +107,18 @@ public class UserController {
                 .body(response);
     }
 
+    @ApiOperation(value = "로그아웃", notes = "header에 token값만을 넣어 전달, 소켓통신 로그인 유저 Mapping에서 해당로그인 유저 remove")
+    @PostMapping("/logout")
+    public void logout(Authentication authentication){
+        String userName = authentication.getName();
+        userService.logout(userName);
 
+    }
 
+    @PostMapping("/active-toggle")
+    public boolean activeToggle(Authentication authentication){
+        String userName = authentication.getName();
+        boolean toggle = userService.activeToggle(userName);
+        return toggle;
+    }
 }
