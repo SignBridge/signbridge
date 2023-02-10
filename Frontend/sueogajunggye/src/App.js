@@ -14,11 +14,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />}></Route>
-          <Route path="/trans" element={<TransPossible />}></Route>
-          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/" element={<TransPossible />}></Route>
+          {/* <Route path="/trans" element={<TransPossible />}></Route> */}
+          {/* <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/findId" element={<FindIdPage />}></Route>
-          <Route path="/findPass" element={<FindPassPage />}></Route>
+          <Route path="/findPass" element={<FindPassPage />}></Route> */}
         </Routes>
       </BrowserRouter>
     </div>

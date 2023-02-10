@@ -8,10 +8,6 @@ import useInterval from 'react-useinterval';
 import { useSelector } from 'react-redux';
 import './TransPossible.css'
 
-import io from "socket.io-client"; //모듈 가져오기
-
-const socket = io.connect("http://localhost:3001");  //백엔드 서버 포트를3001와 socket연결
-
 function TransPossible(props) {
 
     // 현재시간 띄워주기
