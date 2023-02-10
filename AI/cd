@@ -1,1 +1,0 @@
-conda activate sueo2 && cd C:\Users\multicampus\Desktop\AI\Sign-Language-Translator && python app.py
