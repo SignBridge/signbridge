@@ -1,12 +1,15 @@
 import React from "react";
 import Title from "./Title";
 import VideoBtn from "./VideoBtn";
+import mainBgImg from '../../assets/images/mainBgImg.jpg'
 
 function MainPage(props) {
     return (
-        <div>
+        <div className="main-box">
             <Title></Title>
-            <VideoBtn></VideoBtn>
+            <div className="main-bg-img">
+                <VideoBtn></VideoBtn>
+            </div>
         </div>
     )
 }

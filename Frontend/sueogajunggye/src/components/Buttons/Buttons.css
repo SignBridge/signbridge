@@ -10,7 +10,7 @@ button {
 
 .trans-box {
   display: flex;
-  flex-direction: row-reverse;
+  /* flex-direction: row-reverse; */
   /* margin-left: 1300px; */
 }
 
@@ -21,13 +21,14 @@ button {
   justify-content: center;
   display: flex;
   border-radius: 2rem;
-  background-color: blue;
-  color: white;
+  background: none;
+  /* background-color: blue; */
+  /* color: white; */
   font-size: x-large;
   font-weight: 700;
   border: none;
-  margin-top: 1em;
-  margin-right: 1em;
+  /* margin-top: 1em;
+  margin-right: 1em; */
   cursor: pointer;
   }
 
