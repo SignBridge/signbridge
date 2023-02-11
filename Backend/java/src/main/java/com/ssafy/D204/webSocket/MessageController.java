@@ -51,8 +51,27 @@ public class MessageController {
     }
     @MessageMapping("/accept")
     public void accept(@RequestBody Map requestSessionIndentityMap){
+        
+        //요청자에게 요청이 수락되었다는 메세지 전달
         String requestSessionIndentity = (String) requestSessionIndentityMap.get("sessionIdentity");
         System.out.println(requestSessionIndentity);
         simpMessagingTemplate.convertAndSendToUser(requestSessionIndentity,"/specific","통역사가 요청을 수락했습니다");
+        
+        //해당 요청메세지는 통역사들 페이지에서 삭제
+        List<User> users = userRepository.findByIsActiveTrue();
+        for (User u : users) {
+            if (translatorMap.get(u.getUserName()) != null) {
+                simpMessagingTemplate.convertAndSendToUser(translatorMap.get(u.getUserName()),
+                        "/delete",
+                        requestSessionIndentity
+                );
+            } else {
+                System.out.println("no");
+            }
+        }
+    
     }
+
+
+
 }
