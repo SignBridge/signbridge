@@ -11,6 +11,7 @@ import styles from "./AITranslate.module.css";
 import SpeechRecognitor from "./SpeechRecognitor";
 import ReactPlayer from "react-player/lazy";
 import { MoonLoader } from "react-spinners";
+import {speak} from "../../components/converter/TextToSpeechConverter";
 
 const PORT_NUMBER = 5002;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
@@ -80,13 +81,14 @@ const AITranslate = () => {
         const video = document.getElementsByClassName(styles.video);
         if (video[0].tagName === "DIV") return;
         console.log("restart");
-        startVideo();
         startTranslate();
       }
       if (videoStatus === VideoStatus.VIDEO_PLAYING) {
         cleanInterval();
         const video = document.getElementsByClassName(styles.video);
-        setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
+        const word = urls.current.shift();
+        setVideoSrc(`${BASE_VIDEO_URL + word}.mp4`);
+        setNotifyMessage(`\n${word}`);
         video[0].playing = true;
       }
     },
@@ -123,6 +125,7 @@ const AITranslate = () => {
         // str.current += " " + data;
         str.current = data;
         setNotifyMessage(`\n${str.current}`);
+        speak(data);
         translate();
       }
     });
@@ -302,6 +305,10 @@ const AITranslate = () => {
     return dataURI;
   };
 
+  const onSpeechHandler = (props) => {
+    setNotifyMessage(props);
+  }
+
   const onSpeechRecognitionHandler = (words) => {
     if (
       urls.current.length > 0 &&
@@ -314,7 +321,7 @@ const AITranslate = () => {
     if (urls.current.length > 0) {
       if (urls.current[0] === "") {
         urls.current.shift();
-        setVideoStatus(VideoStatus.IS_LOADING);
+        setNotifyMessage(START_MESSAGE)
         return;
       }
       setVideoStatus(VideoStatus.VIDEO_PLAYING);
@@ -421,6 +428,7 @@ const AITranslate = () => {
             />
           </div>
           <SpeechRecognitor
+              onSpeech={onSpeechHandler}
               onSpeechRecognition={onSpeechRecognitionHandler}
               BASE_URL={BASE_URL}
             />
