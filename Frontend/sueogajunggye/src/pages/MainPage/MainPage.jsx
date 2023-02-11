@@ -6,9 +6,16 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
+import { useSelector, useDispatch } from 'react-redux';
+// 8. useDispatch 훅 사용
+import { requestTrans } from '../../redux/session';
 
 function MainPage(props) {
 
+  const identifySession = useSelector((state) => state.session.value);
+  console.log(identifySession.identifySession)
+
+  const dispatch = useDispatch();
 
   //////////////////////////////////////////////////////////////////////////
   // 소켓통신부분 (by 최성민)
@@ -27,6 +34,16 @@ function MainPage(props) {
     const client = Stomp.over(socket);
     client.connect({}, (frame) => {
       _sessionIdentity.current = frame.headers['user-name'];
+
+      
+      console.log(`농인이 요청 시 보내는 세션 값 : ${_sessionIdentity.current}`)
+
+      // 농인의 고유 식별값을 store에 저장
+      dispatch(requestTrans({
+        openViduSession: "",
+        identifySession: _sessionIdentity.current
+      }))
+
       setSessionIdentity(_sessionIdentity.current);
       client.subscribe(socketSubscibeURL, (result) => {
         show(result.body)
@@ -44,7 +61,8 @@ function MainPage(props) {
   ////////////////////////
 
   //통역사들에게 통역요청메세지를 전달하는 부분
-  const sendRequestToTranslators = () => {
+  const sendRequestToTranslators = (event) => {
+    event.preventDefault();
     const text = "통역요청을 수락하시겠습니까?"
     privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({ sessionIdentity: _sessionIdentity.current }));
     handleClick(_sessionIdentity.current)

@@ -13,6 +13,7 @@ import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
 import STT from '../pages/AITranslate/STT'
 import { connect } from 'react-redux';
 
+
 //localUser 초기화
 var localUser = new UserModel();
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';

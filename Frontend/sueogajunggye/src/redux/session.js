@@ -5,9 +5,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialStateValue = {
-    openViduSession: "aaa"
-    // 요청 시간
-    // requestTime: ""
+    openViduSession: "",
+    identifySession : ""
 }
 
 export const sessionSlice = createSlice({
