@@ -19,8 +19,9 @@ function Profile() {
     const user = useSelector((state) => state.user.value);
     console.log(user);
 
+    // session reducer 에 있는 state에 접근 후 session 값 가져오기
     const openViduSession = useSelector((state) => state.session.value);
-    console.log(`openViduSession 값 : ${openViduSession.openViduSession.openViduSession}`)
+    console.log(openViduSession.openViduSession.requestUserSessionIdentity)
 
     // navigate 함수
     const navigate = useNavigate();
