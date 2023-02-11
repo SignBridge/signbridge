@@ -19,12 +19,6 @@ var localUser = new UserModel();
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'http://localhost:5000/';
 console.log('0');
 
-var openVar = true;
-var positionVar = 'absolute';
-var zVar = '9000';
-var displayVar = 'none';
-var backColorVar = '#000';
-
 class VideoRoomComponent extends Component {
 
 
@@ -34,9 +28,23 @@ class VideoRoomComponent extends Component {
         this.layout = new OpenViduLayout();
         console.log('1');
         console.log(this.layout);
+        const { storeValue } = this.props;
+        let ConnectOpenVisuSessionKey = null;
+        
+        console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
+        console.log("농인 농인 농인 농인 농인 농인 :",storeValue.session.value.identifySession )
+        console.log("통역사 통역사 통역사 통역사 통역사 :",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+
+        if(storeValue.session.value.openViduSession.requestUserSessionIdentity){
+            ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        }else{
+            ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        }
+
+        console.log("ConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKey",ConnectOpenVisuSessionKey)
 
         //접속할 sessionName, userName를 컴포넌트에 props로 전달
-        let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
+        let sessionName = this.props.sessionName ? this.props.sessionName : ConnectOpenVisuSessionKey;
         
         // 랜덤한 문자열 생성
         const generateRandomString = (num) => {
@@ -77,14 +85,6 @@ class VideoRoomComponent extends Component {
             relode:0,
         };
 
-        this.modalState = {
-            modalOpen : openVar,
-            modalPosition : positionVar,
-            modalZ : zVar,
-            modalDisplay : displayVar,
-            modalBackColor : backColorVar,
-        }
-
         this.joinSession = this.joinSession.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
         this.onbeforeunload = this.onbeforeunload.bind(this);
@@ -103,20 +103,7 @@ class VideoRoomComponent extends Component {
     //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
 
-        const { storeValue } = this.props;
-        let ConnectOpenVisuSessionKey = null;
-        
-        console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
-        console.log("농인 농인 농인 농인 농인 농인 :",storeValue.session.value.identifySession )
-        console.log("통역사 통역사 통역사 통역사 통역사 :",storeValue.session.value.openViduSession.requestUserSessionIdentity)
 
-        if(storeValue.session.value.openViduSession.requestUserSessionIdentity){
-            ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
-        }else{
-            ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
-        }
-
-        console.log("ConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKey",ConnectOpenVisuSessionKey)
 
         // let ConnectOpenVisuSessionKey = null;
         // if(storeValue.user.value.userId.id==null){
