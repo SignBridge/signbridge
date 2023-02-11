@@ -13,7 +13,6 @@ import Stomp from 'stompjs';
 import { requestTrans } from '../redux/session';
 import axios from 'axios';
 
-
 function Profile() {
     // 7. user reducer에 있는 state에 접근
     const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
@@ -23,7 +22,6 @@ function Profile() {
 
     // session reducer 에 있는 state에 접근 후 session 값 가져오기
     const openViduSession = useSelector((state) => state.session.value);
-    // console.log(`store에 저장된 값 : ${openViduSession.openViduSession.requestUserSessionIdentity}`)
 
     // navigate 함수
     const navigate = useNavigate();
@@ -85,7 +83,7 @@ function Profile() {
             console.log(pTag)
             pTag.parentNode.removeChild(pTag);
         });
-
+        MappingIdentityLoginUserName();
         });
         setPrivateStompClient(client);
     };
@@ -93,9 +91,6 @@ function Profile() {
         const text = "통역요청을 수락하시겠습니까?"
         privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
         };
-    //한 통역사가 매칭을 수락했을때 다른 통역사들에게는 메세지가 삭제되도록 하는 소켓
-
-
 
     const show = (requestUserSessionIdentity, client) => {
         const requestMessage = document.getElementById('requestMessage');
@@ -113,19 +108,13 @@ function Profile() {
                 identifySession: ""
             }));
 
-
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
             navigate('/cam');
         })
         p.appendChild(acceptRequestBtn)
         requestMessage.appendChild(p);
     }
-
-    // redux에 저장할 변수명 : openViduSession
-
     //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
-    
-    
 
     return (
         <div id="aaa">
@@ -137,8 +126,6 @@ function Profile() {
             <p> email : {user.userEmail.useremail} </p>
             <p> isActive : {user.userIsActive.userisactive} </p>
             <p> usertoken : {user.usertoken.usertoken}</p>
-            <button id="sendMessage" onClick={MappingIdentityLoginUserName}>통역사용 : 고유식별값을 로그인 유저네임과 mapping</button>
-            <button onClick={sendRequestToTranslators}>통역요청보내기</button>
             <div id="requestMessage"></div>
         </div>
     );
