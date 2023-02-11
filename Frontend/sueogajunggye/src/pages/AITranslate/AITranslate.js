@@ -121,7 +121,7 @@ const AITranslate = () => {
       } else {
         // prevStr.current = str.current;
         // str.current += " " + data;
-        // str.current = data;
+        str.current = data;
         setNotifyMessage(`\n${str.current}`);
         translate();
       }
