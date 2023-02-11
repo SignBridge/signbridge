@@ -6,7 +6,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import axios from 'axios';
-
 function Profile() {
     // 7. user reducer에 있는 state에 접근
     const user = useSelector((state) => state.user.value);
@@ -14,7 +13,6 @@ function Profile() {
 
     // navigate 함수
     const navigate = useNavigate();
-
     const dispatch = useDispatch();
 
     // 로그아웃
@@ -95,6 +93,7 @@ function Profile() {
         //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
         acceptRequestBtn.addEventListener('click',function(e){
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
+            // navigate('/cam', {state: {'sessionIdentityArgu':requestUserSessionIdentity}});
         })
         p.appendChild(acceptRequestBtn)
         requestMessage.appendChild(p);
