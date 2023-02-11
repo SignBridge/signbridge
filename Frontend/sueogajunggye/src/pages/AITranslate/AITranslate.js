@@ -78,6 +78,7 @@ const AITranslate = () => {
     () => {
       console.log(`${videoStatus} `);
       if (videoStatus === VideoStatus.IS_LOADING) {
+        setNotifyMessage('\n로딩 중...\n\n잠시만 기다려주세요.');
         const video = document.getElementsByClassName(styles.video);
         if (video[0].tagName === "DIV") return;
         console.log("restart");
@@ -109,7 +110,7 @@ const AITranslate = () => {
     });
     socket.current.on("connect", function () {
       console.log("Connected...!", socket.connected);
-      setNotifyMessage(START_MESSAGE);
+      setNotifyMessage('\nAI 서버 연결\n\n잠시만 기다려주세요.');
     });
     socket.current.on("response_back", function (data) {
       console.log("response : ", data);
