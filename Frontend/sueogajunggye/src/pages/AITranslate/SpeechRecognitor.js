@@ -6,7 +6,7 @@ import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import MicIcon from "@mui/icons-material/Mic";
 import MicNoneIcon from "@mui/icons-material/MicNone";
-
+import styles from "./SpeechRecognitor.module.css";
 const VOICE_PORT_NUMBER = 5001;
 const SpeechRecognitor = (props) => {
   const {
@@ -18,7 +18,6 @@ const SpeechRecognitor = (props) => {
 
   useLayoutEffect(() => {
     async function speechToSignLang() {
-        props.onSpeech(listening)
       if (listening) {
         return
       };
@@ -39,12 +38,11 @@ const SpeechRecognitor = (props) => {
   }
 
   const onClickListener = () => {
-    props.onClean();
     SpeechRecognition.startListening();
   }
 
   return (
-    <div>
+    <div className={styles.container}>
       {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
       <IconButton
         color="primary"
@@ -55,7 +53,7 @@ const SpeechRecognitor = (props) => {
       >
         {listening ? <MicIcon size='large'/> : <MicNoneIcon size='large' />}
       </IconButton>
-      <p>{transcript}</p>
+      {/* <p>{transcript}</p> */}
     </div>
   );
 };
