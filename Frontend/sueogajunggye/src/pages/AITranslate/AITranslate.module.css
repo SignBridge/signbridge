@@ -74,10 +74,10 @@ canvas {
 }
 
 .ex_layout .main .footer .result_area {
-  margin-top: 20px;
+  margin-top: 5%;
   display: table-cell;
   font-weight:bold;
-	font-size: 1.7em;
+	font-size: 1.5em;
   color: white;
 	text-align:center;
 	width: 100%;
@@ -94,8 +94,33 @@ canvas {
  }
 
 /* 브라우저 가로 640 이상일 때 적용 */
-/* @media (min-width: 640px) {
-  .ex_layout {
-    background-color: blueviolet;
+@media (min-width: 541px) {
+  
+  .ex_layout .main .footer .result_area {
+    font-size: 1.7em;
   }
-} */
+}
+
+@media (max-width: 360px) {
+  .ex_layout .main .footer .result_area {
+    font-size: 1.3em;
+  }
+}
+
+@media (max-width: 300px) {
+  .ex_layout .main .footer .result_area {
+    font-size: 1.1em;
+  }
+}
+
+@media (max-height: 660px) {
+  .footer {
+    height: 28%;
+  }
+}
+
+@media (min-height: 880px) {
+  .footer {
+    height: 15%;
+  }
+}

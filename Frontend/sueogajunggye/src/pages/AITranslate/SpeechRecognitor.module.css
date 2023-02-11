@@ -1,7 +1,31 @@
 .container {
     width: 100%;
-    bottom: 7%;
+    bottom: 9%;
     position: absolute;
     text-align: center;
     background-color: rgba(0,0,0,0);
 }
+
+.icon {
+    font-size: 40px;
+}
+
+
+@media (max-width: 360px) {
+    .icon {
+        font-size: 30px;
+    }
+  }
+  
+  @media (max-width: 300px) {
+    .icon {
+        font-size: 25px;
+    }
+  }
+
+/* 브라우저 가로 640 이상일 때 적용 */
+@media (min-width: 540px) {
+    .mic_icon {
+        font-size: 50px;
+    }
+  }

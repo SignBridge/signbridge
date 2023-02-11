@@ -317,7 +317,6 @@ const AITranslate = () => {
     if (urls.current.length > 0) {
       if (urls.current[0] === "") {
         urls.current.shift();
-        setVideoStatus(VideoStatus.IS_LOADING);
         return;
       }
       setVideoStatus(VideoStatus.VIDEO_PLAYING);
