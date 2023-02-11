@@ -16,6 +16,8 @@ import axios from 'axios';
 
 function Profile() {
     // 7. user reducer에 있는 state에 접근
+    const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
+    const localURL = 'http://localhost:8080'
     const user = useSelector((state) => state.user.value);
     console.log(user);
 
@@ -52,7 +54,7 @@ function Profile() {
 
     const MappingIdentityLoginUserName = async (e) => {
         try {
-        const response = await axios.post("http://localhost:8080/mapping/login/user", {sessionIdentity: _sessionIdentity.current}, {
+        const response = await axios.post(`${ssafyURL}/mapping/login/user`, {sessionIdentity: _sessionIdentity.current}, {
             headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.usertoken.usertoken}`
@@ -64,7 +66,7 @@ function Profile() {
     };
     const SocketConnet = () => {
         console.log('연결됨');
-        const socket = new SockJS('http://localhost:8080/ws');
+        const socket = new SockJS(`${ssafyURL}/ws`);
         const client = Stomp.over(socket);
         
         client.connect({}, (frame) => {

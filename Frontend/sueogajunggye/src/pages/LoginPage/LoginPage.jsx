@@ -9,6 +9,10 @@ import { login } from '../../redux/user';
 import axios from 'axios';
 
 function LoginPage(props) {
+
+
+  const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
+  const localURL = 'http://localhost:8080'
     // link 대신 navigate 사용하기
     const navigate = useNavigate();
 
@@ -29,7 +33,7 @@ function LoginPage(props) {
         console.log('axios 요청보내기')
         e.preventDefault();
         try {
-          const response = await axios.post("http://localhost:8080/api/v1/users/login",
+          const response = await axios.post(`${ssafyURL}/api/v1/users/login`,
             JSON.stringify({'userName': userid.current.value, 'password': userpassword.current.value}),
             {
               headers: {

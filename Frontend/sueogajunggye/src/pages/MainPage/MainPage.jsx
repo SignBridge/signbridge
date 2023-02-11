@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { requestTrans } from '../../redux/session';
 
 function MainPage(props) {
-
+  const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
   const identifySession = useSelector((state) => state.session.value);
   console.log("identifySession 처음값 : ",identifySession.identifySession)
 
@@ -30,7 +30,7 @@ function MainPage(props) {
 
   // 농인들이 소켓에 연결되는 부분
   const SocketConnet = () => {
-    const socket = new SockJS('http://localhost:8080/ws');
+    const socket = new SockJS(`${ssafyURL}/ws`);
     const client = Stomp.over(socket);
     client.connect({}, (frame) => {
       _sessionIdentity.current = frame.headers['user-name'];
