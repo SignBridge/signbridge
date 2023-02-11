@@ -47,7 +47,7 @@ const SpeechRecognitor = (props) => {
   }
 
   const onClickListener = () => {
-    SpeechRecognition.startListening();
+    SpeechRecognition.startListening({language: 'ko'});
   };
 
   return (
