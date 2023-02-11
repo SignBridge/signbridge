@@ -21,7 +21,7 @@ body {
 
 .ex_layout {
   height: 100vh;
-  background-color: aquamarine;
+  background-color: silver;
   float: left;
   width: 100vw;
   display: flex;
@@ -44,7 +44,7 @@ body {
 }
 
 .ex_layout .main #container {
-  height: 70%;
+  height: 100%;
   width: 100%;
   background-color: gray;
   position: relative;
@@ -67,18 +67,22 @@ canvas {
 }
 
 .footer {
-  height: 30%;
+  position: absolute;
+  height: 20%;
   width: 100%;
 }
 
 .ex_layout .main .footer .result_area {
+  margin-top: 20px;
+  display: table-cell;
   font-weight:bold;
-	font-size: 16px;
+	font-size: 1.4em;
+  color: white;
 	text-align:center;
 	width: 100%;
 	height: 100%;
-	border: solid 2px white;
-  background-color: white;
+  border: none;
+  background-color: rgba(111, 106, 106, 0.2);
 }
 
 #count_box{
@@ -89,8 +93,8 @@ canvas {
  }
 
 /* 브라우저 가로 640 이상일 때 적용 */
-@media (min-width: 640px) {
+/* @media (min-width: 640px) {
   .ex_layout {
     background-color: blueviolet;
   }
-}
+} */
