@@ -12,7 +12,7 @@ import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
 import STT from '../pages/AITranslate/STT'
 import {  connect } from 'react-redux';
-
+import LoadingPage from '../pages/LoadingPage';
 
 //localUser 초기화
 var localUser = new UserModel();
@@ -29,6 +29,7 @@ class VideoRoomComponent extends Component {
         console.log('1');
         console.log(this.layout);
         const { storeValue } = this.props;
+        console.log({storeValue});
         let ConnectOpenVisuSessionKey = null;
         
         console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
@@ -526,7 +527,8 @@ class VideoRoomComponent extends Component {
         // const rowGap ={};
         if(now.length===0){
             return(
-                <WaitTemporary/>
+                // <WaitTemporary/>
+                <LoadingPage/>
             )
         }else if(now.length===1){
             return (
