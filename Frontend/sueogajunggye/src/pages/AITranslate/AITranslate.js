@@ -305,6 +305,10 @@ const AITranslate = () => {
     return dataURI;
   };
 
+  const onSpeechHandler = (props) => {
+    setNotifyMessage(props);
+  }
+
   const onSpeechRecognitionHandler = (words) => {
     if (
       urls.current.length > 0 &&
@@ -317,6 +321,7 @@ const AITranslate = () => {
     if (urls.current.length > 0) {
       if (urls.current[0] === "") {
         urls.current.shift();
+        setNotifyMessage(START_MESSAGE)
         return;
       }
       setVideoStatus(VideoStatus.VIDEO_PLAYING);
@@ -423,6 +428,7 @@ const AITranslate = () => {
             />
           </div>
           <SpeechRecognitor
+              onSpeech={onSpeechHandler}
               onSpeechRecognition={onSpeechRecognitionHandler}
               BASE_URL={BASE_URL}
             />
