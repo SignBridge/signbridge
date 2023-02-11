@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import React, { Component } from 'react';
+import React, { Component,useState } from 'react';
 import ChatComponent from './chat/ChatComponent';
 import StreamComponent from './stream/StreamComponent';
 import './VideoRoomComponent.css';
@@ -11,6 +11,8 @@ import ToolbarComponent from './toolbar/ToolbarComponent';
 import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
 import STT from '../pages/AITranslate/STT'
+import {  connect } from 'react-redux';
+
 
 //localUser 초기화
 var localUser = new UserModel();
@@ -24,6 +26,8 @@ var displayVar = 'none';
 var backColorVar = '#000';
 
 class VideoRoomComponent extends Component {
+
+
     constructor(props) {
         super(props);
         this.hasBeenUpdated = false;
@@ -98,6 +102,32 @@ class VideoRoomComponent extends Component {
 
     //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
+
+        const { storeValue } = this.props;
+        let ConnectOpenVisuSessionKey = null;
+        
+        console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
+        console.log("농인 농인 농인 농인 농인 농인 :",storeValue.session.value.identifySession )
+        console.log("통역사 통역사 통역사 통역사 통역사 :",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+
+        if(storeValue.session.value.openViduSession.requestUserSessionIdentity){
+            ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        }else{
+            ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        }
+
+        console.log("ConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKey",ConnectOpenVisuSessionKey)
+
+        // let ConnectOpenVisuSessionKey = null;
+        // if(storeValue.user.value.userId.id==null){
+        //     console.log("농인일때 openvidu session값 : ", storeValue.session.value.identifySession)
+        //     ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        // } else{
+        //     console.log("통역사일때 openvidu session값 : ",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+        //     ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        // }
+
+
         console.log('3');
         const openViduLayoutOptions = {
             maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -111,6 +141,7 @@ class VideoRoomComponent extends Component {
             bigFirst: true, // Whether to place the big one in the top left (true) or bottom right
             animate: true, // Whether you want to animate the transitions
         };
+
 
         this.layout.initLayoutContainer(document.getElementById('layout'), openViduLayoutOptions);
         window.addEventListener('beforeunload', this.onbeforeunload);
@@ -482,6 +513,9 @@ class VideoRoomComponent extends Component {
     }
 
     render() {
+
+        const { storeValue } = this.props;
+
         const mySessionId = this.state.mySessionId;
         console.log('2');
         console.log(mySessionId);
@@ -582,21 +616,6 @@ class VideoRoomComponent extends Component {
         
     }
 
-    /**
-     * --------------------------------------------
-     * GETTING A TOKEN FROM YOUR APPLICATION SERVER
-     * --------------------------------------------
-     * The methods below request the creation of a Session and a Token to
-     * your application server. This keeps your OpenVidu deployment secure.
-     *
-     * In this sample code, there is no user control at all. Anybody could
-     * access your application server endpoints! In a real production
-     * environment, your application server must identify the user to allow
-     * access to the endpoints.
-     *
-     * Visit https://docs.openvidu.io/en/stable/application-server to learn
-     * more about the integration of OpenVidu in your application server.
-     */
     async getToken() {
         console.log('getToken');
         const sessionId = await this.createSession(this.state.mySessionId);
@@ -623,5 +642,11 @@ class VideoRoomComponent extends Component {
 
     }
 }
-export default VideoRoomComponent;
+
+
+const mapStateToProps = (state) => ({
+    storeValue: state
+  });
+
+export default connect(mapStateToProps)(VideoRoomComponent);
 
