@@ -5,7 +5,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialStateValue = {
+
+    //통역사가 접근해야하는 세션값
     openViduSession: "",
+
+    //농인이 접근해야하는 세션값
     identifySession : ""
 }
 

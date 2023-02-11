@@ -11,7 +11,7 @@ import ToolbarComponent from './toolbar/ToolbarComponent';
 import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
 import STT from '../pages/AITranslate/STT'
-import { connect } from 'react-redux';
+import {  connect } from 'react-redux';
 
 
 //localUser 초기화
@@ -102,8 +102,30 @@ class VideoRoomComponent extends Component {
 
     //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
+
         const { storeValue } = this.props;
-        console.log("storeValue storeValue storeValue storeValue storeValue ",storeValue )
+        let ConnectOpenVisuSessionKey = null;
+        
+        console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
+        console.log("농인 농인 농인 농인 농인 농인 :",storeValue.session.value.identifySession )
+        console.log("통역사 통역사 통역사 통역사 통역사 :",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+
+        if(storeValue.session.value.openViduSession.requestUserSessionIdentity){
+            ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        }else{
+            ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        }
+
+        console.log("ConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKey",ConnectOpenVisuSessionKey)
+
+        // let ConnectOpenVisuSessionKey = null;
+        // if(storeValue.user.value.userId.id==null){
+        //     console.log("농인일때 openvidu session값 : ", storeValue.session.value.identifySession)
+        //     ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        // } else{
+        //     console.log("통역사일때 openvidu session값 : ",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+        //     ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        // }
 
 
         console.log('3');

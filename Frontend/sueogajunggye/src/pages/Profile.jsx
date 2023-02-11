@@ -21,7 +21,7 @@ function Profile() {
 
     // session reducer 에 있는 state에 접근 후 session 값 가져오기
     const openViduSession = useSelector((state) => state.session.value);
-    console.log(`store에 저장된 값 : ${openViduSession.openViduSession.requestUserSessionIdentity}`)
+    // console.log(`store에 저장된 값 : ${openViduSession.openViduSession.requestUserSessionIdentity}`)
 
     // navigate 함수
     const navigate = useNavigate();
@@ -113,7 +113,7 @@ function Profile() {
 
 
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
-            // navigate('/cam', {state: {'sessionIdentityArgu':requestUserSessionIdentity}});
+            navigate('/cam');
         })
         p.appendChild(acceptRequestBtn)
         requestMessage.appendChild(p);

@@ -13,7 +13,7 @@ import { requestTrans } from '../../redux/session';
 function MainPage(props) {
 
   const identifySession = useSelector((state) => state.session.value);
-  console.log(identifySession.identifySession)
+  console.log("identifySession 처음값 : ",identifySession.identifySession)
 
   const dispatch = useDispatch();
 
@@ -36,7 +36,7 @@ function MainPage(props) {
       _sessionIdentity.current = frame.headers['user-name'];
 
       
-      console.log(`농인이 요청 시 보내는 세션 값 : ${_sessionIdentity.current}`)
+      // console.log(`농인이 요청 시 보내는 세션 값 : ${_sessionIdentity.current}`)
 
       // 농인의 고유 식별값을 store에 저장
       dispatch(requestTrans({
@@ -56,7 +56,7 @@ function MainPage(props) {
   const navigate = useNavigate();
   const handleClick = (sessionIdentityArgu) => {
     console.log("handleClickhandleClickhandleClick : ",sessionIdentityArgu)
-    // navigate('/cam', {state: {'sessionIdentityArgu':sessionIdentityArgu},});
+    navigate('/cam');
   };
   ////////////////////////
 
@@ -76,7 +76,7 @@ function MainPage(props) {
     acceptMessageBtn.innerText = "접속"
     acceptMessageBtn.addEventListener('click', function (e) {
 
-      console.log("이곳에 접속이후 openvidu를 연결하는 코드를 작성하시오")
+      // console.log("이곳에 접속이후 openvidu를 연결하는 코드를 작성하시오")
 
     })
 
