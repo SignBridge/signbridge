@@ -42,48 +42,7 @@ const SpeechRecognitor = (props) => {
 
       {/* <button onClick={SpeechRecognition.stopListening}>Stop</button> */}
       <button onClick={resetTranscript}>Reset</button>
-      <p class='pp' style={{margin:'0px', 'overflowY':'scroll'}}>{transcript}
-      1111111111111111111111111111111111
-      1
-      1
-      1
-      1
-      1111
-      1
-      1
-      1
-      1
-      1
-      1
-
-      1
-      1
-      1
-      1
-      1
-      1
-      11111111111111111111111111111111111111111
-      1111111111111111111111111111111
-      1111111111111111111111111111111
-      3fsssssssssssssssss
-      ssssssssssss
-      ssssssssssssss
-      ssssssssssssssssssss
-      sssssssssssssssssssss
-      ssssssssssssssssssssss
-      ssssssssssssssssssssssssssssss
-      sssssssssssssssssssssssssssssssss
-      ssssssssssssssssssssssssssssssssss
-      sssssssssssssssssssssss
-      11111111111111111111111111111111
-      1111111111111111111111111111
-      1111111111111111111111111111
-      3211111111fssssssssssssssssssssssssssss
-      afsssssssssssssssssssssssssssssss
-      faaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-      fassssssssssssssssssssssssssssssss
-      fasdddddddddddddddddddddddddddd
-      fasssssssssssssss</p>
+      <p class='pp' style={{margin:'0px', 'overflowY':'scroll'}}>{transcript}</p>
     </div>
   );
 };
