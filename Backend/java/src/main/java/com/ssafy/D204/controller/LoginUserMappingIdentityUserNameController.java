@@ -12,6 +12,7 @@ import java.util.Map;
 public class LoginUserMappingIdentityUserNameController {
 
     @PostMapping("/mapping/login/user")
+    @CrossOrigin(origins = "*")
     public void LoginUserMappingIdentityUserName(@RequestBody Map data, Authentication authentication) throws Exception {
         System.out.println(data);
         String sessionIdentity = (String) data.get("sessionIdentity");
