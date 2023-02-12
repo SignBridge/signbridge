@@ -8,15 +8,17 @@ import { persistReducer } from 'redux-persist';
 import { combineReducers } from 'redux';
 
 import { userSlice } from './user';
+import { sessionSlice } from './session';
 
 const reducers = combineReducers({
     user: userSlice.reducer,
+    session: sessionSlice.reducer,
 });
 
 const persistConfig = {
     key: 'root',
     storage, // 로컬스토리지 사용
-    whitelist: ['user']
+    whitelist: ['user', 'session']
 };
 
 const persistedReducer = persistReducer(persistConfig, reducers);

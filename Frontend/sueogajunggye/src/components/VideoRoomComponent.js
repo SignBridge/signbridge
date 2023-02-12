@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { OpenVidu } from 'openvidu-browser';
-import React, { Component } from 'react';
+import React, { Component,useState } from 'react';
 import ChatComponent from './chat/ChatComponent';
 import StreamComponent from './stream/StreamComponent';
 import './VideoRoomComponent.css';
@@ -10,7 +10,9 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
-import VideoRoomComponentFunction from './VideoRoomComponentFunction/VideoRoomComponentFunction';
+import STT from '../pages/AITranslate/STT'
+import {  connect } from 'react-redux';
+
 
 //localUser 초기화
 var localUser = new UserModel();
@@ -18,15 +20,31 @@ const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : 'htt
 console.log('0');
 
 class VideoRoomComponent extends Component {
+
+
     constructor(props) {
         super(props);
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
         console.log('1');
         console.log(this.layout);
+        const { storeValue } = this.props;
+        let ConnectOpenVisuSessionKey = null;
+        
+        console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
+        console.log("농인 농인 농인 농인 농인 농인 :",storeValue.session.value.identifySession )
+        console.log("통역사 통역사 통역사 통역사 통역사 :",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+
+        if(storeValue.session.value.openViduSession.requestUserSessionIdentity){
+            ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        }else{
+            ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        }
+
+        console.log("ConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKeyConnectOpenVisuSessionKey",ConnectOpenVisuSessionKey)
 
         //접속할 sessionName, userName를 컴포넌트에 props로 전달
-        let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
+        let sessionName = this.props.sessionName ? this.props.sessionName : ConnectOpenVisuSessionKey;
         
         // 랜덤한 문자열 생성
         const generateRandomString = (num) => {
@@ -84,6 +102,19 @@ class VideoRoomComponent extends Component {
 
     //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
+
+
+
+        // let ConnectOpenVisuSessionKey = null;
+        // if(storeValue.user.value.userId.id==null){
+        //     console.log("농인일때 openvidu session값 : ", storeValue.session.value.identifySession)
+        //     ConnectOpenVisuSessionKey = storeValue.session.value.identifySession
+        // } else{
+        //     console.log("통역사일때 openvidu session값 : ",storeValue.session.value.openViduSession.requestUserSessionIdentity)
+        //     ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
+        // }
+
+
         console.log('3');
         const openViduLayoutOptions = {
             maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
@@ -97,6 +128,7 @@ class VideoRoomComponent extends Component {
             bigFirst: true, // Whether to place the big one in the top left (true) or bottom right
             animate: true, // Whether you want to animate the transitions
         };
+
 
         this.layout.initLayoutContainer(document.getElementById('layout'), openViduLayoutOptions);
         window.addEventListener('beforeunload', this.onbeforeunload);
@@ -468,12 +500,30 @@ class VideoRoomComponent extends Component {
     }
 
     render() {
+
+        const { storeValue } = this.props;
+
         const mySessionId = this.state.mySessionId;
         console.log('2');
         console.log(mySessionId);
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
         const now = this.state.subscribers;
+        const parent = {display : 'grid' ,
+        'grid-template-columns': 'repeat(8, 1fr)',
+        'grid-template-rows':'repeat(5, 1fr)',
+        'grid-column-gap':'0px',
+        'grid-row-gap':'0px'};
+        const div1={ 'grid-area': '1 / 1 / 6 / 6',
+        transform:'rotateY(180deg)'};
+        const div2={ 'grid-area': '1 / 6 / 4 / 9' };
+        const div3={ 'grid-area': '4 / 6 / 6 / 9' };
+        // const div4={display:'none'};
+        const div5 = {'grid-area':'1 / 6 / 6 / 9'};
+        // const column = {};
+        // const row = {};
+        // const columnGap = {};
+        // const rowGap ={};
         if(now.length===0){
             return(
                 <WaitTemporary/>
@@ -498,12 +548,12 @@ class VideoRoomComponent extends Component {
     
                     {/* 스트리밍 화면 */}
                     {console.log('스트리밍 화면')}
-                    <div id="layout" className="bounds">
+                    <div id="layout" className="bounds" style={parent}>
                         
                         {/* 다른 이용자 화면 컴포넌트 */}
                         {console.log('다른 이용자 화면')}
                         {this.state.subscribers.map((sub, i) => (
-                            <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers">
+                            <div key={i} className="OT_root OT_publisher custom-class notMyCam" id="remoteUsers" style={div1}>
                                 <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
                             </div>
                         ))}
@@ -515,7 +565,7 @@ class VideoRoomComponent extends Component {
                         {console.log('자기 화면')}
                         {chatDisplay.display==='none'?
                         localUser !== undefined && localUser.getStreamManager() !== undefined && (
-                            <div className="OT_root OT_publisher custom-class" id="localUser">
+                            <div className="OT_root OT_publisher custom-class" id="localUser" style={div2}>
                                 {console.log(document.getElementById(localUser))}
                                 <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
                             </div>
@@ -534,9 +584,14 @@ class VideoRoomComponent extends Component {
                                     chatVisible={this.state.chatVisible}
                                     close={this.toggleChat}
                                     messageReceived={this.checkNotification}
+                                    grid = {div5}
                                 />
-    
-    
+                                
+                         {chatDisplay.display==='none'?        
+                        (<STT div3={div3}>
+                        </STT>):
+                        (console.log('채팅끔'))}
+
                     </div>
                 </div>
             );
@@ -548,21 +603,6 @@ class VideoRoomComponent extends Component {
         
     }
 
-    /**
-     * --------------------------------------------
-     * GETTING A TOKEN FROM YOUR APPLICATION SERVER
-     * --------------------------------------------
-     * The methods below request the creation of a Session and a Token to
-     * your application server. This keeps your OpenVidu deployment secure.
-     *
-     * In this sample code, there is no user control at all. Anybody could
-     * access your application server endpoints! In a real production
-     * environment, your application server must identify the user to allow
-     * access to the endpoints.
-     *
-     * Visit https://docs.openvidu.io/en/stable/application-server to learn
-     * more about the integration of OpenVidu in your application server.
-     */
     async getToken() {
         console.log('getToken');
         const sessionId = await this.createSession(this.state.mySessionId);
@@ -589,5 +629,11 @@ class VideoRoomComponent extends Component {
 
     }
 }
-export default VideoRoomComponent;
+
+
+const mapStateToProps = (state) => ({
+    storeValue: state
+  });
+
+export default connect(mapStateToProps)(VideoRoomComponent);
 
