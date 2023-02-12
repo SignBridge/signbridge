@@ -8,7 +8,6 @@ import './VideoRoomComponent.css';
 import OpenViduLayout from '../layout/openvidu-layout';
 import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
-import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
 import STT from '../pages/AITranslate/STT'
 import {  connect } from 'react-redux';
@@ -29,6 +28,7 @@ class VideoRoomComponent extends Component {
         console.log('1');
         console.log(this.layout);
         const { storeValue } = this.props;
+        console.log({storeValue});
         let ConnectOpenVisuSessionKey = null;
         
         console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
@@ -47,16 +47,16 @@ class VideoRoomComponent extends Component {
         let sessionName = this.props.sessionName ? this.props.sessionName : ConnectOpenVisuSessionKey;
         
         // 랜덤한 문자열 생성
-        const generateRandomString = (num) => {
-            const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-            let result = '';
-            const charactersLength = characters.length;
-            for (let i = 0; i < num; i++) {
-                result += characters.charAt(Math.floor(Math.random() * charactersLength));
-            }
+        // const generateRandomString = (num) => {
+        //     const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        //     let result = '';
+        //     const charactersLength = characters.length;
+        //     for (let i = 0; i < num; i++) {
+        //         result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        //     }
           
-            return result;
-          }
+        //     return result;
+        //   }
         // 임의의 sessionName을 지정
         // let sessionName = generateRandomString(5);
         console.log(`sessionName : ${sessionName}`);

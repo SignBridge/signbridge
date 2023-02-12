@@ -26,10 +26,12 @@ button {
   /* color: white; */
   font-size: x-large;
   font-weight: 700;
-  border: none;
+  /* border: none; */
   /* margin-top: 1em;
   margin-right: 1em; */
   cursor: pointer;
+  font-family: 'esamaru-bord';
+  margin-right: 10px;
   }
 
 .back-btn {
@@ -39,4 +41,9 @@ button {
   border-radius: 2em;
   font-weight: 700;
   background-color: rgba(115, 188, 255, 1);
+}
+
+@font-face {
+  font-family: 'esamaru-bord';
+  src: url('../../assets/fonts/esamanru\ Bold.ttf');
 }
