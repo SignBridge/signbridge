@@ -3,6 +3,7 @@ import './MyPage.css'
 import TransToMain from "../../components/Buttons/TransToMain"
 import Back from "../../components/Buttons/Back"
 import profileBasicImg from "../../assets/images/profileBasicImg.png"
+import transImg from '../../assets/images/transImg.png'
 
 function MyPage(props) {
 
@@ -15,19 +16,20 @@ function MyPage(props) {
     return (
         <div>
             <div className="mypage-top-items">
-                <Back></Back>
+                {/* <Back></Back> */}
                 <div className="mypage-title">마이페이지</div>
-                <TransToMain></TransToMain>
+                <img src={transImg} width="80" height="80" />
+                {/* <TransToMain></TransToMain> */}
             </div>
             <div className="mypage-bottom-items">
-                <div className="mypage-profile">
+                {/* <div className="mypage-profile">
                     <button className="profile-btn">
                         <img className="profile-img" src={file} />
                     </button>
                     <input type="file" onChange={handleChange} />
-                </div>
+                </div> */}
                 <div className="mypage-accounts">
-                    <label>
+                    {/* <label>
                         이름 <input type="text" />
                     </label>
                     <label>
@@ -40,7 +42,7 @@ function MyPage(props) {
                     <label>
                         비밀번호 <input type="text" />
                         <button className="change">변경</button>
-                    </label>
+                    </label> */}
                 </div>
             </div>
         </div>

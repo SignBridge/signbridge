@@ -22,6 +22,13 @@ import Paper from '@mui/material/Paper';
 // npm install @mui/material-next
 import Button from '@mui/material-next/Button';
 
+import './Profile.css'
+import profileBasicImg from "../../assets/images/profileBasicImg.png"
+import Logo from '../../assets/images/logo.png'
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
+
+import MyPage from '../MyPage/MyPage';
+
 
 function Profile() {
 
@@ -132,16 +139,9 @@ function Profile() {
         //수락버튼생성
         console.log('통역수락버튼생성됨!!!')
         const acceptRequestBtn = document.createElement('div')
-        const acceptBtn = `<button style={{ 
-            border:"none", 
-            width:"130px", 
-            height:"50px", 
-            backgroundColor:"blue", 
-            borderRadius:"2px",
-            fontFamily:"esamaru-bord",
-            fontSize:"large" }}>통역수락</button>`;
+        const acceptBtn = `<button class='transRequestBtn'>통역수락</button>`;
 
-        acceptRequestBtn.append(acceptBtn);
+        acceptRequestBtn.innerHTML = acceptBtn;
         acceptRequestBtn.setAttribute('id', requestUserSessionIdentity)
         //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
         acceptRequestBtn.addEventListener('click',function(e){
@@ -160,49 +160,76 @@ function Profile() {
         requestMessage.appendChild(acceptRequestBtn);
     }
 
+    // 프로필 사진 함수
+    const [file, setFile] = useState(profileBasicImg);
+    function handleChange(e) {
+        console.log(e.target.files);
+        setFile(URL.createObjectURL(e.target.files[0]));
+    }
+
+    // 로그아웃
+    function userLogout() {
+        // 로그아웃 시 회원 정보 초기화
+        dispatch(logout())
+        // login 페이지로 이동
+        navigate("/login");
+    }
+
     // redux에 저장할 변수명 : openViduSession
 
     //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
-    
-    
 
     return (
-        <div id="aaa">
+        <div>
             <TransHeader></TransHeader>
-            <h1>Profile Page</h1>
-            <p> id : {user.userId.id}</p>
-            <p> pass : {user.userPass.pass}</p>
-            <p> name : {user.userName.username} </p>
-            <p> email : {user.userEmail.useremail} </p>
-            <p> isActive : {user.userIsActive.userisactive} </p>
-            <p> usertoken : {user.usertoken.usertoken}</p>
-            <button id="sendMessage" onClick={MappingIdentityLoginUserName}>통역사용 : 고유식별값을 로그인 유저네임과 mapping</button>
-            <button onClick={sendRequestToTranslators}>통역요청보내기</button>
-            <div id="requestMessage"></div>
+            <div className='profile-box'>
+                <div className='profile-side-box'>
+                    <div className="profile-pixture">
+                        <button className="profile-btn">
+                            <img className="profile-img" src={file} />
+                        </button>
+                        {/* <label htmlFor="file" onChange={handleChange}>파일찾기</label> */}
+                        {/* <label htmlFor="file" onClick={handleChange}>파일찾기</label> */}
+                        {/* <input type="file" onChange={handleChange} /> */}
+                    </div>
+                    <div className='profile-trans-name'>
+                        반갑습니다 {user.userName.username} 통역사님
+                        <button 
+                            className='profile-logout-btn'
+                            onClick={userLogout}><PowerSettingsNewIcon fontSize='small'></PowerSettingsNewIcon></button>
+                    </div>
+                    <Box
+                        className="profile-box-container"
+                        sx={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            '& > :not(style)': {
+                            m: 1,
+                            width: 300,
+                            height: 400,
+                            },
+                        }}>
+                        <Paper className='paper-box' elevation={3}>
+                            <div className='transRequestText'>수어 통역 요청이 왔습니다</div>
+                            <button className='transRequestBtn'>통역수락</button>
+                        </Paper>
+                    </Box>
+                </div>
 
-            {/* <Box
-                sx={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    '& > :not(style)': {
-                    m: 1,
-                    width: 200,
-                    height: 300,
-                    },
-                }}>
-                <Paper elevation={3}>
-                    <Button size="large" variant="elevated">통역 수락</Button>
-                </Paper>
-            </Box> */}
-
-            <button style={{ 
-                border:"none", 
-                width:"130px", 
-                height:"50px", 
-                backgroundColor:"blue", 
-                borderRadius:"2px",
-                fontFamily:"esamaru-bord",
-                fontSize:"large" }}>통역수락</button>
+                <div className='profile-content-box'>
+                    {/* <h1>Profile Page</h1>
+                    <p> id : {user.userId.id}</p>
+                    <p> pass : {user.userPass.pass}</p>
+                    <p> name : {user.userName.username} </p>
+                    <p> email : {user.userEmail.useremail} </p>
+                    <p> isActive : {user.userIsActive.userisactive} </p>
+                    <p> usertoken : {user.usertoken.usertoken}</p>
+                    <button id="sendMessage" onClick={MappingIdentityLoginUserName}>통역사용 : 고유식별값을 로그인 유저네임과 mapping</button>
+                    <button onClick={sendRequestToTranslators}>통역요청보내기</button> */}
+                    <MyPage></MyPage>
+                    <div id="requestMessage"></div>
+                </div>
+            </div>
         </div>
     );
 }
