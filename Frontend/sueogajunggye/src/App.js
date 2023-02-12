@@ -24,6 +24,7 @@ function App() {
   return (
     <div className="App">
       {/* <LoadingPage></LoadingPage> */}
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />}></Route>

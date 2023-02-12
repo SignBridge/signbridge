@@ -27,8 +27,8 @@ export default class ToolbarComponent extends Component {
     constructor(props) {
         console.log('툴바 컴포넌트 내부 생성자');
         super(props);
-        console.log(super(props));
-        console.log(props);
+        // console.log(super(props));
+        // console.log(props);
         this.state = { fullscreen: false };
         this.camStatusChanged = this.camStatusChanged.bind(this);
         this.micStatusChanged = this.micStatusChanged.bind(this);
@@ -94,7 +94,7 @@ export default class ToolbarComponent extends Component {
                         /> */}
 
                         {this.props.sessionId && <div id="titleContent">
-                            <span id="session-title">{mySessionId}</span>
+                            <span id="session-title">수어가중계</span>
                         </div>}
                     </div>
 

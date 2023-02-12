@@ -1,4 +1,4 @@
-import React, { Fragment, useLayoutEffect } from "react";
+import React, { Fragment, useEffect, useLayoutEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -6,7 +6,10 @@ import axios from "axios";
 import IconButton from "@mui/material/IconButton";
 import MicIcon from "@mui/icons-material/Mic";
 import MicNoneIcon from "@mui/icons-material/MicNone";
-
+import ClearIcon from "@mui/icons-material/Clear";
+import styles from "./SpeechRecognitor.module.css";
+import { Link } from "react-router-dom";
+// import { border, style } from "@mui/system";
 const VOICE_PORT_NUMBER = 5001;
 const SpeechRecognitor = (props) => {
   const {
@@ -16,16 +19,20 @@ const SpeechRecognitor = (props) => {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
+  useEffect(() => {
+    if (transcript !== "") props.onSpeech(`\n${transcript}`);
+  }, [transcript]);
+
   useLayoutEffect(() => {
     async function speechToSignLang() {
       if (listening) {
-        props.onSpeech(listening)
-        return
-      };
+        return;
+      }
       await axios
-        .get(`${props.BASE_URL}:${VOICE_PORT_NUMBER}/ai/recording/analyze?speech=${transcript}`)
+        .get(
+          `${props.BASE_URL}:${VOICE_PORT_NUMBER}/ai/recording/analyze?speech=${transcript}`
+        )
         .then((response) => {
-          props.onSpeech(listening)
           props.onSpeechRecognition(response.data.split(" "));
         })
         .catch((error) => {
@@ -40,21 +47,39 @@ const SpeechRecognitor = (props) => {
   }
 
   const onClickListener = () => {
-    props.onClean();
-    SpeechRecognition.startListening();
-  }
+    SpeechRecognition.startListening({language: 'ko'});
+  };
 
   return (
-    <div>
-      {/* <p>Microphone: {listening ? "on" : "off"}</p> */}
+    <div className={styles.container}>
       <IconButton
         color="primary"
         onClick={onClickListener}
         aria-label="voiceTranslate"
+        size="large"
+        style={{
+          backgroundColor: "white",
+        }}
       >
-        {listening ? <MicIcon /> : <MicNoneIcon />}
+        {listening ? (
+          <MicIcon className={styles.icon} />
+        ) : (
+          <MicNoneIcon className={styles.icon} />
+        )}
       </IconButton>
-      <p>{transcript}</p>
+      <Link to="/">
+        <IconButton
+          onClick={onClickListener}
+          aria-label="voiceTranslate"
+          size="large"
+          style={{
+            backgroundColor: "red",
+            marginLeft: "8px",
+          }}
+        >
+          <ClearIcon className={styles.icon} sx={{ color: "white" }} />
+        </IconButton>
+      </Link>
     </div>
   );
 };
