@@ -1,5 +1,4 @@
 import MainHeader from "./MainHeader";
-import Title from "./Title";
 import VideoBtn from "./VideoBtn";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -95,10 +94,6 @@ function MainPage(props) {
       </button>
       <div id="acceptMessage">
         acceptMessage
-      </div>
-      <Title></Title>
-      <div className="main-bg-img">
-        <VideoBtn></VideoBtn>
       </div>
     </div>
   )

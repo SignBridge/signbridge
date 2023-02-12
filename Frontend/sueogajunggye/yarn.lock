@@ -1643,11 +1643,7 @@
   "resolved" "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   "version" "2.0.4"
 
-<<<<<<< HEAD
-"@material-ui/core@^4.0.0", "@material-ui/core@4.9.10":
-=======
 "@material-ui/core@^4.0.0", "@material-ui/core@^4.9.10":
->>>>>>> 67662886111d1cb044740bb797e038a2cac80a95
   "integrity" "sha512-CQuZU9Y10RkwSdxjn785kw2EPcXhv5GKauuVQufR9LlD37kjfn21Im1yvr6wsUzn81oLhEvVPz727UWC0gbqxg=="
   "resolved" "https://registry.npmjs.org/@material-ui/core/-/core-4.9.10.tgz"
   "version" "4.9.10"
