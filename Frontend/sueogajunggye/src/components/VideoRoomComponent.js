@@ -528,7 +528,8 @@ class VideoRoomComponent extends Component {
         if(now.length===0){
             return(
                 // <WaitTemporary/>
-                <LoadingPage/>
+                <LoadingPage
+                leaveSession = {this.leaveSession}/>
             )
         }else if(now.length===1){
             return (
@@ -597,10 +598,6 @@ class VideoRoomComponent extends Component {
                     </div>
                 </div>
             );
-        }else{
-            return(
-                <OvercrowdingPage/>
-            )
         }
         
     }

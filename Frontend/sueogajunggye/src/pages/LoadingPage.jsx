@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import './LoadingPage.css';
+import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
+
+import { useNavigate } from 'react-router-dom';
 
 // node 8 이상 && npm install --save moment react-moment 설치
 import Moment from 'react-moment';
@@ -30,6 +33,15 @@ function LoadingPage(props) {
             setWaitingState('보통');
         }
     }
+    console.log('되나');
+    console.log(props);
+
+    const navigate = useNavigate();
+    const leaveSession = (event) => {
+        event.preventDefault();
+        props.leaveSession();
+        navigate('/');
+    }
 
     return (
         <div className="loading-page">
@@ -50,7 +62,9 @@ function LoadingPage(props) {
                     <div className="loading-btns">
                         <button className="waitingTime-btn"><Moment date={startTime} format="mm:ss" durationFromNow interval={1000}/></button>
                         <button className="ai-btn">AI 상담 요청</button>
-                        <button className="cancel-btn">취소</button>
+                        <button className="cancel-btn" onClick={leaveSession}>취소
+                            <PowerSettingsNew />
+                        </button>
                     </div>
                 </div>
             </div>
