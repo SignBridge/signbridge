@@ -1,7 +1,6 @@
 import './Main.css';
 // Hovering 라이브러리 필요
 // npm install react-hover-video-player
-import HoverVideoPlayer from 'react-hover-video-player';
 import { Link } from "react-router-dom";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -65,7 +64,6 @@ function VideoBtn(props) {
     //이함수를 대기화면으로 넘어가게 하고 싶은 곳에 넣으시면 됩니다.
     const sendRequestToTranslators = (event) => {
       event.preventDefault();
-      const text = "통역요청을 수락하시겠습니까?"
       privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({ sessionIdentity: _sessionIdentity.current }));
       handleClick(_sessionIdentity.current)
     };
