@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './LoadingPage.css';
 
@@ -19,14 +19,6 @@ function LoadingPage(props) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    const naviate = useNavigate();
-    const GoToMain_and_CancelTrans = () => {
-        // 통역요청 취소 구현
-
-        // 메인페이지로 이동
-        naviate("/");        
-    }
-
     function waiting(e) {
         e.preventDefault();
 
@@ -40,6 +32,15 @@ function LoadingPage(props) {
         } else {
             setWaitingState('보통');
         }
+    }
+    console.log('되나');
+    console.log(props);
+
+    const navigate = useNavigate();
+    const leaveSession = (event) => {
+        event.preventDefault();
+        props.leaveSession();
+        navigate('/');
     }
 
     return (
@@ -61,9 +62,10 @@ function LoadingPage(props) {
                     <div className="loading-loading-btns">
                         <button className="loading-waitingTime-btn"><Moment date={startTime} format="mm:ss" durationFromNow interval={1000}/></button>
                         <Link to="/aiTranslate">
-                            <button className="loading-ai-btn">AI 상담 요청</button>
+                        <button className="loading-ai-btn">AI 상담 요청</button>
                         </Link>
-                        <button className="loading-cancel-btn" onClick={GoToMain_and_CancelTrans}>취소</button>
+                        <button className="loading-cancel-btn" onClick={leaveSession}>취소
+                        </button>
                     </div>
                 </div>
             </div>
