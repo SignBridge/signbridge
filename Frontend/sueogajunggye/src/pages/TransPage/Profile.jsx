@@ -1,20 +1,35 @@
 // 6. useSelector import를 해주기
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../../redux/user';
-import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 // npm install --save react-socks 설치
 // npm install --save react-stomp 설치
 // npm install socket.io-client 설치
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import { useNavigate } from 'react-router-dom';
 
 // 8. useDispatch 훅 사용
 import { requestTrans } from '../../redux/session'
 import axios from 'axios';
 
+import TransHeader from './TransHeader'
+
+// 카드 css
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+// 버튼 css
+// npm install @mui/material-next
+import Button from '@mui/material-next/Button';
+
 
 function Profile() {
+
+    // navigate 함수
+    const navigate = useNavigate();
+    // 9. action을 보낼 수 있도록 dispatch 함수정의
+    const dispatch = useDispatch();
+
     // 7. user reducer에 있는 state에 접근
     const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
     const localURL = 'http://localhost:8080'
@@ -25,18 +40,6 @@ function Profile() {
     const openViduSession = useSelector((state) => state.session.value);
     // console.log(`store에 저장된 값 : ${openViduSession.openViduSession.requestUserSessionIdentity}`)
 
-    // navigate 함수
-    const navigate = useNavigate();
-    // 9. action을 보낼 수 있도록 dispatch 함수정의
-    const dispatch = useDispatch();
-
-    // 로그아웃
-    function userLogout() {
-        // 로그아웃 시 회원 정보 초기화
-        dispatch(logout())
-        // login 페이지로 이동
-        navigate("/login");
-    }
 
     //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
     const [privateStompClient, setPrivateStompClient] = useState(null);
@@ -98,13 +101,48 @@ function Profile() {
 
 
     const show = (requestUserSessionIdentity, client) => {
-        const requestMessage = document.getElementById('requestMessage');
-        const p = document.createElement('p');
-        p.innerHTML = `통역요청이 왔습니다, 세션값 : ${requestUserSessionIdentity}`;
+        //---------------------------------------------------------------------//
+
+        // const requestMessage = document.getElementById('requestMessage');
+        // const p = document.createElement('p');
+        // p.innerHTML = `통역요청이 왔습니다, 세션값 : ${requestUserSessionIdentity}`;
         //수락버튼생성
-        const acceptRequestBtn = document.createElement('button')
-        acceptRequestBtn.innerText = "수락"
-        acceptRequestBtn.setAttribute('id',requestUserSessionIdentity)
+        // const acceptRequestBtn = document.createElement('button')
+        // acceptRequestBtn.innerText = "수락"
+        // acceptRequestBtn.setAttribute('id',requestUserSessionIdentity)
+        //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
+        // acceptRequestBtn.addEventListener('click',function(e){
+            // session 값을 store에 저장
+        //     dispatch(requestTrans({
+        //         openViduSession: {requestUserSessionIdentity},
+        //         identifySession: ""
+        //     }));
+
+
+        //     client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
+        //     navigate('/cam');
+        // })
+        // p.appendChild(acceptRequestBtn)
+        // requestMessage.appendChild(p);
+
+        //--------------------------------------------------------------------//
+
+        const requestMessage = document.getElementById('requestMessage');
+        
+        //수락버튼생성
+        console.log('통역수락버튼생성됨!!!')
+        const acceptRequestBtn = document.createElement('div')
+        const acceptBtn = `<button style={{ 
+            border:"none", 
+            width:"130px", 
+            height:"50px", 
+            backgroundColor:"blue", 
+            borderRadius:"2px",
+            fontFamily:"esamaru-bord",
+            fontSize:"large" }}>통역수락</button>`;
+
+        acceptRequestBtn.append(acceptBtn);
+        acceptRequestBtn.setAttribute('id', requestUserSessionIdentity)
         //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
         acceptRequestBtn.addEventListener('click',function(e){
             // session 값을 store에 저장
@@ -117,8 +155,9 @@ function Profile() {
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
             navigate('/cam');
         })
-        p.appendChild(acceptRequestBtn)
-        requestMessage.appendChild(p);
+
+
+        requestMessage.appendChild(acceptRequestBtn);
     }
 
     // redux에 저장할 변수명 : openViduSession
@@ -129,7 +168,7 @@ function Profile() {
 
     return (
         <div id="aaa">
-            <button onClick={userLogout}>로그아웃</button>
+            <TransHeader></TransHeader>
             <h1>Profile Page</h1>
             <p> id : {user.userId.id}</p>
             <p> pass : {user.userPass.pass}</p>
@@ -140,6 +179,30 @@ function Profile() {
             <button id="sendMessage" onClick={MappingIdentityLoginUserName}>통역사용 : 고유식별값을 로그인 유저네임과 mapping</button>
             <button onClick={sendRequestToTranslators}>통역요청보내기</button>
             <div id="requestMessage"></div>
+
+            {/* <Box
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    '& > :not(style)': {
+                    m: 1,
+                    width: 200,
+                    height: 300,
+                    },
+                }}>
+                <Paper elevation={3}>
+                    <Button size="large" variant="elevated">통역 수락</Button>
+                </Paper>
+            </Box> */}
+
+            <button style={{ 
+                border:"none", 
+                width:"130px", 
+                height:"50px", 
+                backgroundColor:"blue", 
+                borderRadius:"2px",
+                fontFamily:"esamaru-bord",
+                fontSize:"large" }}>통역수락</button>
         </div>
     );
 }
