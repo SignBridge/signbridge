@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import './LoadingPage.css';
 
 // node 8 이상 && npm install --save moment react-moment 설치
@@ -16,6 +18,15 @@ function LoadingPage(props) {
     const waitingNums = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
+
+    const naviate = useNavigate();
+    const GoToMain_and_CancelTrans = () => {
+        // 통역요청 취소 구현
+
+        // 메인페이지로 이동
+        naviate("/");        
+    }
+
     function waiting(e) {
         e.preventDefault();
 
@@ -34,23 +45,25 @@ function LoadingPage(props) {
     return (
         <div className="loading-page">
             <div className="loading-top-items">
-                <button className="waiting-btn" onClick={waiting}>{waitingState}</button>
+                <button className="loading-waiting-btn" onClick={waiting}>{waitingState}</button>
             </div>
             <div className="loading-container">
                 <div className="loading-items">
                     <div className="loading-video">
-                        <div className="video-box">
-                            <video className="video-item" muted autoPlay loop>
+                        <div className="loading-video-box">
+                            <video className="loading-video-item" muted autoPlay loop>
                                 <source src="/VideoSrc/v1.webm" type="video/webm"/>
                             </video>
                             <br />
-                            <div className="waiting-txt">통역 요청 승인 대기중입니다.</div>
+                            <div className="loading-waiting-txt">통역 요청 승인 대기중입니다.</div>
                         </div>
                     </div>
-                    <div className="loading-btns">
-                        <button className="waitingTime-btn"><Moment date={startTime} format="mm:ss" durationFromNow interval={1000}/></button>
-                        <button className="ai-btn">AI 상담 요청</button>
-                        <button className="cancel-btn">취소</button>
+                    <div className="loading-loading-btns">
+                        <button className="loading-waitingTime-btn"><Moment date={startTime} format="mm:ss" durationFromNow interval={1000}/></button>
+                        <Link to="/aiTranslate">
+                            <button className="loading-ai-btn">AI 상담 요청</button>
+                        </Link>
+                        <button className="loading-cancel-btn" onClick={GoToMain_and_CancelTrans}>취소</button>
                     </div>
                 </div>
             </div>

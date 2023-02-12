@@ -12,7 +12,7 @@ import WaitTemporary from '../pages/WaitTemporary/WaitTemporary';
 import OvercrowdingPage from '../pages/ErrorPage/OvercrowdingPage';
 import STT from '../pages/AITranslate/STT'
 import {  connect } from 'react-redux';
-
+import LoadingPage from '../pages/LoadingPage';
 
 //localUser 초기화
 var localUser = new UserModel();
@@ -526,7 +526,8 @@ class VideoRoomComponent extends Component {
         // const rowGap ={};
         if(now.length===0){
             return(
-                <WaitTemporary/>
+                // <WaitTemporary/>
+                <LoadingPage/>
             )
         }else if(now.length===1){
             return (
