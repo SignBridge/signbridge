@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './LoadingPage.css';
-import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 
 // node 8 이상 && npm install --save moment react-moment 설치
 import Moment from 'react-moment';
@@ -66,7 +65,6 @@ function LoadingPage(props) {
                         <button className="loading-ai-btn">AI 상담 요청</button>
                         </Link>
                         <button className="loading-cancel-btn" onClick={leaveSession}>취소
-                            <PowerSettingsNew />
                         </button>
                     </div>
                 </div>
