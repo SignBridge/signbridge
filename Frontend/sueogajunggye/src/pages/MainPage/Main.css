@@ -1,38 +1,8 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
-.main-box {
-    width: 100%;
-    height: 100%;
-    align-content: space-between;
-}
-
-.main-bg-img {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    position: relative;
-    justify-content: space-evenly;
-}
-.main-bg-img::after {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    background: url(../../assets/images/mainBgImg.jpg);
-    background-size : cover;
-    /* background-position : center; */
-    z-index: -1;
-    top: 0;
-    left: 0;
-    content: "";
-    position: absolute;
-    opacity: 0.5;
-}
-
-
 .title-box {
     display: flex;
-    flex-direction: row;
+    /* flex-direction: row; */
     align-items: center;
     justify-content: space-between;
     height: 80px;
@@ -43,66 +13,95 @@
     font-weight: 700;
     display: flex;
     align-items: center;
-}
-
-/* .wrapper {
-    width: 100%;
-    max-width: 1280px;
-    height: 10px;
-    position: relative;
-    gap: 5rem;
-    padding: 0 3rem;
-    margin: 0 auto;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-    display: flex;
-} */
-
-.video-box {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    /* margin-top: 2em; */
-    /* padding-top: 100px; */
     font-family: 'esamaru-bord';
-    font-size:xx-large;
-    font-weight: 700;
 }
 
-.video-left-item, .video-right-item {
+
+.bg-container {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    font-family: 'esamaru-bord';
+}
+
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: url(../../assets/images/mainImg.jpg) no-repeat center/cover;
+    opacity: 0.5;
+    z-index: -3;
+}
+
+.main-items {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.main-left-items {
+    position: absolute;
+    text-align: center;
+    left: 200px;
+    top: 120px;
+    /* width: 60vw;
+    height: 50vh; */
+}
+
+.main-text-box {
+    font-size: x-large;
+}
+
+.main-btns {
     display: flex;
     flex-direction: column;
-    margin-bottom: 50px;
-    margin-top: 80px;
-    /* width: 100%;
-    height: 100%; */
 }
 
-.video-item {
-    width: 550px;
-    height: 400px;
-    margin: 40px;
-    /* margin-top: 70px;
-    margin-bottom: 70px; */
-    border-radius: 3em;
-}
-
-.matching-btn {
-    background-color: skyblue;
-    color: black;
-    width: 100%;
-    height: 100px;
-    font-size: xx-large;
-    font-weight: 700;
-    border-radius: 2rem;
-    margin-top: 30px;
+.main-top-btn, .main-bottom-btn{
+    max-width: 350px;
+    max-height: 80px;
+    width: 50vw;
+    height: 50vh;
     border: none;
-    cursor: pointer;
+    border-radius: 2em;
+    font-size: x-large;
+    font-weight: 700;
+    font-family: 'esamaru-bord';
+    margin: 30px;
 }
+
+.main-top-btn {
+    background: black;
+    color: white;
+}
+
+.main-bottom-btn {
+    background: yellow;
+    color: black;
+}
+
+.main-video-wrap {
+    position: relative;
+    min-width: 600px;
+    max-width: 700px;
+    width: calc( 100% - 1200px);
+}
+
+.main-video-wrap video {
+    position: absolute;
+    left: 800px;
+    top: 80px;
+    /* transform: translateX(-50%); */
+    border-radius: 3em;
+    height: 60vh;
+    min-height: 500px;
+    border: solid 1em black;
+}
+
 
 @font-face {
     font-family: 'esamaru-bord';

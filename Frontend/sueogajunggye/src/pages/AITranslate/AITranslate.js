@@ -11,15 +11,27 @@ import styles from "./AITranslate.module.css";
 import SpeechRecognitor from "./SpeechRecognitor";
 import ReactPlayer from "react-player/lazy";
 import { MoonLoader } from "react-spinners";
-const PORT_NUMBER = 5000;
+import {speak} from "../../components/converter/TextToSpeechConverter";
+
+const PORT_NUMBER = 5002;
 const FACE_API_MODEL_LOCATION = process.env.PUBLIC_URL + "/models";
-const START_MESSAGE = " 번역을 시작합니다. ";
+const START_MESSAGE = "\n번역을 시작합니다.\n\n얼굴, 어깨, 팔꿈치, 손이 보이도록\n기기를 배치해주세요.";
+const FAIL_MESSAGE = "\n단어 인식에 실패하였습니다.\n\n얼굴, 어깨, 팔꿈치, 손이 보이도록\n기기를 배치해주세요.";
 const VIDEO_WIDTH = 640;
 const VIDEO_HEIGHT = 480;
 let BASE_URL = "";
 const BASE_VIDEO_URL =
   "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/";
+
+const VideoStatus = {
+  IS_LOADING: 'is_loading',
+  CAMERA_WORKING: 'camera_working',
+  AI_TRANSLATE_WORKING: 'Ai_translate_working',
+  VIDEO_PLAYING: 'video_playing'
+}
+
 const AITranslate = () => {
+  let localStream;
   const str = useRef();
   const flag = useRef(0);
   // const video = useRef();
@@ -34,9 +46,9 @@ const AITranslate = () => {
   const countWord = useRef(0);
   const urls = useRef([]);
   const detectionInterval = useRef();
-
-  const [isAiLoading, setIsAiLoading] = useState();
-  const [isSpeeching, setIsSpeeching] = useState();
+  // const [isAiLoading, setIsAiLoading] = useState();
+  // const [isSpeeching, setIsSpeeching] = useState();
+  const [videoStatus, setVideoStatus] = useState(VideoStatus.IS_LOADING);
   const [notifyMessage, setNotifyMessage] = useState();
   const [vidoeSrc, setVideoSrc] = useState();
 
@@ -63,16 +75,25 @@ const AITranslate = () => {
   };
 
   useLayoutEffect(
-    (prevState) => {
-      cleanInterval();
-      const video = document.getElementsByClassName(styles.video);
-      if (video[0].tagName === "DIV") return;
-      if (!isSpeeching) {
+    () => {
+      console.log(`${videoStatus} `);
+      if (videoStatus === VideoStatus.IS_LOADING) {
+        setNotifyMessage('\n로딩 중...\n\n잠시만 기다려주세요.');
+        const video = document.getElementsByClassName(styles.video);
+        if (video[0].tagName === "DIV") return;
         console.log("restart");
         startTranslate();
       }
+      if (videoStatus === VideoStatus.VIDEO_PLAYING) {
+        cleanInterval();
+        const video = document.getElementsByClassName(styles.video);
+        const word = urls.current.shift();
+        setVideoSrc(`${BASE_VIDEO_URL + word}.mp4`);
+        setNotifyMessage(`\n${word}`);
+        video[0].playing = true;
+      }
     },
-    [isSpeeching]
+    [videoStatus]
   );
 
   //최초 페이지 로딩 시 초기화
@@ -89,20 +110,23 @@ const AITranslate = () => {
     });
     socket.current.on("connect", function () {
       console.log("Connected...!", socket.connected);
+      setNotifyMessage('\nAI 서버 연결\n\n잠시만 기다려주세요.');
     });
     socket.current.on("response_back", function (data) {
       console.log("response : ", data);
       countWord.current++;
       if (data === "failed") {
         setNotifyMessage(
-          str.current + "\n단어 인식에 실패하였습니다. 다시 동작해주세요."
+          FAIL_MESSAGE
         );
         countWord.current--;
         translate();
       } else {
-        prevStr.current = str.current;
-        str.current += " " + data;
-        setNotifyMessage(str.current);
+        // prevStr.current = str.current;
+        // str.current += " " + data;
+        str.current = data;
+        setNotifyMessage(`\n${str.current}`);
+        speak(data);
         translate();
       }
     });
@@ -129,6 +153,7 @@ const AITranslate = () => {
     return () => {
       socket.current.disconnect();
       cleanInterval();
+      localStream?.getTracks()[0]?.stop();
     };
   }, []);
 
@@ -139,10 +164,11 @@ const AITranslate = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then(function (stream) {
+        localStream = stream;
         video[0].srcObject = stream;
         video[0].play();
-        setIsAiLoading(false);
         setNotifyMessage(START_MESSAGE);
+        setVideoStatus(VideoStatus.CAMERA_WORKING);
       })
       .catch(function (error) {});
   }
@@ -150,11 +176,12 @@ const AITranslate = () => {
   let initedCanvas;
   //번역 시작하기
   function startTranslate(event) {
-    setIsAiLoading(true);
     const video = document.getElementsByClassName(styles.video);
     if (event) event.preventDefault();
     if (flag.current === 0) {
       flag.current = 1;
+      //비디오 실행 후 AI 실행
+      startVideo(event);
       Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri(FACE_API_MODEL_LOCATION),
         faceapi.nets.faceLandmark68Net.loadFromUri(FACE_API_MODEL_LOCATION),
@@ -162,7 +189,7 @@ const AITranslate = () => {
         faceapi.nets.faceExpressionNet.loadFromUri(FACE_API_MODEL_LOCATION),
         faceapi.nets.ssdMobilenetv1.loadFromUri(FACE_API_MODEL_LOCATION),
       ]).then(() => {
-        startVideo(event);
+        // startVideo(event);
       });
       video[0].addEventListener("play", () => {
         console.log("addEventListener");
@@ -172,13 +199,15 @@ const AITranslate = () => {
         // 100ms 마다 화면에 video frame이 표시 됨
         if (!interval.current) {
           console.log("setInterval");
+          setVideoStatus(VideoStatus.AI_TRANSLATE_WORKING);
           interval.current = setInterval(startDetect, 1000 / 30);
         }
       });
-    } else {
-      setNotifyMessage(START_MESSAGE);
-      translate();
-    }
+    } 
+    // else {
+    //   setNotifyMessage(START_MESSAGE);
+    //   translate();
+    // }
   }
 
   // video에서 얼굴을 식별
@@ -223,7 +252,7 @@ const AITranslate = () => {
   }
 
   function translate() {
-    _count.current = 0;
+    // _count.current = 0;
     manageDetection();
   }
 
@@ -251,17 +280,14 @@ const AITranslate = () => {
     // var data = canvas.current.toDataURL("image/jpeg", 0.5);
     const data = resizeImage(image);
     context.current.clearRect(0, 0, width, height);
-    // if (_count.current > 30) {
-    // _count.current = 0;
-    // console.log(data);
-    socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
-    // }
+    if (_count.current > 5)
+      socket.current.emit("image", data); //image 이벤트가 발생하면 data를 서버에 송신 data를 받기 위해 서버에서는 image 이벤트리스트를 만들놔야함
     _count.current++;
   }
 
   function removeWord(event) {
     event.preventDefault();
-    if (!isSpeeching) {
+    if (videoStatus !== VideoStatus.VIDEO_PLAYING || videoStatus !== VideoStatus.IS_LOADING) {
       socket.current.emit("image", "delete");
       cleanInterval();
       startTranslate();
@@ -280,8 +306,11 @@ const AITranslate = () => {
     return dataURI;
   };
 
+  const onSpeechHandler = (props) => {
+    setNotifyMessage(props);
+  }
+
   const onSpeechRecognitionHandler = (words) => {
-    const video = document.getElementsByClassName(styles.video);
     if (
       urls.current.length > 0 &&
       urls.current[urls.current.length - 1] === ""
@@ -293,17 +322,11 @@ const AITranslate = () => {
     if (urls.current.length > 0) {
       if (urls.current[0] === "") {
         urls.current.shift();
-        setIsSpeeching(false);
+        setNotifyMessage(START_MESSAGE)
         return;
       }
-      setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
-      // setVideoSrc(`${BASE_VIDEO_URL}너.mp4`);
-      video[0].playing = true;
+      setVideoStatus(VideoStatus.VIDEO_PLAYING);
     }
-  };
-
-  const onSpeechHandler = (props) => {
-    if (props) setIsSpeeching(props);
   };
 
   const onVideoEndedHandler = (event) => {
@@ -316,36 +339,36 @@ const AITranslate = () => {
       setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
       let playPromise = video.play();
       playPromise
-        ?.then((_) => {})
+        ?.then((_) => {return})
         .catch((error) => {
           console.log(error);
         });
     }
     if (urls.current.length === 0) {
       console.log("end");
-      setIsSpeeching(false);
+      setVideoStatus(VideoStatus.IS_LOADING);
       setVideoSrc("");
     }
   };
 
   const renderVideo = () => {
-    return !isSpeeching ? (
-      <video
+    if(videoStatus !== VideoStatus.VIDEO_PLAYING) {
+      return (<video
         className={styles.video}
         playsInline=""
         width={VIDEO_WIDTH}
         id="videoElement"
-      />
-    ) : (
-      <ReactPlayer
+      />);
+    } else {
+      return (<ReactPlayer
         className={styles.video}
         playing={true} // 자동 재생 on
         muted={true} // 자동 재생 on
         controls={false} // 플레이어 컨트롤 노출 여부
         onEnded={() => onVideoEndedHandler()}
         url={vidoeSrc}
-      />
-    );
+      />);
+    }
   };
 
   return (
@@ -361,33 +384,28 @@ const AITranslate = () => {
               className="startButton"
               value="시작하기"
             /> */}
-            <input
+            {/* <input
               type="button"
               onClick={removeWord}
               className="deleteButton"
               value="단어삭제"
-            />
+            /> */}
             {/* <input
               type="button"
               onClick={startTranslate}
               className="translateButton"
               value="변역하기"
             /> */}
-            <SpeechRecognitor
-              onSpeechRecognition={onSpeechRecognitionHandler}
-              onSpeech={onSpeechHandler}
-              onClean={cleanInterval}
-              BASE_URL={BASE_URL}
-            />
           </div>
         </div>
         <div className={styles.main}>
           <div id={styles.container}>
             <div className={styles.splash}>
-              {isAiLoading ? (
+              { 
+                videoStatus === VideoStatus.IS_LOADING ? (
                 <MoonLoader
                   color="#FFFFFF"
-                  loading={isAiLoading}
+                  loading={true}
                   size={100}
                   cssOverride={{
                     position: "absolute",
@@ -410,6 +428,11 @@ const AITranslate = () => {
               defaultValue={notifyMessage}
             />
           </div>
+          <SpeechRecognitor
+              onSpeech={onSpeechHandler}
+              onSpeechRecognition={onSpeechRecognitionHandler}
+              BASE_URL={BASE_URL}
+            />
         </div>
       </div>
     </React.Fragment>

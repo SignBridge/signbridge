@@ -15,7 +15,6 @@ import VideoRoomComponent from './components/VideoRoomComponent'
 import AITranslate from './pages/AITranslate/AITranslate';
 import WaitTemporary from './pages/WaitTemporary/WaitTemporary'
 import Profile from './pages/Profile'
-import LoadingPage from './pages/LoadingPage';
 
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
   
   return (
     <div className="App">
-
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MainPage />}></Route>

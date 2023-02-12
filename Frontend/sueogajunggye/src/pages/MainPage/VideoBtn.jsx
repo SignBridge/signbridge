@@ -72,55 +72,40 @@ function VideoBtn(props) {
   
 
     return (
-        <div className="video-box">
-            <div className="video-left-item">
-                <button onClick={sendRequestToTranslators}>
+        <div className="bg-container">
+            <div className="bg"></div>
+            <div className="main-items">
+                <div className="main-left-items">
+                    <div className="main-text-box">
+                        <h3>대기시간 없이,</h3>
+                        <h3>언제든 자유롭게,</h3>
+                        <h3>부담없는 AI 통역 서비스</h3>
+                    </div>
+                    <div className="main-btns">
+                        <div>
+                            <Link to="/cam">
+                                <button className="main-top-btn" onClick={sendRequestToTranslators}>통역사 매칭 서비스</button>
+                            </Link>
+                        </div>
+                        <div>
+                            <Link to="/aiTranslate">
+                                <button className="main-bottom-btn">AI 통역 서비스</button>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="main-video-wrap">
                     <video
-                        className="video-item" 
-                        src="/VideoSrc/v1.webm"
+                        src="/VideoSrc/mainVideo.mp4"
+                        muted
                         loop="true"
-                        onMouseOver={e => e.target.play()}
-                        onMouseLeave={e => e.target.pause()}
+                        autoPlay
+                        // onMouseOver={e => e.target.play()}
+                        // onMouseLeave={e => e.target.pause()}
                     ></video>
-                </button>
-                <div>통역사매칭서비스</div>
-            </div>   
-            
-            <div className="video-right-item">
-                <Link to="/aiTranslate">
-                <video
-                    className="video-item" 
-                    src="/VideoSrc/v2.webm"
-                    loop="true"
-                    onMouseOver={e => e.target.play()}
-                    onMouseLeave={e => e.target.pause()}
-                ></video>
-                </Link>
-                <div>AI통역서비스</div>
+                </div>
             </div>
-
-                {/* <HoverVideoPlayer
-                    restartOnPaused
-                    videoSrc={[
-                        { src: '/VideoSrc/v1.webm', type: 'video/webm' },
-                        { src: 'video.mp4', type: 'video/mp4' },
-                    ]}>
-                    </HoverVideoPlayer>
-                    <Link to="/cam" state={{test:false}}>
-                        <button className='matching-btn' type='submit'>통역사매칭서비스</button>
-                    </Link> */}
-
-                {/* <HoverVideoPlayer
-                        restartOnPaused
-                        videoSrc={[
-                            { src: '/VideoSrc/v2.webm', type: 'video/webm' },
-                            { src: 'video.mp4', type: 'video/mp4' },
-                        ]}>
-                    </HoverVideoPlayer>
-                    <Link to="/aiTranslate">
-                        <button className="matching-btn" type="submit">AI통역서비스</button>
-                    </Link> */}
-
         </div>
     )
 }

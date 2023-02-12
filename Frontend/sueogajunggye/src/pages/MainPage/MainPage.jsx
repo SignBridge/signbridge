@@ -1,4 +1,4 @@
-import Title from "./Title";
+import MainHeader from "./MainHeader";
 import VideoBtn from "./VideoBtn";
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
@@ -88,14 +88,12 @@ function MainPage(props) {
 
   return (
     <div className="main-box">
+      <MainHeader></MainHeader>
+      <VideoBtn></VideoBtn>
       <button onClick={sendRequestToTranslators}>통역사 매칭 서비스
       </button>
       <div id="acceptMessage">
         acceptMessage
-      </div>
-      <Title></Title>
-      <div className="main-bg-img">
-        <VideoBtn></VideoBtn>
       </div>
     </div>
   )
