@@ -120,6 +120,15 @@ canvas {
   }
 }
 
+@media (max-height: 400px) {
+  .footer {
+    height: 28%;
+  }
+  .ex_layout .main .footer .result_area {
+    font-size: 1em;
+  }
+}
+
 @media (min-height: 880px) {
   .footer {
     height: 17%;
