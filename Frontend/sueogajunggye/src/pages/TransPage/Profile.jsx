@@ -1,6 +1,6 @@
 // 6. useSelector import를 해주기
 import { useSelector, useDispatch } from 'react-redux';
-import { login, logout } from '../redux/user';
+import { login, logout } from '../../redux/user';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect, useRef } from 'react';
 // npm install --save react-socks 설치
@@ -10,7 +10,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 // 8. useDispatch 훅 사용
-import { requestTrans } from '../redux/session';
+import { requestTrans } from '../../redux/session'
 import axios from 'axios';
 
 
