@@ -45,7 +45,7 @@ public class AuthenticationConfig {
                 .antMatchers(HttpMethod.GET,"login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/reviews").hasAuthority("ADMIN")
                 //websocket
-                .mvcMatchers("/","/ws/**").permitAll()
+                .mvcMatchers("/","/wss/**").permitAll()
 
 
                 .and()
