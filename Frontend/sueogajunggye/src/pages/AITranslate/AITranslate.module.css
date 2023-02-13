@@ -78,6 +78,7 @@ canvas {
   display: table-cell;
   font-weight:bold;
 	font-size: 1.5em;
+  font-family: 'esamaru-bord';
   color: white;
 	text-align:center;
 	width: 100%;
@@ -119,8 +120,22 @@ canvas {
   }
 }
 
+@media (max-height: 400px) {
+  .footer {
+    height: 28%;
+  }
+  .ex_layout .main .footer .result_area {
+    font-size: 1em;
+  }
+}
+
 @media (min-height: 880px) {
   .footer {
-    height: 15%;
+    height: 17%;
   }
+}
+
+@font-face {
+  font-family: 'esamaru-bord';
+  src: url('../../assets/fonts/esamanru\ Bold.ttf');
 }

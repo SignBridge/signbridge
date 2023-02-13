@@ -23,7 +23,6 @@ import './Profile.css'
 import profileBasicImg from "../../assets/images/profileBasicImg.png";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
-
 function Profile() {
 
     // navigate 함수
@@ -32,14 +31,13 @@ function Profile() {
     const dispatch = useDispatch();
 
     // 7. user reducer에 있는 state에 접근
-    const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
+    const ssafyURL = 'https://i8d204.p.ssafy.io:8080';
     const localURL = 'http://localhost:8080'
     const user = useSelector((state) => state.user.value);
     console.log(user);
 
     // session reducer 에 있는 state에 접근 후 session 값 가져오기
     const openViduSession = useSelector((state) => state.session.value);
-    // console.log(`store에 저장된 값 : ${openViduSession.openViduSession.requestUserSessionIdentity}`)
 
 
     //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
@@ -70,7 +68,10 @@ function Profile() {
     };
     const SocketConnet = () => {
         console.log('연결됨');
-        const socket = new SockJS(`${localURL}/ws`);
+
+        // const socket = new SockJS(`${localURL}/ws`);
+
+        const socket = new SockJS(`${ssafyURL}/wss`);
         const client = Stomp.over(socket);
         
         client.connect({}, (frame) => {
@@ -89,7 +90,7 @@ function Profile() {
             console.log(pTag)
             pTag.parentNode.removeChild(pTag);
         });
-
+        MappingIdentityLoginUserName();
         });
         setPrivateStompClient(client);
     };
@@ -98,6 +99,10 @@ function Profile() {
     //     const text = "통역요청을 수락하시겠습니까?"
     //     privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
     //     };
+    const sendRequestToTranslators = () => {
+        const text = "통역요청을 수락하시겠습니까?"
+        privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
+        };
 
     const show = (requestUserSessionIdentity, client) => {
 
@@ -116,7 +121,6 @@ function Profile() {
                 identifySession: ""
             }));
 
-            // 요청을 수락 후 해당 요청은 모든 통역사 대기열에서 삭제
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
             navigate('/cam');
         })
@@ -136,9 +140,6 @@ function Profile() {
         // login 페이지로 이동
         navigate("/login");
     }
-
-    // redux에 저장할 변수명 : openViduSession
-
     //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
 
     return (
@@ -183,6 +184,18 @@ function Profile() {
                     </div>
                 </div>
             </div>
+
+            {/* <div id="aaa">
+                <button onClick={userLogout}>로그아웃</button>
+                <h1>Profile Page</h1>
+                <p> id : {user.userId.id}</p>
+                <p> pass : {user.userPass.pass}</p>
+                <p> name : {user.userName.username} </p>
+                <p> email : {user.userEmail.useremail} </p>
+                <p> isActive : {user.userIsActive.userisactive} </p>
+                <p> usertoken : {user.usertoken.usertoken}</p>
+                <div id="requestMessage"></div>
+            </div> */}
         </div>
     );
 }

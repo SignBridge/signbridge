@@ -1,14 +1,6 @@
 import MainHeader from "./MainHeader";
 import VideoBtn from "./VideoBtn";
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
-import React, { useState, useEffect, useRef } from 'react';
-import { Link } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-
-import { useSelector, useDispatch } from 'react-redux';
-// 8. useDispatch 훅 사용
-import { requestTrans } from '../../redux/session';
+import React from 'react';
 
 function MainPage(props) {
   const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
@@ -86,16 +78,10 @@ function MainPage(props) {
   }
   //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
 
-
   return (
     <div className="main-box">
       <MainHeader></MainHeader>
       <VideoBtn></VideoBtn>
-      <button onClick={sendRequestToTranslators}>통역사 매칭 서비스
-      </button>
-      <div id="acceptMessage">
-        acceptMessage
-      </div>
     </div>
   )
 }

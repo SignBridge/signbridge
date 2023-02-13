@@ -336,7 +336,9 @@ const AITranslate = () => {
     if (event) event.preventDefault();
     if (urls.current.length > 0) {
       console.log("next", urls.current[0]);
-      setVideoSrc(`${BASE_VIDEO_URL + urls.current.shift()}.mp4`);
+      const word = urls.current.shift()
+      setVideoSrc(`${BASE_VIDEO_URL + word}.mp4`);
+      setNotifyMessage(`\n${word}`);
       let playPromise = video.play();
       playPromise
         ?.then((_) => {return})
