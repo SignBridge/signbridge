@@ -18,16 +18,10 @@ import TransHeader from './TransHeader'
 // 카드 css
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-// 버튼 css
-// npm install @mui/material-next
-import Button from '@mui/material-next/Button';
 
 import './Profile.css'
-import profileBasicImg from "../../assets/images/profileBasicImg.png"
-import Logo from '../../assets/images/logo.png'
+import profileBasicImg from "../../assets/images/profileBasicImg.png";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
-
-import MyPage from '../MyPage/MyPage';
 
 
 function Profile() {
@@ -64,7 +58,7 @@ function Profile() {
 
     const MappingIdentityLoginUserName = async (e) => {
         try {
-        const response = await axios.post(`${ssafyURL}/mapping/login/user`, {sessionIdentity: _sessionIdentity.current}, {
+        const response = await axios.post(`${localURL}/mapping/login/user`, {sessionIdentity: _sessionIdentity.current}, {
             headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.usertoken.usertoken}`
@@ -76,7 +70,7 @@ function Profile() {
     };
     const SocketConnet = () => {
         console.log('연결됨');
-        const socket = new SockJS(`${ssafyURL}/ws`);
+        const socket = new SockJS(`${localURL}/ws`);
         const client = Stomp.over(socket);
         
         client.connect({}, (frame) => {
@@ -99,65 +93,33 @@ function Profile() {
         });
         setPrivateStompClient(client);
     };
-    const sendRequestToTranslators = () => {
-        const text = "통역요청을 수락하시겠습니까?"
-        privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
-        };
-    //한 통역사가 매칭을 수락했을때 다른 통역사들에게는 메세지가 삭제되도록 하는 소켓
 
-
+    // const sendRequestToTranslators = () => {
+    //     const text = "통역요청을 수락하시겠습니까?"
+    //     privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
+    //     };
 
     const show = (requestUserSessionIdentity, client) => {
-        //---------------------------------------------------------------------//
-
-        // const requestMessage = document.getElementById('requestMessage');
-        // const p = document.createElement('p');
-        // p.innerHTML = `통역요청이 왔습니다, 세션값 : ${requestUserSessionIdentity}`;
-        //수락버튼생성
-        // const acceptRequestBtn = document.createElement('button')
-        // acceptRequestBtn.innerText = "수락"
-        // acceptRequestBtn.setAttribute('id',requestUserSessionIdentity)
-        //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
-        // acceptRequestBtn.addEventListener('click',function(e){
-            // session 값을 store에 저장
-        //     dispatch(requestTrans({
-        //         openViduSession: {requestUserSessionIdentity},
-        //         identifySession: ""
-        //     }));
-
-
-        //     client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
-        //     navigate('/cam');
-        // })
-        // p.appendChild(acceptRequestBtn)
-        // requestMessage.appendChild(p);
-
-        //--------------------------------------------------------------------//
 
         const requestMessage = document.getElementById('requestMessage');
-        
-        //수락버튼생성
-        console.log('통역수락버튼생성됨!!!')
-        const acceptRequestBtn = document.createElement('div')
-        const acceptBtn = `<button class='transRequestBtn'>통역수락</button>`;
+        // 요청 시 요청메세지 생성 
+        requestMessage.innerHTML = `<div class='transRequestBg'>
+                <div class='transRequestText'>알림 : 수어 통역 요청이 왔습니다</div>
+                <button class='transRequestBtn'>통역수락</button>
+            </div>`
 
-        acceptRequestBtn.innerHTML = acceptBtn;
-        acceptRequestBtn.setAttribute('id', requestUserSessionIdentity)
-        //해당 요청을 수락했을때, openvidu와 연결 그리고 요청자에게 수락됐다는 메세지 전달
-        acceptRequestBtn.addEventListener('click',function(e){
+        // 해당 요청을 수락했을때, openvidu와 연결 & 요청자에게 수락됐다는 메세지 전달
+        requestMessage.addEventListener('click',function(e){
             // session 값을 store에 저장
             dispatch(requestTrans({
                 openViduSession: {requestUserSessionIdentity},
                 identifySession: ""
             }));
 
-
+            // 요청을 수락 후 해당 요청은 모든 통역사 대기열에서 삭제
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
             navigate('/cam');
         })
-
-
-        requestMessage.appendChild(acceptRequestBtn);
     }
 
     // 프로필 사진 함수
@@ -184,19 +146,13 @@ function Profile() {
             <TransHeader></TransHeader>
             <div className='profile-box'>
                 <div className='profile-side-box'>
-                    <div className="profile-pixture">
-                        <button className="profile-btn">
-                            <img className="profile-img" src={file} />
-                        </button>
-                        {/* <label htmlFor="file" onChange={handleChange}>파일찾기</label> */}
-                        {/* <label htmlFor="file" onClick={handleChange}>파일찾기</label> */}
-                        {/* <input type="file" onChange={handleChange} /> */}
-                    </div>
-                    <div className='profile-trans-name'>
-                        반갑습니다 {user.userName.username} 통역사님
-                        <button 
-                            className='profile-logout-btn'
-                            onClick={userLogout}><PowerSettingsNewIcon fontSize='small'></PowerSettingsNewIcon></button>
+                    <button id="sendMessage" onClick={MappingIdentityLoginUserName}>매핑</button>
+                    <button 
+                        className='profile-logout-btn'
+                        onClick={userLogout}><PowerSettingsNewIcon fontSize='large'></PowerSettingsNewIcon>
+                    </button>
+                    <div>
+                        <button className='profile-trans-name'>{user.userName.username} 통역사님</button>
                     </div>
                     <Box
                         className="profile-box-container"
@@ -204,30 +160,27 @@ function Profile() {
                             display: 'flex',
                             flexWrap: 'wrap',
                             '& > :not(style)': {
-                            m: 1,
-                            width: 300,
-                            height: 400,
+                                m: 1,
+                                width: 300,
+                                height: 470,
                             },
                         }}>
                         <Paper className='paper-box' elevation={3}>
-                            <div className='transRequestText'>수어 통역 요청이 왔습니다</div>
-                            <button className='transRequestBtn'>통역수락</button>
+                            <button className="profile-btn">
+                                <img className="profile-img" src={file} />
+                            </button>
+                            {/* <input type="file" onChange={handleChange} /> */}
                         </Paper>
                     </Box>
                 </div>
 
                 <div className='profile-content-box'>
-                    {/* <h1>Profile Page</h1>
-                    <p> id : {user.userId.id}</p>
-                    <p> pass : {user.userPass.pass}</p>
-                    <p> name : {user.userName.username} </p>
-                    <p> email : {user.userEmail.useremail} </p>
-                    <p> isActive : {user.userIsActive.userisactive} </p>
-                    <p> usertoken : {user.usertoken.usertoken}</p>
-                    <button id="sendMessage" onClick={MappingIdentityLoginUserName}>통역사용 : 고유식별값을 로그인 유저네임과 mapping</button>
-                    <button onClick={sendRequestToTranslators}>통역요청보내기</button> */}
-                    <MyPage></MyPage>
-                    <div id="requestMessage"></div>
+                    <br />
+                    <h1>통역 요청 대기열</h1>
+                    <br />
+                    <div className='profile-content-inner'>
+                        <div id="requestMessage"></div>
+                    </div>
                 </div>
             </div>
         </div>
