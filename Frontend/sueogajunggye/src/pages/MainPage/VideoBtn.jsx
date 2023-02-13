@@ -57,7 +57,6 @@ function VideoBtn(props) {
       console.log("handleClickhandleClickhandleClick : ",sessionIdentityArgu)
       navigate('/cam');
     };
-    ////////////////////////
   
     //통역사들에게 통역요청메세지를 전달하는 부분
 
