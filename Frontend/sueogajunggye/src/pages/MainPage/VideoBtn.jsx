@@ -29,7 +29,7 @@ function VideoBtn(props) {
   
     // 농인들이 소켓에 연결되는 부분
     const SocketConnet = () => {
-      const socket = new SockJS(`${ssafyURL}/ws`);
+      const socket = new SockJS(`${ssafyURL}/wss`);
       const client = Stomp.over(socket);
       client.connect({}, (frame) => {
         _sessionIdentity.current = frame.headers['user-name'];

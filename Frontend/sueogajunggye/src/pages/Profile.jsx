@@ -64,7 +64,7 @@ function Profile() {
     };
     const SocketConnet = () => {
         console.log('연결됨');
-        const socket = new SockJS(`${ssafyURL}/ws`);
+        const socket = new SockJS(`${ssafyURL}/wss`);
         const client = Stomp.over(socket);
         
         client.connect({}, (frame) => {
