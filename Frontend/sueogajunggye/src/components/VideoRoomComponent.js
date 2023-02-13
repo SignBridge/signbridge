@@ -15,7 +15,7 @@ import LoadingPage from '../pages/LoadingPage';
 
 //localUser 초기화
 var localUser = new UserModel();
-const openviduURL = 'https://i8d204.p.ssafy.io/';
+const openviduURL = 'https://i8d204.p.ssafy.io:5000';
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : openviduURL;
 console.log('0');
 
