@@ -21,16 +21,17 @@ button {
   justify-content: center;
 
   display: flex;
-  border: solid beige 0.5em;
+  border: none;
+  /* border: solid beige 0.5em; */
   border-radius: 2rem;
-  background: beige;
+  background: none;
 
-  font-size: large;
+  font-size: x-large;
   font-weight: 700;
 
   cursor: pointer;
   font-family: 'esamaru-bord';
-  margin-right: 10px;
+  /* margin-right: 5px; */
   text-shadow: 1.5px 1.5px 1.5px gray;
   }
 

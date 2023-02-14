@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // npm install @mui/icons-material 설치
 import LoginIcon from '@mui/icons-material/Login';
 
-function MainToTransBtn(props) {
+function TransToMainBtn(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,4 +22,4 @@ function MainToTransBtn(props) {
     )
 }
 
-export default MainToTransBtn;
+export default TransToMainBtn;
