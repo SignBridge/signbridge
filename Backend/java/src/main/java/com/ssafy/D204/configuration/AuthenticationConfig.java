@@ -45,14 +45,8 @@ public class AuthenticationConfig {
                 .antMatchers(HttpMethod.GET,"login").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/v1/reviews").hasAuthority("ADMIN")
                 //websocket
-                .mvcMatchers("/","/wss/**").permitAll()
-                
-                // 추가한 부분 by홍성민
-                .and().csrf().disable().authorizeRequests()
-                .antMatchers("/ws/info",
-                        "/ws/**"
-                )
-                .permitAll()
+                .mvcMatchers("/","/ws/**").permitAll()
+
 
                 .and()
                 .sessionManagement()
