@@ -10,7 +10,10 @@ const initialStateValue = {
     openViduSession: "",
 
     //농인이 접근해야하는 세션값
-    identifySession : ""
+    identifySession : "",
+
+    //상대방이 종료했을 경우
+    exitOther:0
 }
 
 export const sessionSlice = createSlice({
