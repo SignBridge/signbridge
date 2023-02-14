@@ -15,23 +15,24 @@ button {
 }
 
 .trans-btn, .main-btn {
-  width: 170px;
+  width: 150px;
   height: 60px;
   align-items: center;
   justify-content: center;
+
   display: flex;
+  border: none;
+  /* border: solid beige 0.5em; */
   border-radius: 2rem;
   background: none;
-  /* background-color: blue; */
-  /* color: white; */
+
   font-size: x-large;
   font-weight: 700;
-  /* border: none; */
-  /* margin-top: 1em;
-  margin-right: 1em; */
+
   cursor: pointer;
   font-family: 'esamaru-bord';
-  margin-right: 10px;
+  /* margin-right: 5px; */
+  text-shadow: 1.5px 1.5px 1.5px gray;
   }
 
 .back-btn {

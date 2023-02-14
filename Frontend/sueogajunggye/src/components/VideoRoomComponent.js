@@ -15,7 +15,7 @@ import LoadingPage from '../pages/LoadingPage';
 
 //localUser 초기화
 var localUser = new UserModel();
-const openviduURL = 'https://i8d204.p.ssafy.io:5000';
+const openviduURL = 'https://i8d204.p.ssafy.io';
 const APPLICATION_SERVER_URL = process.env.NODE_ENV === 'production' ? '' : openviduURL;
 console.log('0');
 
@@ -611,7 +611,7 @@ class VideoRoomComponent extends Component {
 
     async createSession(sessionId) {
         console.log('createSession');
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions', { customSessionId: sessionId }, {
+        const response = await axios.post(APPLICATION_SERVER_URL + '/api/sessions', { customSessionId: sessionId }, {
             headers: { 'Content-Type': 'application/json', },
         });
         console.log(`createSession response : ${response.data}`);
@@ -620,7 +620,7 @@ class VideoRoomComponent extends Component {
 
     async createToken(sessionId) {
         console.log('createToken'); 
-        const response = await axios.post(APPLICATION_SERVER_URL + 'api/sessions/' + sessionId + '/connections', {}, {
+        const response = await axios.post(APPLICATION_SERVER_URL + '/api/sessions/' + sessionId + '/connections', {}, {
             headers: { 'Content-Type': 'application/json', },
         });
         console.log(`createToken response : ${response.data}`)
