@@ -20,6 +20,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
 import './Profile.css'
+import choi from '../../assets/images/choi.png'
 import profileBasicImg from "../../assets/images/profileBasicImg.png";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
@@ -31,7 +32,7 @@ function Profile() {
     const dispatch = useDispatch();
 
     // 7. user reducer에 있는 state에 접근
-    const ssafyURL = 'https://i8d204.p.ssafy.io:8090';
+    const ssafyURL = 'https://i8d204.p.ssafy.io';
     const localURL = 'http://localhost:8080'
     const user = useSelector((state) => state.user.value);
     console.log(user);
@@ -107,7 +108,7 @@ function Profile() {
         const requestMessage = document.getElementById('requestMessage');
         // 요청 시 요청메세지 생성 
         requestMessage.innerHTML = `<div class='transRequestBg'>
-                <div class='transRequestText'>알림 : 수어 통역 요청이 왔습니다</div>
+                <div class='transRequestText'>수어 통역 요청이 왔습니다</div>
                 <button class='transRequestBtn'>통역수락</button>
             </div>`
 
@@ -125,7 +126,7 @@ function Profile() {
     }
 
     // 프로필 사진 함수
-    const [file, setFile] = useState(profileBasicImg);
+    const [file, setFile] = useState(choi);
     function handleChange(e) {
         console.log(e.target.files);
         setFile(URL.createObjectURL(e.target.files[0]));
@@ -145,10 +146,6 @@ function Profile() {
             <TransHeader></TransHeader>
             <div className='profile-box'>
                 <div className='profile-side-box'>
-                    <button 
-                        className='profile-logout-btn'
-                        onClick={userLogout}><PowerSettingsNewIcon fontSize='large'></PowerSettingsNewIcon>
-                    </button>
                     <div>
                         <button className='profile-trans-name'>{user.userName.username}<br></br>통역사님</button>
                     </div>
@@ -160,7 +157,7 @@ function Profile() {
                             '& > :not(style)': {
                                 m: 1,
                                 width: 300,
-                                height: 470,
+                                height: 400,
                             },
                         }}>
                         <Paper className='paper-box' elevation={3}>
@@ -170,6 +167,11 @@ function Profile() {
                             {/* <input type="file" onChange={handleChange} /> */}
                         </Paper>
                     </Box>
+                    {/* <button 
+                        className='profile-logout-btn'
+                        onClick={userLogout}><PowerSettingsNewIcon fontSize='large'></PowerSettingsNewIcon>
+                    </button> */}
+                    <button className='profile-logout-btn' onClick={userLogout}>로그아웃</button>
                 </div>
 
                 <div className='profile-content-box'>

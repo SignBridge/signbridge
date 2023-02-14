@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { requestTrans } from '../../redux/session';
 
 function VideoBtn(props) {
-    const ssafyURL = 'https://i8d204.p.ssafy.io:8090';
+    const ssafyURL = 'https://i8d204.p.ssafy.io';
     const identifySession = useSelector((state) => state.session.value);
     console.log("identifySession 처음값 : ",identifySession.identifySession)
   
