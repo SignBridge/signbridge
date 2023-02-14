@@ -145,13 +145,12 @@ function Profile() {
             <TransHeader></TransHeader>
             <div className='profile-box'>
                 <div className='profile-side-box'>
-                    <button id="sendMessage" onClick={MappingIdentityLoginUserName}>매핑</button>
                     <button 
                         className='profile-logout-btn'
                         onClick={userLogout}><PowerSettingsNewIcon fontSize='large'></PowerSettingsNewIcon>
                     </button>
                     <div>
-                        <button className='profile-trans-name'>{user.userName.username} 통역사님</button>
+                        <button className='profile-trans-name'>{user.userName.username}<br></br>통역사님</button>
                     </div>
                     <Box
                         className="profile-box-container"
