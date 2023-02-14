@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './LoadingPage.css';
@@ -14,7 +14,9 @@ function LoadingPage(props) {
     const startTime = moment()
 
     const [waitingState, setWaitingState] = useState('원활');
-    
+    const [sessionIdentity, setSessionIdentity] = useState(null);
+    let _sessionIdentity = useRef();
+
     const waitingNums = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -33,15 +35,25 @@ function LoadingPage(props) {
             setWaitingState('보통');
         }
     }
-    console.log('되나');
-    console.log(props);
-
     const navigate = useNavigate();
     const leaveSession = (event) => {
-        event.preventDefault();
         props.leaveSession();
         navigate('/');
     }
+    //leavesession실행됨
+    //여기서 농인 통역사 구분해서 페이지 보내기
+    if(props.reload!==0){
+        if(props.who!==undefined){ //통역사
+            props.leaveSession();
+            navigate('/profile');
+        }else{
+            leaveSession();
+        }
+    }
+
+
+
+    
 
     return (
         <div className="loading-page">
