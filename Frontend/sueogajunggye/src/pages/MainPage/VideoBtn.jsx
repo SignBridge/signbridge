@@ -10,7 +10,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { requestTrans } from '../../redux/session';
 
 function VideoBtn(props) {
-    const ssafyURL = 'https://i8d204.p.ssafy.io';
+    const ssafyURL = 'https://i8d204.p.ssafy.io:8090';
     const identifySession = useSelector((state) => state.session.value);
     console.log("identifySession 처음값 : ",identifySession.identifySession)
   
@@ -29,7 +29,7 @@ function VideoBtn(props) {
   
     // 농인들이 소켓에 연결되는 부분
     const SocketConnet = () => {
-      const socket = new SockJS(`${ssafyURL}/wss`);
+      const socket = new SockJS(`${ssafyURL}/ws`);
       const client = Stomp.over(socket);
       client.connect({}, (frame) => {
         _sessionIdentity.current = frame.headers['user-name'];

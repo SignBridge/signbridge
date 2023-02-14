@@ -12,7 +12,7 @@ import axios from 'axios';
 function LoginPage(props) {
 
 
-  const ssafyURL = 'http://i8d204.p.ssafy.io:8080';
+  const ssafyURL = 'https://i8d204.p.ssafy.io:8090';
   const localURL = 'http://localhost:8080'
     // link 대신 navigate 사용하기
     const navigate = useNavigate();
