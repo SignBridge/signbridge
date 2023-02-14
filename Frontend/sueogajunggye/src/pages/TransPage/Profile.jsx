@@ -56,7 +56,7 @@ function Profile() {
 
     const MappingIdentityLoginUserName = async (e) => {
         try {
-        const response = await axios.post(`${localURL}/mapping/login/user`, {sessionIdentity: _sessionIdentity.current}, {
+        const response = await axios.post(`${ssafyURL}/mapping/login/user`, {sessionIdentity: _sessionIdentity.current}, {
             headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${user.usertoken.usertoken}`

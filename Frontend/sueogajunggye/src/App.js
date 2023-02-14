@@ -13,8 +13,6 @@ import FindPassPage from './pages/IdPassPage/FindPassPage';
 import MainPage from './pages/MainPage/MainPage'
 import VideoRoomComponent from './components/VideoRoomComponent'
 import AITranslate from './pages/AITranslate/AITranslate';
-
-import WaitTemporary from './pages/WaitTemporary/WaitTemporary'
 import Profile from './pages/TransPage/Profile';
 
 

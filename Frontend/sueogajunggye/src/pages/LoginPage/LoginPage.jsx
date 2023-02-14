@@ -34,7 +34,7 @@ function LoginPage(props) {
         console.log('axios 요청보내기')
         e.preventDefault();
         try {
-          const response = await axios.post(`${localURL}/api/v1/users/login`,
+          const response = await axios.post(`${ssafyURL}/api/v1/users/login`,
             JSON.stringify({'userName': userid.current.value, 'password': userpassword.current.value}),
             {
               headers: {
