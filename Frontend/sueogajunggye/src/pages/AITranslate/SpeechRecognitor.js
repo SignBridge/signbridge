@@ -30,7 +30,7 @@ const SpeechRecognitor = (props) => {
       }
       await axios
         .get(
-          `${props.BASE_URL}:${VOICE_PORT_NUMBER}/ai/recording/analyze?speech=${transcript}`
+          `${props.BASE_URL}/ai/recording/analyze?speech=${transcript}`
         )
         .then((response) => {
           props.onSpeechRecognition(response.data.split(" "));

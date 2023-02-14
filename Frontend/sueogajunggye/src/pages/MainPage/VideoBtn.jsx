@@ -40,7 +40,8 @@ function VideoBtn(props) {
         // 농인의 고유 식별값을 store에 저장
         dispatch(requestTrans({
           openViduSession: "",
-          identifySession: _sessionIdentity.current
+          identifySession: _sessionIdentity.current,
+          exitOther:0
         }))
   
         setSessionIdentity(_sessionIdentity.current);

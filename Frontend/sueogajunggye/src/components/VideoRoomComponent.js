@@ -35,7 +35,7 @@ class VideoRoomComponent extends Component {
         console.log("useruseruseruseruser : ",storeValue.user.value.userId.id)
         console.log("농인 농인 농인 농인 농인 농인 :",storeValue.session.value.identifySession )
         console.log("통역사 통역사 통역사 통역사 통역사 :",storeValue.session.value.openViduSession.requestUserSessionIdentity)
-
+        let iden = storeValue.session.value.openViduSession.requestUserSessionIdentity;
         if(storeValue.session.value.openViduSession.requestUserSessionIdentity){
             ConnectOpenVisuSessionKey = storeValue.session.value.openViduSession.requestUserSessionIdentity
         }else{
@@ -83,7 +83,8 @@ class VideoRoomComponent extends Component {
             subscribers: [],
             chatDisplay: 'none',
             currentVideoDevice: undefined,
-            relode:0,
+            reload:0,
+            who:iden,
         };
 
         this.joinSession = this.joinSession.bind(this);
@@ -510,6 +511,8 @@ class VideoRoomComponent extends Component {
         const localUser = this.state.localUser;
         var chatDisplay = { display: this.state.chatDisplay };
         const now = this.state.subscribers;
+        var reload = this.state.reload;
+        const who = this.state.who;
         const parent = {display : 'grid' ,
         'grid-template-columns': 'repeat(8, 1fr)',
         'grid-template-rows':'repeat(5, 1fr)',
@@ -529,9 +532,13 @@ class VideoRoomComponent extends Component {
             return(
                 // <WaitTemporary/>
                 <LoadingPage
-                leaveSession = {this.leaveSession}/>
+                leaveSession = {this.leaveSession}
+                reload = {reload}
+                who={who}
+                />
             )
         }else if(now.length===1){
+            this.state.reload=1;
             return (
                 <div className="container" id="container">
                     {/* 툴바 컴포넌트 */}

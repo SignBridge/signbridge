@@ -3,6 +3,8 @@ import './ToolbarComponent.css';
 
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { useNavigate } from 'react-router-dom';
 
 import Mic from '@material-ui/icons/Mic';
 import MicOff from '@material-ui/icons/MicOff';
@@ -17,13 +19,13 @@ import SwitchVideoIcon from '@material-ui/icons/SwitchVideo';
 import Tooltip from '@material-ui/core/Tooltip';
 import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
-
+import {  connect } from 'react-redux';
 import IconButton from '@material-ui/core/IconButton';
-import { Link } from "react-router-dom";
+import { Link} from "react-router-dom";
 // const logo = require('../../assets/images/openvidu_logo.png');
 console.log('툴바 컴포넌트 내부');
 
-export default class ToolbarComponent extends Component {
+class ToolbarComponent extends Component {
     constructor(props) {
         console.log('툴바 컴포넌트 내부 생성자');
         super(props);
@@ -38,15 +40,23 @@ export default class ToolbarComponent extends Component {
         this.switchCamera = this.switchCamera.bind(this);
         this.leaveSession = this.leaveSession.bind(this);
         this.toggleChat = this.toggleChat.bind(this);
+        const { storeValue } = this.props;
+        console.log('툴바컴포넌트 생성자');
+        console.log({storeValue});
+        
     }
-
+    
+    
 
     micStatusChanged() {
+        console.log(this.props.storeValue.session.value);
         this.props.micStatusChanged();
+        
     }
 
     camStatusChanged() {
         this.props.camStatusChanged();
+        
     }
 
     // screenShare() {
@@ -63,14 +73,18 @@ export default class ToolbarComponent extends Component {
     }
 
     switchCamera() {
+        
         this.props.switchCamera();
+        if(this.storeValue.session.value.identifySession===""){
+            console.log('농인');
+        }
     }
 
     leaveSession() {
-        const leaveSession = this.props.leaveSession();
-        // return(
-        //     <Link to="/">{leaveSession}</Link>
-        // )
+        
+        if(this.props.storeValue.session.value.identifySession===""){
+            window.history.back();
+        }
     }
 
     toggleChat() {
@@ -81,6 +95,13 @@ export default class ToolbarComponent extends Component {
     render() {
         const mySessionId = this.props.sessionId;
         const localUser = this.props.user;
+        // this.set
+        // const navigate = this.useNavigate();
+        // 9. action을 보낼 수 있도록 dispatch 함수정의
+        // const dispatch = this.useDispatch();
+        // const user = this.useSelector((state) => state.user.value);
+        // console.log(user);
+
         console.log('여기도 생성자 뒤 맨 처음?');
         return (
             <AppBar className="toolbar" id="header">
@@ -145,3 +166,9 @@ export default class ToolbarComponent extends Component {
         );
     }
 }
+
+const mapStateToProps = (state)=>({
+    storeValue: state
+});
+// export default connect(mapStateToProps)
+export default connect(mapStateToProps)(ToolbarComponent);

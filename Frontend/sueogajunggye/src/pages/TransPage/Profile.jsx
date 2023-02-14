@@ -117,7 +117,8 @@ function Profile() {
             // session 값을 store에 저장
             dispatch(requestTrans({
                 openViduSession: {requestUserSessionIdentity},
-                identifySession: ""
+                identifySession: "",
+                exitOther:0
             }));
 
             client.send('/app/accept', {}, JSON.stringify({sessionIdentity: requestUserSessionIdentity }))
