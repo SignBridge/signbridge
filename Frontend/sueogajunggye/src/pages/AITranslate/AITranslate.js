@@ -19,7 +19,7 @@ const START_MESSAGE = "\n번역을 시작합니다.\n\n얼굴, 어깨, 팔꿈치
 const FAIL_MESSAGE = "\n단어 인식에 실패하였습니다.\n\n얼굴, 어깨, 팔꿈치, 손이 보이도록\n기기를 배치해주세요.";
 const VIDEO_WIDTH = 640;
 const VIDEO_HEIGHT = 480;
-let BASE_URL = "";
+let BASE_URL = "https://i8d204.p.ssafy.io";
 const BASE_VIDEO_URL =
   "https://d204.s3.ap-northeast-1.amazonaws.com/수어애니메이션/";
 
@@ -103,9 +103,9 @@ const AITranslate = () => {
     //   window.location.protocol + "//" + document.domain;
     // BASE_URL = "https://i8d204.p.ssafy.io";
     //서버 통신
-    BASE_URL = `http://13.125.38.154`;
+    BASE_URL = `https://i8d204.p.ssafy.io`;
 
-    socket.current = io.connect(`${BASE_URL}:${PORT_NUMBER}`, {
+    socket.current = io.connect(`${BASE_URL}`, {
       cors: { origin: "*" },
     });
     socket.current.on("connect", function () {
