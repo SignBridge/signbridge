@@ -31,7 +31,7 @@ function Profile() {
     const dispatch = useDispatch();
 
     // 7. user reducer에 있는 state에 접근
-    const ssafyURL = 'https://i8d204.p.ssafy.io:8090';
+    const ssafyURL = 'https://i8d204.p.ssafy.io';
     const localURL = 'http://localhost:8080'
     const user = useSelector((state) => state.user.value);
     console.log(user);
