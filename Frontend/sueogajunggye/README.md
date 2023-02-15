@@ -4,7 +4,8 @@
 ```
 ## 로컬에서 실행 방법
 ```
-git clone 
+git clone https://lab.ssafy.com/s08-webmobile1-sub2/S08P12D204.git
+cd Frontend/sueogajunggye
 npm i --force
 npm start
 ```
