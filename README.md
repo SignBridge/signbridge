@@ -123,8 +123,44 @@ AWS EC2
 //### 기능 명세 요구사항 정의서
 ## Rest API
 ## ERD
+![image](https://user-images.githubusercontent.com/53904156/218959361-7bd73e44-d0b5-4991-97bc-40f0d725a899.png)
+<br/>
+
 ## 와이어 프레임
+![Design system for React   Figma  Web app templates (Community)2](https://user-images.githubusercontent.com/53904156/218961580-69f0958d-7f4b-438b-9e2d-1094ba415893.png)
+<br />
+
 ## Convention
+#### Commit Convention
+```
+[FE/BE]Type - 커밋 제목
+```
+![image](https://user-images.githubusercontent.com/53904156/218959179-05248b3f-c05b-4d81-bc16-47c732f7ab6c.png)
+<br />
+1. 커밋 제목 앞에 [FE / BE]를 붙여 프론트엔드인지 백엔드인지 구분
+2. Type은 아래와 같이 사용
+```
+feat - 새로운 기능 추가
+fix - 버그 수정
+build - 빌드 관련 파일 수정
+ci - CI 관련 설정 수정
+docs - 문서 (문서 추가, 수정, 삭제)
+style - 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없는 경우)
+refactor - 코드 리팩토링
+test - 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없는 경우)
+comment - 주석 추가, 변경
+remove - 기능 제거 or 파일 삭제만 수행한 경우
+chore - 기타 변경사항 (빌드 스크립트 수정 등)
+css - css파일 수정
+rename - 파일 / 폴더 이름 수정
+```
+
 ## 팀 소개
+### 프론트
+`강인주`, `이지예`, `박채성`
+### 백엔드
+`이재완`, `홍성민`, `최성민`
+<br />
+
 ### 팀원별 역할
 ### 소감
