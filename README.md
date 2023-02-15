@@ -122,6 +122,21 @@ AWS EC2
 ```
 //### 기능 명세 요구사항 정의서
 ## Rest API
+1. 로그인: `POST`, '/api/v1/users/login'
+{
+    'userName': '유저 아이디',
+    'password' : '비밀번호'
+}
+2. : `POST`, '/mapping/login/user'
+{
+    sessionIdentity: '소켓 키'
+}
+## Socket 통신
+### Spring Boot
+
+<br />
+### 
+<br />
 ## ERD
 ![image](https://user-images.githubusercontent.com/53904156/218959361-7bd73e44-d0b5-4991-97bc-40f0d725a899.png)
 <br/>
