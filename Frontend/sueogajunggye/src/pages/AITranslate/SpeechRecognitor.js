@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect } from "react";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -10,7 +10,6 @@ import ClearIcon from "@mui/icons-material/Clear";
 import styles from "./SpeechRecognitor.module.css";
 import { Link } from "react-router-dom";
 // import { border, style } from "@mui/system";
-const VOICE_PORT_NUMBER = 5001;
 const SpeechRecognitor = (props) => {
   const {
     transcript,
