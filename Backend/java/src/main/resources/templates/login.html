@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<h2>Login</h2>
+<form id="login-form">
+  <div>
+    <label for="userName">Username:</label>
+    <input type="text" id="userName" name="userName" required>
+  </div>
+  <div>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+  </div>
+  <button type="submit">Submit</button>
+</form>
+<script>
+  $("#login-form").submit(function(event) {
+    event.preventDefault();
+
+    var userName = $("#userName").val();
+    var password = $("#password").val();
+
+    $.ajax({
+      url: "/api/v1/users/login",
+      type: "post",
+      contentType: "application/json",
+      data: JSON.stringify({ userName: userName, password: password }),
+      success: function(response) {
+        console.log("Success:", response);
+      },
+      error: function(error) {
+        console.error("Error:", error);
+      }
+    });
+  });
+</script>
+</body>
+</html>
