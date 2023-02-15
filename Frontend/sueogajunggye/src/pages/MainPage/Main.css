@@ -2,7 +2,6 @@
 
 .title-box {
     display: flex;
-    /* flex-direction: row; */
     align-items: center;
     justify-content: space-between;
     height: 70px;
@@ -15,7 +14,6 @@
     align-items: center;
     font-family: 'esamaru-bord';
     text-shadow: 1.5px 1.5px 1.5px gray;
-
 }
 
 
@@ -34,7 +32,6 @@
     top: 0;
     left: 0;
     background: url(../../assets/images/bgImg.png) no-repeat center/cover;
-    /* opacity: 0.5; */
     z-index: -3;
 }
 
@@ -50,8 +47,6 @@
     text-align: center;
     left: 240px;
     top: 110px;
-    /* width: 60vw;
-    height: 50vh; */
 }
 
 .main-text-box {
@@ -106,13 +101,11 @@
     position: absolute;
     left: 800px;
     top: 80px;
-    /* transform: translateX(-50%); */
     border-radius: 1em;
     height: 60vh;
     min-height: 500px;
     border: solid 0.5em black;
 }
-
 
 @font-face {
     font-family: 'esamaru-bord';

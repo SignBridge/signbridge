@@ -5,7 +5,7 @@ class UserModel {
     screenShareActive;
     nickname;
     streamManager;
-    type; // 'remote' | 'local'
+    type;
 
     constructor() {
         this.connectionId = '';

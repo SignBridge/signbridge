@@ -13,17 +13,15 @@ function MainHeader(props) {
     }
     const navigate = useNavigate();
     function goToHome(){
-        console.log('go home');
         navigate('/');
     }
     return (
         <div className="title-box">
             <Link to="/">
             <button style={{border: 'none', 'background-color':'white'}}>
-            <div className="title-header hhh" ><img src={Logo} />수어가중계</div>
+            <div className="title-header" ><img src={Logo} />손길</div>
             </button>
             </Link>
-            
             <MainToTransBtn></MainToTransBtn>
         </div>
     );

@@ -10,9 +10,7 @@ function FindIdPage(props) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(name);
     }
-
 
     return (
         <div>
@@ -31,13 +29,10 @@ function FindIdPage(props) {
                             </Link>
                         </div>
                         <form className='id-form' onSubmit={handleSubmit}>
-                            {/* <label htmlFor="id">아이디 찾기</label> */}
                             <input className='find-input' value={name} onChange={(e) => setName(e.target.value)} type="text" placeholder='이름' />
                             <br />
-                            <input className='find-input' value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder='이메일' />
-                                
+                            <input className='find-input' value={email} onChange={(e) => setEmail(e.target.value)} type="text" placeholder='이메일' />     
                             <button className='check-btn' type='submit'>확인</button>
-
                         </form>
                         <Link to="/login">
                             <button className='movePage'>로그인 하기</button>

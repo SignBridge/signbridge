@@ -115,7 +115,7 @@ class ToolbarComponent extends Component {
                         /> */}
 
                         {this.props.sessionId && <div id="titleContent">
-                            <span id="session-title">수어가중계</span>
+                            <div id="session-title">손길</div>
                         </div>}
                     </div>
 

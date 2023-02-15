@@ -13,7 +13,6 @@
     top: 0;
     left: 0;
     background: url(../../assets/images/bgImg.png) no-repeat center/cover;
-    /* opacity: 0.5; */
     z-index: -3;
 }
 
@@ -28,13 +27,6 @@
     z-index: 5;
 }
 
-/* .login-top-items {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    padding: 2em;
-} */
-
 .login-form-container {
     display: flex;
     flex-direction: column;
@@ -44,17 +36,13 @@
     padding-bottom: 1rem;
     border: 10px solid black;
     border-radius: 10px;
-
     position: absolute;
     margin-top: 15vh;
     margin-left: 100vw;
-
     min-width: 300px;
     width: 25vw;
     height: 65vh;
-
     color: white;
-
     font-family: 'esamaru-bord';
 
 }
@@ -76,8 +64,6 @@
     margin-top: 1rem;
     font-weight: 700;
     font-size: 1em;
-    /* margin-left: 10vw;
-    margin-right: 10vw; */
 }
 
 .login-input-item {

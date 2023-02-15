@@ -1,49 +1,28 @@
-// 6. useSelector import를 해주기
 import { useSelector, useDispatch } from 'react-redux';
 import { login, logout } from '../../redux/user';
 import React, { useState, useEffect, useRef } from 'react';
-// npm install --save react-socks 설치
-// npm install --save react-stomp 설치
-// npm install socket.io-client 설치
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import { useNavigate } from 'react-router-dom';
-
-// 8. useDispatch 훅 사용
 import { requestTrans } from '../../redux/session'
 import axios from 'axios';
-
 import TransHeader from './TransHeader'
-
-// 카드 css
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
-
 import './Profile.css'
-import choi from '../../assets/images/choi.png'
-import profileBasicImg from "../../assets/images/profileBasicImg.png";
-import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 function Profile() {
     
-    // navigate 함수
     const navigate = useNavigate();
-    // 9. action을 보낼 수 있도록 dispatch 함수정의
     const dispatch = useDispatch();
     
-    // 7. user reducer에 있는 state에 접근
     const ssafyURL = 'https://i8d204.p.ssafy.io';
     const localURL = 'http://localhost:8080'
     const user = useSelector((state) => state.user.value);
-    // console.log(user);
-    // console.log(`user id : ${user.userId.id}`);
     const Img = `https://d204.s3.ap-northeast-1.amazonaws.com/%ED%86%B5%EC%97%AD%EC%82%AC/${user.userId.id}`
 
-    // session reducer 에 있는 state에 접근 후 session 값 가져오기
     const openViduSession = useSelector((state) => state.session.value);
 
-
-    //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
     const [privateStompClient, setPrivateStompClient] = useState(null);
     const [sessionIdentity, setSessionIdentity] = useState(null);
 
@@ -78,13 +57,10 @@ function Profile() {
         client.connect({}, (frame) => {
         _sessionIdentity.current = frame.headers['user-name'];
         setSessionIdentity(_sessionIdentity.current);
-        //통역신청이 올때의 메세지를 받는 소켓구독
         client.subscribe(socketSubscripeURL, (result) => {
             show(result.body,client)
         });
-        //다른 통역사가 메세지를 수락했을때 받는 소켓 구독
         client.subscribe(deleteRequestMessageSubscriptURL, (result) => {
-            //메세지 삭제로직
             const buttonId = result.body
             const btn = document.getElementById(buttonId)
             const pTag = btn.parentNode;
@@ -96,27 +72,15 @@ function Profile() {
         setPrivateStompClient(client);
     };
 
-    // const sendRequestToTranslators = () => {
-    //     const text = "통역요청을 수락하시겠습니까?"
-    //     privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
-    //     };
-    const sendRequestToTranslators = () => {
-        const text = "통역요청을 수락하시겠습니까?"
-        privateStompClient.send(sendSocketRequestURL, {}, JSON.stringify({sessionIdentity: _sessionIdentity.current }));
-        };
-
     const show = (requestUserSessionIdentity, client) => {
 
         const requestMessage = document.getElementById('requestMessage');
-        // 요청 시 요청메세지 생성 
         requestMessage.innerHTML = `<div class='transRequestBg'>
                 <div class='transRequestText'>수어 통역 요청이 왔습니다</div>
                 <button class='transRequestBtn'>통역수락</button>
             </div>`
 
-        // 해당 요청을 수락했을때, openvidu와 연결 & 요청자에게 수락됐다는 메세지 전달
         requestMessage.addEventListener('click',function(e){
-            // session 값을 store에 저장
             dispatch(requestTrans({
                 openViduSession: {requestUserSessionIdentity},
                 identifySession: "",
@@ -128,21 +92,10 @@ function Profile() {
         })
     }
 
-    // 프로필 사진 함수
-    // const [file, setFile] = useState(choi);
-    // function handleChange(e) {
-    //     console.log(e.target.files);
-    //     setFile(URL.createObjectURL(e.target.files[0]));
-    // }
-
-    // 로그아웃
     function userLogout() {
-        // 로그아웃 시 회원 정보 초기화
         dispatch(logout())
-        // login 페이지로 이동
         navigate("/login");
     }
-    //////////////////////////////////////////////////////////////////////////// 소켓통신부분 (by 최성민)
 
     return (
         <div>
@@ -167,13 +120,8 @@ function Profile() {
                             <button className="profile-btn">
                                 <img className="profile-img" src={Img} />
                             </button>
-                            {/* <input type="file" onChange={handleChange} /> */}
                         </Paper>
                     </Box>
-                    {/* <button 
-                        className='profile-logout-btn'
-                        onClick={userLogout}><PowerSettingsNewIcon fontSize='large'></PowerSettingsNewIcon>
-                    </button> */}
                     <button className='profile-logout-btn' onClick={userLogout}>로그아웃</button>
                 </div>
 
@@ -186,18 +134,6 @@ function Profile() {
                     </div>
                 </div>
             </div>
-
-            {/* <div id="aaa">
-                <button onClick={userLogout}>로그아웃</button>
-                <h1>Profile Page</h1>
-                <p> id : {user.userId.id}</p>
-                <p> pass : {user.userPass.pass}</p>
-                <p> name : {user.userName.username} </p>
-                <p> email : {user.userEmail.useremail} </p>
-                <p> isActive : {user.userIsActive.userisactive} </p>
-                <p> usertoken : {user.usertoken.usertoken}</p>
-                <div id="requestMessage"></div>
-            </div> */}
         </div>
     );
 }

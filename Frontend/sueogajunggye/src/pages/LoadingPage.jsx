@@ -2,62 +2,32 @@ import React, { useState,useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import './LoadingPage.css';
-
-// node 8 이상 && npm install --save moment react-moment 설치
 import Moment from 'react-moment';
 import moment from "moment/moment";
-// 안써도 자동으로 한국 시간을 불러온다. 명확하게 하기 위해 import
 import 'moment/locale/ko'
-
 import { keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
-// import colors from '../style/colors';
 
 function LoadingPage(props) {
 
     const startTime = moment()
 
-    const [waitingState, setWaitingState] = useState('원활');
-    const [sessionIdentity, setSessionIdentity] = useState(null);
     let _sessionIdentity = useRef();
 
-    const waitingNums = (min, max) => {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
-
-    function waiting(e) {
-        e.preventDefault();
-
-        const nums = waitingNums(0, 50);
-        console.log(nums);
-
-        if (nums >= 21) {
-            setWaitingState('혼잡');
-        } else if (nums < 10) {
-            setWaitingState('원활');
-        } else {
-            setWaitingState('보통');
-        }
-    }
     const navigate = useNavigate();
     const leaveSession = (event) => {
         props.leaveSession();
         navigate('/');
     }
-    //leavesession실행됨
-    //여기서 농인 통역사 구분해서 페이지 보내기
+
     if(props.reload!==0){
-        if(props.who!==undefined){ //통역사
+        if(props.who!==undefined){
             props.leaveSession();
             navigate('/profile');
         }else{
             leaveSession();
         }
     }
-
-
-
-    
 
     const bounce = keyframes`
         0 {
@@ -103,20 +73,11 @@ function LoadingPage(props) {
     });
 
     return (
-        <div className="loading-page">
-            {/* <div className="loading-top-items">
-                <button className="loading-waiting-btn" onClick={waiting}>{waitingState}</button>
-            </div> */}
-            
+        <div className="loading-page">         
             <div className="loading-container">
                 <div className="loading-items">
                     <div className="loading-video">
                         <div className="loading-video-box">
-                            {/* <video className="loading-video-item" muted autoPlay loop>
-                                <source src="/VideoSrc/v1.webm" type="video/webm"/>
-                            </video> */}
-                            {/* <br />
-                            <div className="loading-waiting-txt">통역 요청 승인 대기중입니다.</div> */}
                             <Text>
                                 통역 요청 승인 대기중입니다
                             </Text>
