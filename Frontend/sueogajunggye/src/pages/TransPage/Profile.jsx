@@ -25,17 +25,19 @@ import profileBasicImg from "../../assets/images/profileBasicImg.png";
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 
 function Profile() {
-
+    
     // navigate 함수
     const navigate = useNavigate();
     // 9. action을 보낼 수 있도록 dispatch 함수정의
     const dispatch = useDispatch();
-
+    
     // 7. user reducer에 있는 state에 접근
     const ssafyURL = 'https://i8d204.p.ssafy.io';
     const localURL = 'http://localhost:8080'
     const user = useSelector((state) => state.user.value);
-    console.log(user);
+    // console.log(user);
+    // console.log(`user id : ${user.userId.id}`);
+    const Img = `https://d204.s3.ap-northeast-1.amazonaws.com/%ED%86%B5%EC%97%AD%EC%82%AC/${user.userId.id}`
 
     // session reducer 에 있는 state에 접근 후 session 값 가져오기
     const openViduSession = useSelector((state) => state.session.value);
@@ -127,11 +129,11 @@ function Profile() {
     }
 
     // 프로필 사진 함수
-    const [file, setFile] = useState(choi);
-    function handleChange(e) {
-        console.log(e.target.files);
-        setFile(URL.createObjectURL(e.target.files[0]));
-    }
+    // const [file, setFile] = useState(choi);
+    // function handleChange(e) {
+    //     console.log(e.target.files);
+    //     setFile(URL.createObjectURL(e.target.files[0]));
+    // }
 
     // 로그아웃
     function userLogout() {
@@ -163,7 +165,7 @@ function Profile() {
                         }}>
                         <Paper className='paper-box' elevation={3}>
                             <button className="profile-btn">
-                                <img className="profile-img" src={file} />
+                                <img className="profile-img" src={Img} />
                             </button>
                             {/* <input type="file" onChange={handleChange} /> */}
                         </Paper>
