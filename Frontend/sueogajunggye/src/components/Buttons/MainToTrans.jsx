@@ -3,14 +3,9 @@ import './Buttons.css';
 import { Link } from 'react-router-dom';
 // npm install @mui/icons-material 설치
 import LoginIcon from '@mui/icons-material/Login';
-import Button from '@mui/material-next/Button';
 
 
 function MainToTransBtn(props) {
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-    }
 
     return (
         <div className="trans-box">

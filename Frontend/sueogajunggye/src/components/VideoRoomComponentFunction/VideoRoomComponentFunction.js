@@ -5,20 +5,18 @@ import UserModel from '../../models/user-model';
 var localUser = new UserModel();
 
 export default class ToolbarComponent extends Component {
-    //컴포넌트 생명주기2 - 렌더링 이후 호출됨
     componentDidMount() {
-        console.log('3');
         const openViduLayoutOptions = {
-            maxRatio: 3 / 2, // The narrowest ratio that will be used (default 2x3)
-            minRatio: 9 / 16, // The widest ratio that will be used (default 16x9)
-            fixedRatio: false, // If this is true then the aspect ratio of the video is maintained and minRatio and maxRatio are ignored (default false)
-            bigClass: 'OV_big', // The class to add to elements that should be sized bigger
-            bigPercentage: 0.8, // The maximum percentage of space the big ones should take up
-            bigFixedRatio: false, // fixedRatio for the big ones
-            bigMaxRatio: 3 / 2, // The narrowest ratio to use for the big elements (default 2x3)
-            bigMinRatio: 9 / 16, // The widest ratio to use for the big elements (default 16x9)
-            bigFirst: true, // Whether to place the big one in the top left (true) or bottom right
-            animate: true, // Whether you want to animate the transitions
+            maxRatio: 3 / 2, 
+            minRatio: 9 / 16,
+            fixedRatio: false, 
+            bigClass: 'OV_big',
+            bigPercentage: 0.8,
+            bigFixedRatio: false,
+            bigMaxRatio: 3 / 2, 
+            bigMinRatio: 9 / 16,
+            bigFirst: true, 
+            animate: true, 
         };
     
         this.layout.initLayoutContainer(document.getElementById('layout'), openViduLayoutOptions);
@@ -39,11 +37,9 @@ export default class ToolbarComponent extends Component {
         this.leaveSession();
     }
     
-    //화상회의 세션 참가
     joinSession() {
         this.OV = new OpenVidu();
     
-        // session 초기화
         this.setState(
             {
                 session: this.OV.initSession(),
@@ -55,15 +51,12 @@ export default class ToolbarComponent extends Component {
         );
     }
     
-    //세션 연결
     async connectToSession() {
         if (this.props.token !== undefined) {
-            console.log('token received: ', this.props.token);
             this.connect(this.props.token);
         } else {
             try {
                 var token = await this.getToken();
-                console.log(token);
                 this.connect(token);
             } catch (error) {
                 console.error('There was an error getting the token:', error.code, error.message);
@@ -75,14 +68,12 @@ export default class ToolbarComponent extends Component {
         }
     }
     
-    //토큰, myUserName 이용 세션 연결
     connect(token) {
         this.state.session
             .connect(
                 token,
                 { clientData: this.state.myUserName },
             )
-            // 세션 연결 이후 캠 연결
             .then(() => {
                 this.connectWebCam();
             })
@@ -100,8 +91,6 @@ export default class ToolbarComponent extends Component {
         await this.OV.getUserMedia({ audioSource: undefined, videoSource: undefined });
         var devices = await this.OV.getDevices();
         var videoDevices = devices.filter(device => device.kind === 'videoinput');
-        console.log('카메라 연결');
-        //로컬사용자 방송송출 관련 객체
         let publisher = this.OV.initPublisher(undefined, {
             audioSource: undefined,
             videoSource: videoDevices[0].deviceId,
@@ -138,7 +127,6 @@ export default class ToolbarComponent extends Component {
         });
     }
     
-    //화상통화 참여자 갱신
     updateSubscribers() {
         var subscribers = this.remotes;
         this.setState(
@@ -146,7 +134,6 @@ export default class ToolbarComponent extends Component {
                 subscribers: subscribers,
             },
             () => {
-                // localUser가 undefined or null이 아닌 경우
                 if (this.state.localUser) {
                     this.sendSignalUserChanged({
                         isAudioActive: this.state.localUser.isAudioActive(),
@@ -166,7 +153,6 @@ export default class ToolbarComponent extends Component {
             mySession.disconnect();
         }
     
-        // Empty all properties...
         this.OV = null;
         this.setState({
             session: undefined,
@@ -180,7 +166,6 @@ export default class ToolbarComponent extends Component {
         }
     }
     
-    //카메라 상태 변화
     camStatusChanged() {
         localUser.setVideoActive(!localUser.isVideoActive());
         localUser.getStreamManager().publishVideo(localUser.isVideoActive());
@@ -188,7 +173,6 @@ export default class ToolbarComponent extends Component {
         this.setState({ localUser: localUser });
     }
     
-    // 마이크 ON/OFF
     micStatusChanged() {
         localUser.setAudioActive(!localUser.isAudioActive());
         localUser.getStreamManager().publishAudio(localUser.isAudioActive());
@@ -219,7 +203,6 @@ export default class ToolbarComponent extends Component {
     subscribeToStreamCreated() {
         this.state.session.on('streamCreated', (event) => {
             const subscriber = this.state.session.subscribe(event.stream, undefined);
-            // var subscribers = this.state.subscribers;
             subscriber.on('streamPlaying', (e) => {
                 subscriber.videos[0].video.parentElement.classList.remove('custom-class');
             });
@@ -237,9 +220,7 @@ export default class ToolbarComponent extends Component {
     }
     
     subscribeToStreamDestroyed() {
-        // On every Stream destroyed...
         this.state.session.on('streamDestroyed', (event) => {
-            // Remove the stream from 'subscribers' array
             this.deleteSubscriber(event.stream);
             event.preventDefault();
             this.updateLayout();
@@ -278,7 +259,6 @@ export default class ToolbarComponent extends Component {
         }, 20);
     }
     
-    // 유저 변경 시 신호 전달 함수
     sendSignalUserChanged(data) {
         const signalOptions = {
             data: JSON.stringify(data),
@@ -287,7 +267,6 @@ export default class ToolbarComponent extends Component {
         this.state.session.signal(signalOptions);
     }
     
-    // 전체화면 ON / OFF
     toggleFullscreen() {
         const document = window.document;
         const fs = document.getElementById('container');
@@ -329,8 +308,6 @@ export default class ToolbarComponent extends Component {
                 var newVideoDevice = videoDevices.filter(device => device.deviceId !== this.state.currentVideoDevice.deviceId)
     
                 if (newVideoDevice.length > 0) {
-                    // Creating a new publisher with specific videoSource
-                    // In mobile devices the default and first camera is the front one
                     var newPublisher = this.OV.initPublisher(undefined, {
                         audioSource: undefined,
                         videoSource: newVideoDevice[0].deviceId,
@@ -339,7 +316,6 @@ export default class ToolbarComponent extends Component {
                         mirror: true
                     });
     
-                    //newPublisher.once("accessAllowed", () => {
                     await this.state.session.unpublish(this.state.localUser.getStreamManager());
                     await this.state.session.publish(newPublisher)
                     this.state.localUser.setStreamManager(newPublisher);
