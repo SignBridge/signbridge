@@ -41,14 +41,85 @@
 - AI를 이용한 음성 to 애니메이션 통역 서비스
 
 ## 개발 환경
-### Backend
-### Frontend
-- Visual Studio Code
-- React.js
-- Material - UI
-- 
-### WebRTC
+### Server
+```
+AWS EC2
+ - Ubuntu 20.04 LTS
+ - Docker 23.0.1
+```
+### 형상 관리
+```
+ - Gitlab
+```
+### 이슈 관리
+```
+ - Jira
+```
+### UI/UX
+```
+ - figma
+```
+### DataBase
+```
+ - MariaDB 10.3
+```
+### BackEnd
+```
+ - java open jek 17
+ - Spring Boot 2.7.7
+ - Spring Boot Gradle 7.6
+ - Spring Data jpa
+ - Lombok
+ - swagger 2.9.2
+ - Spring Sequrity 3.1.1
 
+ - Flask 2.2.2
+ - Flask socketIO 5.3.2
+ - tensorflow 2.1.0
+ - opencv 4.1.0.25
+ - kouply 0.6.0
+ - mediapipe 0.9.0.1
+```
+### FrontEnd
+```
+ - React 18.2.0
+ - React-dom 18.2.0
+ - Redux 8.0.5
+ - react-speech recognition 3.10.0
+ - nvm 1.1.10
+ - npm 9.4.2
+ - node v16.14.2
+ - openvidu Browser 2.25.0
+ - face-api.js 0.22.2
+ - axios 0.19.2
+```
+### IDE
+```
+ - InteliJ 2022.3.1
+ - Visual Studio Code 1.74.2
+```
+### Communication
+```
+ - mattermost
+ - notion
+```
+### OS
+```
+ - window 10 pro
+```
+### 애니메이션 제작
+```
+ - Blender 3.4.1.0
+```
+### 영상편집
+```
+ - movavi video Editor 23
+```
+### 기타 편의 툴
+```
+ - postman 10.10.1 for Windows
+ - sourcetree
+```
 //### 기능 명세 요구사항 정의서
 ## Rest API
 ## ERD
