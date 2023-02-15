@@ -8,7 +8,7 @@
 ### 사용자
 
 #### 메인 - 통역 서비스 선택 버튼
-![ezgif.com-video-to-gif](/uploads/a77e0da9e2892d040301755e388c18b8/ezgif.com-video-to-gif.gif)
+![ezgif.com-video-to-gif__1_](/uploads/269d94532492f930b0b71351786f51b4/ezgif.com-video-to-gif__1_.gif)
 
 #### 매칭 대기화면
 ![손길_-_Chrome_2023-02-15_오후_2_24_23](/uploads/982657d50516d9df6b834f0b264453ff/손길_-_Chrome_2023-02-15_오후_2_24_23.png)
@@ -24,12 +24,15 @@
 
 
 #### 매칭성공 화면
+![손길_-_Chrome_2023-02-15_오후_3_03_58](/uploads/51df1696d067f69f797d857b53fb0402/손길_-_Chrome_2023-02-15_오후_3_03_58.png)
 
+![손길_-_Chrome_2023-02-15_오후_3_15_13](/uploads/5de27f5d82362d1ff8c27a8e486b0b9b/손길_-_Chrome_2023-02-15_오후_3_15_13.png)
 
 #### AI 매칭 화면
+![손길_-_Chrome_2023-02-15_오후_3_08_40](/uploads/7c245aefce26e0f1cd9d08f61b12c954/손길_-_Chrome_2023-02-15_오후_3_08_40.png)
 
 #### AI 애니메이션 화면
-![ezgif.com-video-to-gif__1_](/uploads/eb6592d73f22c8a36c7321c197f40f8f/ezgif.com-video-to-gif__1_.gif)
+![ezgif.com-video-to-gif](/uploads/71307ce9cbc1c0a1a712f4c15c76c60f/ezgif.com-video-to-gif.gif)
 
 ## 주요 기능
 - webRTC를 통한 실시간 화상 통역 매칭 서비스
