@@ -1,0 +1,73 @@
+.gridSTT{
+    grid-area: 4 / 6 / 6 / 9;
+}
+
+.STT-box {
+    background: beige;
+    border: solid black 0.3em;
+    border-radius: 0.5em;
+
+    font-family: 'esamaru-bord';
+    
+    text-align: center;
+
+    height: calc(100% - 50px);
+
+}
+
+.start-btn, .reset-btn {
+    border-radius: 0.5em;
+    border: none;
+
+    width: 100px;
+    height: 45px;
+
+    font-size: x-large;
+    font-weight: 700;
+    font-family: 'esamaru-bords';
+}
+
+.start-btn {
+    background: rgba(0, 213, 47, 1);
+}
+
+.start-btn:hover {
+    background: rgba(0, 213, 47, 1);
+    animation: vivid 0.2s forwards;
+    box-shadow: 0 0 5px 1px rgba(0, 213, 47, 1);
+}
+
+.reset-btn {
+    background: rgba(243, 248, 29, 1);
+}
+
+.reset-btn:hover {
+    background: rgba(243, 248, 29, 1);
+    animation: vivid 0.2s forwards;
+    box-shadow: 0 0 5px 1px rgba(243, 248, 29, 1);
+}
+
+.STT-output {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    background: rgba(234, 232, 232, 1);
+    border-radius: 0.5em;
+
+    width: 35vw;
+    height: 14vh;
+    margin-left: 10px;
+}
+
+.explain-text {
+    font-family: 'esamaru-bord';
+    font-size: large;
+    margin-top: 50px;
+}
+
+@font-face {
+    font-family: 'esamaru-bord';
+    src: url('../../assets/fonts/esamanru\ Bold.ttf');
+}

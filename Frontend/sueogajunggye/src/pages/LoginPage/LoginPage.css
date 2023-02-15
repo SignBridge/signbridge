@@ -1,0 +1,111 @@
+.bg-container {
+    display: flex;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'esamaru-bord';
+}
+
+.bg {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background: url(../../assets/images/bgImg.png) no-repeat center/cover;
+    z-index: -3;
+}
+
+.login-bg {
+    display: flex;
+    z-index: 5;
+    text-align: center;
+    display: flex;
+    min-height: 80vh;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+    border: 10px solid black;
+    border-radius: 10px;
+    position: absolute;
+    margin-top: 15vh;
+    margin-left: 100vw;
+    min-width: 300px;
+    width: 25vw;
+    height: 65vh;
+    color: white;
+    font-family: 'esamaru-bord';
+
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+
+    text-align: center;
+    margin-left: 3vw;
+    margin-right: 3vw;
+}
+
+
+.login-form label {
+    text-align: left;
+    padding: 0.5rem 0;
+    margin-top: 1rem;
+    font-weight: 700;
+    font-size: 1em;
+}
+
+.login-input-item {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border: none;
+    border-radius: 10px;
+    background-color: whitesmoke;
+    
+}
+
+
+.login-btn {
+    border: none;
+    background-color: rgba(84, 122, 255, 1);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: large;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: white;
+    font-weight: 700;
+    width: 280px;
+    height: 55px;
+    text-align: center;
+}
+
+.find-btn {
+    margin-top: 20px;
+    background: none;
+    color: black;
+    text-decoration: underline;
+    border: none;
+}
+
+.login-title {
+    font-size: 2.5em;
+    font-weight: 700;
+    margin-bottom: 40px;
+}
+
+button {
+    cursor: pointer;
+}

@@ -1,0 +1,50 @@
+button {
+    cursor: pointer;
+  }
+  
+.btn-form {
+  /* width: auto; */
+  display: flex;
+  padding-left: 1400px;
+}
+
+.trans-box {
+  display: flex;
+  /* flex-direction: row-reverse; */
+  /* margin-left: 1300px; */
+}
+
+.trans-btn, .main-btn {
+  width: 150px;
+  height: 60px;
+  align-items: center;
+  justify-content: center;
+
+  display: flex;
+  border: none;
+  /* border: solid beige 0.5em; */
+  border-radius: 2rem;
+  background: none;
+
+  font-size: x-large;
+  font-weight: 700;
+
+  cursor: pointer;
+  font-family: 'esamaru-bord';
+  /* margin-right: 5px; */
+  text-shadow: 1.5px 1.5px 1.5px gray;
+  }
+
+.back-btn {
+  width: 70px;
+  height: 50px;
+  border: none;
+  border-radius: 2em;
+  font-weight: 700;
+  background-color: rgba(115, 188, 255, 1);
+}
+
+@font-face {
+  font-family: 'esamaru-bord';
+  src: url('../../assets/fonts/esamanru\ Bold.ttf');
+}
