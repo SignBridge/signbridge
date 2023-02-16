@@ -154,7 +154,7 @@ AWS EC2
 ### OS
 
 ```
- - window 10 pro
+ - Windows 10 Pro
 ```
 
 ### 애니메이션 제작
