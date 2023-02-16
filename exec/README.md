@@ -17,7 +17,7 @@ AWS EC2
 ### BackEnd
 
 ```
- - java open jek 17
+ - java open jdk 17
  - Spring Boot 2.7.7
  - Spring Boot Gradle 7.6
  - Spring Data jpa
