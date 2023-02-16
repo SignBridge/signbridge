@@ -177,11 +177,50 @@ AWS EC2
 ```
 
 ## 5️⃣Rest API
+```
+BASE_URL : 'https://i8d204.p.ssafy.io'
+1. 로그인: `POST`, '/api/v1/users/login'
+{
+    'userName': '유저 아이디',
+    'password' : '비밀번호'
+}, 
+헤더 : {
+            headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
 
+
+
+2. : `POST`, '/mapping/login/user'
+{
+    sessionIdentity: '세션 ID'
+}, 
+헤더 : {
+            headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+3. : `POST`, '/api/sessions'
+{
+            customSessionId: '세션 아이디'
+}, 
+헤더 : {
+            headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+4. : `POST`, '/api/sessions/{세션 ID}/connections'
+헤더 : {
+    headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+5. : `GET`, '/ai/recording/analyze?speech={음성 인식 데이터}'
+반환값 :  "형태소1 형태소2 형태소3"
+```
 ## 6️⃣ERD
+![Image_Pasted_at_2023-2-16_10-38](/uploads/5a1043bc6878264c5e3cc9316c7a02ca/Image_Pasted_at_2023-2-16_10-38.png)
 
-![image](https://user-images.githubusercontent.com/53904156/218959361-7bd73e44-d0b5-4991-97bc-40f0d725a899.png)
-<br/>
 
 ## 7️⃣와이어 프레임
 
