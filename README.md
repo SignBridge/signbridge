@@ -14,7 +14,6 @@
 
 ![ezgif.com-video-to-gif__1_](/uploads/269d94532492f930b0b71351786f51b4/ezgif.com-video-to-gif__1_.gif)
 
-![ezgif.com-video-to-gif](/uploads/a77e0da9e2892d040301755e388c18b8/ezgif.com-video-to-gif.gif)
 
 #### 매칭 대기화면
 
