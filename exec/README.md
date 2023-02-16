@@ -29,7 +29,7 @@ AWS EC2
  - Flask socketIO 5.3.2
  - tensorflow 2.1.0
  - opencv 4.1.0.25
- - kouply 0.6.0
+ - konply 0.6.0
  - mediapipe 0.9.0.1
 ```
 
