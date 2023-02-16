@@ -1,69 +1,110 @@
 # 손길
-## 손길 소개 및 시연 영상
+
+## 1️⃣ 손길 소개 및 시연 영상
+
 ### Overview
+
 기존 농인들이 이용하던 통신중계서비스인 ‘손말이음센터’의 간편화를 통한 농인의 사회적 서비스 이용 편리화
 
-## 서비스 화면
+## 2️⃣ 서비스 화면
 
 ### 사용자
 
 #### 메인 - 통역 서비스 선택 버튼
+
 ![ezgif.com-video-to-gif__1_](/uploads/269d94532492f930b0b71351786f51b4/ezgif.com-video-to-gif__1_.gif)
 
+
 #### 매칭 대기화면
+
 ![손길_-_Chrome_2023-02-15_오후_2_24_23](/uploads/982657d50516d9df6b834f0b264453ff/손길_-_Chrome_2023-02-15_오후_2_24_23.png)
 
 ### 통역사
 
 #### 통역사 로그인 화면
+
 ![손길_-_Chrome_2023-02-15_오후_2_21_59](/uploads/9af7e6e3960122ca7abbce7159e022a5/손길_-_Chrome_2023-02-15_오후_2_21_59.png)
+
 #### 통역사 매칭리스트 화면
+
 ![손길_-_Chrome_2023-02-15_오후_2_22_54](/uploads/e7025e709cdbc064cb70882cf0ab426c/손길_-_Chrome_2023-02-15_오후_2_22_54.png)
 
 ![손길_-_Chrome_2023-02-15_오후_2_24_32](/uploads/633c6cc6d72bace3acae8880c9b837cf/손길_-_Chrome_2023-02-15_오후_2_24_32.png)
 
-
 #### 매칭성공 화면
+
 ![손길_-_Chrome_2023-02-15_오후_3_03_58](/uploads/51df1696d067f69f797d857b53fb0402/손길_-_Chrome_2023-02-15_오후_3_03_58.png)
 
 ![손길_-_Chrome_2023-02-15_오후_3_15_13](/uploads/5de27f5d82362d1ff8c27a8e486b0b9b/손길_-_Chrome_2023-02-15_오후_3_15_13.png)
 
 #### AI 매칭 화면
+
 ![손길_-_Chrome_2023-02-15_오후_3_08_40](/uploads/7c245aefce26e0f1cd9d08f61b12c954/손길_-_Chrome_2023-02-15_오후_3_08_40.png)
 
 #### AI 애니메이션 화면
+
 ![ezgif.com-video-to-gif](/uploads/71307ce9cbc1c0a1a712f4c15c76c60f/ezgif.com-video-to-gif.gif)
 
-## 주요 기능
-- webRTC를 통한 실시간 화상 통역 매칭 서비스
-- STT를 이용한 대화 내용 인식 및 기록
-- AI를 이용한 수어 to 자막 통역 서비스
-- AI를 이용한 음성 to 애니메이션 통역 서비스
+## 3️⃣ 주요 기능
 
-## 개발 환경
+ 
+
+#### 🔶 webRTC를 통한 실시간 화상 통역 매칭 서비스
+
+메인 페이지에서 `통역사 매칭 서비스` 버튼을 누르면 통역사 매칭을 위한 대기 페이지로 이동합니다.
+
+해당 통역 요청이 통역사 페이지에 전달되고 통역사가 `통역수락` 버튼을 누르면 화상 서비스가 실행되면서 수어 통역이 진행됩니다.
+
+#### 🔶 STT를 이용한 대화 내용 인식 및 표시
+
+청인의 음성을 텍스트로 변환하는 기능으로 화상 통역이 진행되는 화면 우측 하단에 있는 음성인식 `Start` 버튼을 누르면 음성인식 기능이 실행되며 텍스트로 확인할 수 있습니다.
+
+#### 🔶 AI를 이용한 수어 → 자막 통역 서비스
+
+메인 페이지에서 `AI 통역 서비스` 버튼을 누르면 AI 수어 번역 기능을 사용할 수 있습니다. 얼굴, 어깨, 팔꿈치, 손이 모두 보이도록 화면을 배치하고 수어를 하면 해당 수어를 텍스트로 변환하여 자막에 띄워주게 됩니다.
+
+#### 🔶 AI를 이용한 음성 → 애니메이션 통역 서비스
+
+AI 통역 서비스 페이지 하단에 `마이크` 아이콘을 누르면 실행되며 음성인식이 시작되고 해당 음성을 애니메이션이 수어로 번역해주는 서비스입니다.
+
+
+
+## 4️⃣개발 환경
+
 ### Server
+
 ```
 AWS EC2
  - Ubuntu 20.04 LTS
  - Docker 23.0.1
 ```
+
 ### 형상 관리
+
 ```
  - Gitlab
 ```
+
 ### 이슈 관리
+
 ```
  - Jira
 ```
+
 ### UI/UX
+
 ```
  - figma
 ```
+
 ### DataBase
+
 ```
  - MariaDB 10.3
 ```
+
 ### BackEnd
+
 ```
  - java open jek 17
  - Spring Boot 2.7.7
@@ -80,7 +121,9 @@ AWS EC2
  - kouply 0.6.0
  - mediapipe 0.9.0.1
 ```
+
 ### FrontEnd
+
 ```
  - React 18.2.0
  - React-dom 18.2.0
@@ -93,38 +136,200 @@ AWS EC2
  - face-api.js 0.22.2
  - axios 0.19.2
 ```
+
 ### IDE
+
 ```
  - InteliJ 2022.3.1
  - Visual Studio Code 1.74.2
 ```
+
 ### Communication
+
 ```
  - mattermost
  - notion
 ```
+
 ### OS
+
 ```
  - window 10 pro
 ```
+
 ### 애니메이션 제작
+
 ```
  - Blender 3.4.1.0
 ```
+
 ### 영상편집
+
 ```
  - movavi video Editor 23
 ```
+
 ### 기타 편의 툴
+
 ```
  - postman 10.10.1 for Windows
  - sourcetree
 ```
-//### 기능 명세 요구사항 정의서
-## Rest API
-## ERD
-## 와이어 프레임
-## Convention
-## 팀 소개
+
+## 5️⃣Rest API
+```
+BASE_URL : 'https://i8d204.p.ssafy.io'
+1. 로그인: `POST`, '/api/v1/users/login'
+{
+    'userName': '유저 아이디',
+    'password' : '비밀번호'
+}, 
+헤더 : {
+            headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+
+
+2. : `POST`, '/mapping/login/user'
+{
+    sessionIdentity: '세션 ID'
+}, 
+헤더 : {
+            headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+3. : `POST`, '/api/sessions'
+{
+            customSessionId: '세션 아이디'
+}, 
+헤더 : {
+            headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+4. : `POST`, '/api/sessions/{세션 ID}/connections'
+헤더 : {
+    headers: { 'Content-Type': 'application/json', },
+}
+반환값 : 
+
+5. : `GET`, '/ai/recording/analyze?speech={음성 인식 데이터}'
+반환값 :  "형태소1 형태소2 형태소3"
+```
+## 6️⃣ERD
+![Image_Pasted_at_2023-2-16_10-38](/uploads/5a1043bc6878264c5e3cc9316c7a02ca/Image_Pasted_at_2023-2-16_10-38.png)
+
+
+## 7️⃣와이어 프레임
+
+![Design system for React   Figma  Web app templates (Community)2](https://user-images.githubusercontent.com/53904156/218961580-69f0958d-7f4b-438b-9e2d-1094ba415893.png)
+<br />
+
+## 8️⃣Convention
+
+#### Commit Convention
+
+```
+[FE/BE]Type - 커밋 제목
+```
+
+![image](https://user-images.githubusercontent.com/53904156/218959179-05248b3f-c05b-4d81-bc16-47c732f7ab6c.png)
+<br />
+
+1. 커밋 제목 앞에 [FE / BE]를 붙여 프론트엔드인지 백엔드인지 구분
+2. Type은 아래와 같이 사용
+   
+   ```
+   feat - 새로운 기능 추가
+   fix - 버그 수정
+   build - 빌드 관련 파일 수정
+   ci - CI 관련 설정 수정
+   docs - 문서 (문서 추가, 수정, 삭제)
+   style - 스타일 (코드 형식, 세미콜론 추가: 비즈니스 로직에 변경 없는 경우)
+   refactor - 코드 리팩토링
+   test - 테스트 (테스트 코드 추가, 수정, 삭제: 비즈니스 로직에 변경 없는 경우)
+   comment - 주석 추가, 변경
+   remove - 기능 제거 or 파일 삭제만 수행한 경우
+   chore - 기타 변경사항 (빌드 스크립트 수정 등)
+   css - css파일 수정
+   rename - 파일 / 폴더 이름 수정
+   ```
+
+## 9️⃣팀 소개
+
+### 프론트
+
+`강인주`, `이지예`, `박채성`
+
+### 백엔드
+
+`이재완`, `홍성민`, `최성민`
+<br />
+
 ### 팀원별 역할
+#### `강인주`
+```
+
+```
+#### `박채성` 
+```
+AI 통역사 (영상 -> 음성) 화면 구성
+AI 통역사 (영상 -> 음성) html -> React 리팩토링
+AI 통역사 (영상 -> 음성, 음성 -> 애니메이션) 통합 및 화면 구성
+프론트엔드 Git merge 관리
+최종 발표
+``` 
+#### `이재완`
+```
+백엔드 팀장
+오픈비두
+ - 오픈비두 서버 배포
+NGINX 설정
+ - 80, 443 포트 리다이렉션
+ - ssl 인증서 적용
+ucc 시나리오 및 콘티 제작
+``` 
+#### `이지예` 
+```
+Openvidu 담당 
+ - 프로젝트 코드에 Openvidu 코드 적용
+ - 화상채팅 인원 제한
+ - 채팅창 유무에 따른 기능 및 UI 변경
+사용자 및 통역사 세션값에 따른 페이지 이동
+화상채팅 화면에 STT 기능 도입
+```
+#### `최성민` 
+```
+```
+#### `홍성민` 
+```
+AI 통역사(영상 -> 음성) 구현 
+AI 통역사(음성 -> 애니메이션) 구현 : 형태소 분석, 단어 맵핑,  Blender 애니메이션 제작
+UCC 장소 섭외
+UCC 영상 편집
+MariaDB, Backend(Spring), Frontend(React), AI Server(Flask) 서버 배포 관리
+``` 
+
 ### 소감
+#### `강인주`
+```
+
+```
+#### `박채성` 
+```
+``` 
+#### `이재완`
+```
+
+``` 
+#### `이지예` 
+```
+```
+#### `최성민` 
+```
+```
+#### `홍성민` 
+```
+``` 
