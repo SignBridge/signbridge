@@ -243,10 +243,12 @@ HTTPS_PORT=443
 ```
 
 - nginx 종료 후 오픈비두 서버 실행 
+```
 sudo service nginx stop
 ./openvidu start
+```
 
--이후 openvidu 서버 연결 정상적으로 실행되는지 확인
+- 이후 openvidu 서버 연결 정상적으로 실행되는지 확인
 ```
 netstat -tnl
 ```
@@ -256,10 +258,10 @@ netstat -tnl
 ufw allow 80;
 ufw allow 443;
 ```
-진행 후, `./openvidu restart`, `netstat -tnl`로 계속 443 포트가 실행 중인지 확인
-443 포트가 실행이 안 되고 있다면 이후 openvidu 과정 무의미함
+- 진행 후, `./openvidu restart`, `netstat -tnl`로 계속 443 포트가 실행 중인지 확인
+- 443 포트가 실행이 안 되고 있다면 이후 openvidu 과정 무의미함
 
--openvidu 서버 포트 변경
+- openvidu 서버 포트 변경
 ```
 sudo vim .env
 ```
@@ -282,10 +284,9 @@ netstat -tnl
 
 ### 복잡한 과정을 거치는 이유!
 
-```
 openviduServer가 ssl인증서를 사용할수 있게 하기 위해서 80,443포트에서 자동으로 ssl인증서를 사용할수 있게 하는데 nginx가 켜져 있으면 nginx가 해당 포트를 사용하기 때문에 openvidu서버는 인증서를 사용할 수 없다.
 따라서 최초로 한번만 오픈비두 서버가 80,443포트를 사용한다면 openvidu 서버가 ssl인증서를 사용할 수 있기 때문에 이런 복잡한 과정을 거친다.
-```
+
  
 - openvidu 서버 통신 확인
 ``` 
