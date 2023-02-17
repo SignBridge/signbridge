@@ -1,5 +1,41 @@
 # Backend 실행 방법
 
+
+
+## `MariaDB 배포`
+MariaDB 설치
+```
+sudo apt install mariadb-server
+```
+
+```
+sudo apt install mariadb-client
+```
+
+```
+sudo mysql_secure_installation
+```
+
+mariaDB 접속
+```
+sudo mysql -u root -p
+```
+DB의 목록을 확인
+```
+show databases;
+```
+버전 확인
+```
+select version();
+```
+
+
+
+
+
+## `Spring 배포`
+
+
 ```
 모든 과정은 intelliJ 기준으로 설명되어있습니다.
 ```
@@ -68,6 +104,16 @@ docker push [docker hub 계정명]/[repository명]:[태그명]
 
 
 
+## `AI 서버 배포`
+
+Backend/AI/detect 
+
+Backend/AI/record
+
+각각의 경로에서 Spring 배포 설명 부분과 동일하게 도커 이미지를 생성하고 도커 허브에 PUSH
+
+
+
 ---
 
 ## EC2에 ssh로 접속
@@ -101,7 +147,12 @@ sudo docker ps		# 실행중인 컨테이너 목록 출력
 sudo docker ps -a 	# 중지된 컨테이너도 목록 출력
 ```
 
+
+
+
+
 ## Nginx 설정
+
 - Openvidu 같은 경우, 카메라를 사용하기 위해서는 반드시 https로 이용해야 하기에 SSL 인증서를 발급받아야 한다. 인증서 발급을 위해서는 도메인이 필요하다.
 
 - 먼저 nginx를 다운 받는다.
@@ -195,7 +246,7 @@ sudo systemctl restart nginx
 이렇게 실행하면, http로 80포트 접근시, 443 포트(https)로 리다이렉트 된다. 그리고 백엔드 url을 /api/**로 분기처리할 수 있다. https://도메인주소 로 접근하면 배포한 웹 페이지에 접속할 수 있게된다.
 
 
-## Openvidu 배포
+## `Openvidu 배포`
 - 반드시 도메인에 대한 letsencrypt 인증서 발급 후, 진행할 것!
 - 오픈비두를 배포하기 위한 root 권한을 얻어야 함
 ```
@@ -288,7 +339,7 @@ openviduServer가 ssl인증서를 사용할수 있게 하기 위해서 80,443포
 nginx가 켜져 있으면 nginx가 해당 포트를 사용하기 때문에 openvidu서버는 인증서를 사용할 수 없다.<br>
 따라서 최초로 한번만 openvidu 서버가 80,443포트를 사용한다면 openvidu 서버가 ssl인증서를 사용할 수 있기 때문에 이런 복잡한 과정을 거친다.<br>
 
- 
+
 - openvidu 서버 통신 확인
 ``` 
 https://도메인:8443/dashboard 에서 통신 확인 가능
