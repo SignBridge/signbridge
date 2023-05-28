@@ -17,13 +17,13 @@
 
 #### 매칭 대기화면
 
-![손길_-_Chrome_2023-02-15_오후_2_24_23](/uploads/982657d50516d9df6b834f0b264453ff/손길_-_Chrome_2023-02-15_오후_2_24_23.png)
+![KakaoTalk_20230528_163117139](https://github.com/SignBridge/signbridge/assets/58285947/b1ae1410-7199-4857-bff5-3ab9f9b4ae62)
 
 ### 통역사
 
 #### 통역사 로그인 화면
 
-![손길_-_Chrome_2023-02-15_오후_2_21_59](/uploads/9af7e6e3960122ca7abbce7159e022a5/손길_-_Chrome_2023-02-15_오후_2_21_59.png)
+![KakaoTalk_20230528_163117439](https://github.com/SignBridge/signbridge/assets/58285947/36ad1175-bf4f-414e-a6c1-df045572adc4)
 
 #### 통역사 매칭리스트 화면
 
