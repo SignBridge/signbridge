@@ -12,7 +12,7 @@
 
 #### 메인 - 통역 서비스 선택 버튼
 
-![ezgif.com-video-to-gif__1_](/uploads/269d94532492f930b0b71351786f51b4/ezgif.com-video-to-gif__1_.gif)
+![ezgif com-video-to-gif (1)](https://github.com/SignBridge/signbridge/assets/58285947/c8faadc4-70ef-4d0a-a209-15e93e30eb68)
 
 
 #### 매칭 대기화면
@@ -27,20 +27,18 @@
 
 #### 통역사 매칭리스트 화면
 
-![손길_-_Chrome_2023-02-15_오후_2_22_54](/uploads/20f8dfcd8d63f0d5a9bdfe744c23e77c/손길_-_Chrome_2023-02-15_오후_2_22_54.png)
+![손길_-_Chrome_2023-02-15_오후_2_22_54](https://github.com/SignBridge/signbridge/assets/58285947/475dc986-37f9-4530-99ee-c9cb838b025c)
 
-![손길_-_Chrome_2023-02-15_오후_2_24_32](/uploads/b52563a29bc5193550124c443faeeda2/손길_-_Chrome_2023-02-15_오후_2_24_32.png)
-
+![손길_-_Chrome_2023-02-15_오후_2_24_32](https://github.com/SignBridge/signbridge/assets/58285947/ca62a9ce-14e1-4347-8415-b9752e864e5a)
 #### 매칭성공 화면
 
-![손길_-_Chrome_2023-02-15_오후_3_03_58](/uploads/637ba3d7bd678e44fe3eae9508e74f84/손길_-_Chrome_2023-02-15_오후_3_03_58.png)
+![손길_-_Chrome_2023-02-15_오후_3_03_58](https://github.com/SignBridge/signbridge/assets/58285947/68d89221-d0f8-4825-a11e-dcfd2115c799)
 
-![손길_-_Chrome_2023-02-15_오후_3_15_13](/uploads/645eca801c3ea9ff7fd31676abceecaa/손길_-_Chrome_2023-02-15_오후_3_15_13.png)
+![손길_-_Chrome_2023-02-15_오후_3_15_13](https://github.com/SignBridge/signbridge/assets/58285947/db99aa25-f354-4f0d-bd88-2412ef04d1b0)
 
 #### AI 매칭 화면
 
-![손길_-_Chrome_2023-02-15_오후_3_08_40](/uploads/f9bebd59f6687b24a8b0e7e9ad9ce076/손길_-_Chrome_2023-02-15_오후_3_08_40.png)
-
+![손길_-_Chrome_2023-02-15_오후_3_08_40](https://github.com/SignBridge/signbridge/assets/58285947/043e0ee5-fb9b-4292-b86b-d2ba037d82c2)
 #### AI 애니메이션 화면
 
 ![ezgif.com-video-to-gif](/uploads/71307ce9cbc1c0a1a712f4c15c76c60f/ezgif.com-video-to-gif.gif)
@@ -219,7 +217,7 @@ BASE_URL : 'https://i8d204.p.ssafy.io'
 반환값 :  "형태소1 형태소2 형태소3"
 ```
 ## 6️⃣ERD
-![Image_Pasted_at_2023-2-16_10-38](/uploads/5a1043bc6878264c5e3cc9316c7a02ca/Image_Pasted_at_2023-2-16_10-38.png)
+![erd](https://github.com/SignBridge/signbridge/assets/58285947/dbfe2185-442c-4a11-a5ef-7769bededa57)
 
 
 ## 7️⃣와이어 프레임
