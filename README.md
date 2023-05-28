@@ -41,7 +41,7 @@
 ![손길_-_Chrome_2023-02-15_오후_3_08_40](https://github.com/SignBridge/signbridge/assets/58285947/043e0ee5-fb9b-4292-b86b-d2ba037d82c2)
 #### AI 애니메이션 화면
 
-![ezgif.com-video-to-gif](/uploads/71307ce9cbc1c0a1a712f4c15c76c60f/ezgif.com-video-to-gif.gif)
+![ezgif com-video-to-gif](https://github.com/SignBridge/signbridge/assets/58285947/a5d3eb34-3434-4a08-b933-d35a6ee72091)
 
 ## 3️⃣ 주요 기능
 
